@@ -18,9 +18,9 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->form->authenticate();
 
-        Session::regenerate();
+        // Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        // $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
 }; ?>
 
@@ -29,10 +29,24 @@ new #[Layout('layouts.guest')] class extends Component
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="login">
+
+        <!-- nuptk -->
+        <div>
+            <x-input-label for="nuptk" :value="__('Nuptk')"/>
+            <x-text-input wire:model="form.nuptk" id="nuptk" class="block mt-1 w-full" type="text" name="nuptk" required autofocus autocomplete="nuptk" placeholder="NUPTK"/>
+            <x-input-error :messages="$errors->get('form.nuptk')" class="mt-2"/>
+        </div>
+
+        <!-- name -->
+        <div>
+            <x-input-label for="name" :value="__('Name')"/>
+            <x-text-input wire:model="form.name" id="name" class="block mt-1 w-full" type="text" name="name" required autocomplete="name" placeholder="NAME"/>
+        </div>
+
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
+            <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" placeholder="EMAIL"/>
             <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
         </div>
 
@@ -43,7 +57,7 @@ new #[Layout('layouts.guest')] class extends Component
             <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
-                            required autocomplete="current-password" />
+                            required autocomplete="current-password" placeholder="PASSWORD" />
 
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
