@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Livewire\Actions\Logout;
 
-Route::view('/', 'welcome');
+Route::view('/', 'auth.login');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
