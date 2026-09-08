@@ -3,12 +3,19 @@
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\LoginController;
+
 
 Route::view('/', 'welcome');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+// Route::view('/login')
+
+Route::get('/login',[LoginController::class,'login']);
+
 
 // Middleware::auth(['auth','verified'])->group()
 Route::middleware('auth')->group(function(){
