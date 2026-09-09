@@ -68,7 +68,6 @@
                         @endauth
                     </nav>
                     @endif
-                    aloo
 
 
 
