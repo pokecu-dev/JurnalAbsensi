@@ -51,7 +51,7 @@ class LoginController extends Controller
             // return response()->json([
             //     'status' => 'piket'
             // ]);
-            // return redirect()->intended(route('piket.dashboard',absolute:false));
+            return redirect()->intended(route('piket.dashboard',absolute:false));
 
         } else {
             Auth::logout();
@@ -62,5 +62,14 @@ class LoginController extends Controller
                 'email' => 'Akun Anda tidak memiliki hak akses/role yang valid.'
             ]);
         }
+    }
+
+    public function logout(Request $request) 
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }
