@@ -7,14 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-
         :root {
-            --primary-color: #73BCA0;
-            --secondary-color: #556B65;
-            --text-color: #152E27;
-            --background-color: #fff4e1;
+            --primary-color: #89D7B7; /* Warna hijau muda */
+            --secondary-color: #428475; /* Warna hijau muda */
+            --background-color: #1A312C;
+            --text-color: #ffff;
         }
-
         * {
             margin: 0;
             padding: 0;
@@ -25,6 +23,7 @@
         body {
             width: 100vw;
             height: 100vh;
+            --text-color: #ffff;
             background: var(--background-color);
             display: flex;
             position: relative;
@@ -51,8 +50,8 @@
             background: var(--background-color);
             padding: 10% 8%;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            padding-top: 10%;
         }
 
         /* LINGKARAN UTAMA JUMBO KIRI */
@@ -78,13 +77,13 @@
             font-size: 52px;
             font-weight: 700;
             margin-bottom: 25px;
-            color: var(--text-color);
+            color: #000;
         }
 
         .welcome-content p {
             font-size: 13px;
             line-height: 1.7;
-            color: var(--text-color);
+            color: #000;
             font-weight: 500;
         }
 
@@ -93,7 +92,6 @@
             position: absolute;
             border-radius: 50%;
             background: var(--primary-color);
-
             z-index: 4;
         }
 
@@ -115,14 +113,14 @@
         /* LINGKARAN DEKORASI JUMBO POJOK KANAN BAWAH */
         .bg-circle-bottom-right {
             position: absolute;
-            width: 350px;       
-            height: 350px;
+            width: 290px;       
+            height: 290px;
             background: var(--primary-color);
             border-radius: 50%;
-            bottom: -100px;
-            right: -100px;
-            z-index: 2;
-           
+            
+            bottom: -120px; 
+            right: -50px;
+            z-index: 3;
             pointer-events: none;
         }
 
@@ -132,7 +130,7 @@
             height: 100%;
             background: var(--background-color);
             padding: 10% 8%;
-            color: #18332B;
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -175,7 +173,7 @@
             right: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #18332B;
+            color: #93A6A0;
             font-size: 16px;
             cursor: pointer;
         }
@@ -187,8 +185,8 @@
             outline: none;
             border-radius: 10px;
             padding: 0 45px 0 48px;
-            background: var(--secondary-color);
-            color: #18332B;
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffff;
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 1px;
@@ -208,7 +206,7 @@
             height: 48px;
             border: none;
             border-radius: 14px;
-            background: var(--primary-color);
+            background: rgba(127, 207, 183, 0.86);
             color: #18332B;
             font-size: 16px;
             font-weight: 700;
@@ -220,6 +218,7 @@
 
         .login-button:hover {
             background: var(--primary-color);
+            color: #ffffff;
             transform: translateY(-1px);
             z-index: 5;
         }
@@ -262,7 +261,7 @@
         <!-- BAGIAN LOGIN -->
         <section class="login-section">
 
-            <h2>Sign In</h2>
+            <h2>Login</h2>
 
             <p class="login-description">
                 Silakan masuk dengan akun Anda untuk melanjutkan.
@@ -281,7 +280,7 @@
                 <div class="input-group">
                     <i class="fa-solid fa-lock input-icon"></i>
                     <input type="password" name="password" required placeholder="Masukkan Password" id="password-input">
-                    <i class="fa-regular fa-eye-slash eye-icon"></i>
+                    <i class="fa-regular fa-eye-slash eye-icon" id="toggle-password"></i>
                 </div>
 
                 <!-- SUBMIT BUTTON -->
@@ -298,5 +297,17 @@
     <!-- BULATAN HIJAU JUMBO DI SISI KANAN BAWAH -->
     <div class="bg-circle-bottom-right"></div>
 
+    <script>
+        const togglePassword = document.querySelector('#toggle-password');
+        const passwordInput = document.querySelector('#password-input');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 </body>
 </html>
