@@ -16,7 +16,7 @@ Route::view('dashboard', 'dashboard')
 
 Route::get('/login',[LoginController::class,'ShowLoginForm'])->name('login');
 Route::post('/login',[LoginController::class,'login']);
-
+// Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 
 

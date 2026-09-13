@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['nip','nuptk','phone','name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -22,6 +22,26 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+    public static function formatPhone(?string $phone): ?string
+    {
+        if (!$phone) return $phone;
+
+        $digits = preg_replace('/[^0-9]/', '', $phone);
+
+        if (str_starts_with($digits, '0')) {
+            $digits = '62' . substr($digits, 1);
+        } elseif (!str_starts_with($digits, '62')) {
+            $digits = '62' . $digits;
+        }
+
+        return preg_replace(
+            '/^62(\d{3})(\d{4})(\d{4,})$/',
+            '+62 $1-$2-$3',
+            $digits
+        );
+    }
+
     protected function casts(): array
     {
         return [
