@@ -15,11 +15,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+
+    
         DB::table('users')->insert(
             [
                 [
                     'nip' => '111111111111111111',
-                    'nuptk' => '1111111111111111',
+                    // 'nuptk' => '1111111111111111',
                     'phone' => '+62 811-1111-1111',
                     'name' => 'admin',
                     'email' => 'admin@ex.com',
@@ -28,7 +30,7 @@ class UserSeeder extends Seeder
                 ],
                 [
                     'nip' => '111111111111111112',
-                    'nuptk' => '1111111111111112',
+                    // 'nuptk' => '1111111111111112',
                     'phone' => '+62 811-1111-1112',
                     'name' => 'sekre',
                     'email' => 'sekre@ex.com',
@@ -37,7 +39,7 @@ class UserSeeder extends Seeder
                 ],
                 [
                     'nip' => '111111111111111113',
-                    'nuptk' => '1111111111111113',
+                    // 'nuptk' => '1111111111111113',
                     'phone' => '+62 811-1111-1113',
                     'name' => 'guru',
                     'email' => 'guru@ex.com',
@@ -46,7 +48,7 @@ class UserSeeder extends Seeder
                 ],
                 [
                     'nip' => '111111111111111114',
-                    'nuptk' => '1111111111111114',
+                    // 'nuptk' => '1111111111111114',
                     'phone' => '+62 811-1111-1114',
                     'name' => 'piket',
                     'email' => 'piket@ex.com',

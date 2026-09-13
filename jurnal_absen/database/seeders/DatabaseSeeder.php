@@ -23,7 +23,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            UserSeeder::class
+            UserSeeder::class,
+            ClassSeeder::class,
+            MapelSeeder::class,
+            JadwalSeeder::class,
         ]);
     }
 }
