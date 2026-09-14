@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Guru - Jurnal Absensi</title>
+    <title>Dashboard Guru</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -307,31 +307,31 @@
             margin-bottom: 20px;
         }
 
-        /* KOTAK PUTIH DALAM (PEMBUNGKUS TABEL) */
+
         .table-card-wrapper {
             background-color: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(230, 230, 230, 0.8);
             border-radius: 16px;
             padding: 16px 14px 16px 20px;
 
-            max-height: 250px;       /* Dibuat lebih ringkas agar pas */
-            overflow-y: scroll;     /* Memaksa scrollbar selalu muncul */
+            max-height: 250px;       
+            overflow-y: scroll;    
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
 
-        /* CUSTOM SCROLLBAR (Membuat Garis Pendek dan Selalu Tampil) */
+        /* CUSTOM SCROLLBAR*/
         .table-card-wrapper::-webkit-scrollbar {
-            width: 5px; /* Lebar garis dibuat pendek dan ramping */
+            width: 5px; 
         }
 
         .table-card-wrapper::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05); /* Landasan track lembut */
+            background: rgba(0, 0, 0, 0.05); 
             border-radius: 10px;
-            margin: 12px 0; /* Memberikan jarak atas-bawah agar garis terlihat pendek & menggantung estetik */
+            margin: 12px 0; 
         }
 
         .table-card-wrapper::-webkit-scrollbar-thumb {
-            background: var(--medium-green); /* Garis berwarna hijau medium */
+            background: var(--medium-green); 
             border-radius: 10px;
         }
 
@@ -395,9 +395,6 @@
             transition: background 0.2s;
         }
 
-        
-
-        
     </style>
 </head>
 <body>
@@ -411,10 +408,12 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Home</a>
-                <a href="#" class="nav-item"><i class="fa-regular fa-calendar-days"></i> Jadwal</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-book"></i> Jurnal</a>
-                <a href="#" class="nav-item"><i class="fa-regular fa-file-lines"></i> Status Validasi</a>
+                <nav class="nav-menu">
+                    <a href="{{ url('/guru/dashboard') }}" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+                    <a href="{{ url('/guru/jurnal') }}" class="nav-item"><i class="fa-solid fa-book"></i> Jurnal</a>
+                    <a href="{{ url('/guru/jadwal') }}" class="nav-item"><i class="fa-regular fa-calendar-days"></i> Jadwal</a>
+                
+                </nav>
             </nav>
         </div>
 
@@ -430,7 +429,7 @@
         <!-- HEADER -->
         <header class="header">
             <div>
-                <h1>Selamat Datang, pak Agus</h1>
+                <h1>Selamat Datang, Pak Agus</h1>
                 <p>Semangat mengajar hari ini!</p>
             </div>
             <div class="header-meta">
@@ -456,7 +455,9 @@
                     <div class="detail-item"><i class="fa-regular fa-clock"></i> 13.00 - 13.40</div>
                     <div class="detail-item" style="margin-top: 6px;"><i class="fa-solid fa-location-dot"></i> RUANG 18</div>
                 </div>
-                <button class="btn-jurnal">Isi Jurnal <i class="fa-solid fa-arrow-right"></i></button>
+                <a href="{{ url('/guru/jurnal') }}" class="btn-jurnal" style="text-decoration: none;">
+                    Isi Jurnal <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
         </section>
 
