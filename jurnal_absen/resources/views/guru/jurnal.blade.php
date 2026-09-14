@@ -568,6 +568,7 @@
                     <option value="S">Sakit (S)</option>
                     <option value="I">Izin (I)</option>
                     <option value="A">Alpha (A)</option>
+                    <option value="D">Dispen (D)</option>
                 </select>
                 <button class="btn-add">+ Tambah</button>
             </div>
