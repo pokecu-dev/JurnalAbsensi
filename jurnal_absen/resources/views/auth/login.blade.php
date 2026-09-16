@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,11 +9,12 @@
 
     <style>
         :root {
-            --primary-color: #89D7B7; /* Warna hijau muda */
-            --secondary-color: #428475; /* Warna hijau muda */
+            --primary-color: #89D7B7;
+            --secondary-color: #428475;
             --background-color: #1A312C;
             --text-color: #ffff;
         }
+
         * {
             margin: 0;
             padding: 0;
@@ -20,20 +22,27 @@
             font-family: 'Segoe UI', Arial, sans-serif;
         }
 
+        html,
         body {
-            width: 100vw;
-            height: 100vh;
-            --text-color: #ffff;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
             background: var(--background-color);
             display: flex;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
-        /* CONTAINER UTAMA (FULL SCREEN 100%) */
+        /* =========================
+           CONTAINER UTAMA
+        ========================= */
+
         .login-container {
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
             display: flex;
             overflow: hidden;
             background: var(--background-color);
@@ -41,10 +50,13 @@
             z-index: 2;
         }
 
-        /* BAGIAN WELCOME (KIRI) */
+        /* =========================
+           WELCOME SECTION
+        ========================= */
+
         .welcome-section {
             width: 50%;
-            height: 100%;
+            min-height: 100vh;
             position: relative;
             overflow: hidden;
             background: var(--background-color);
@@ -54,12 +66,11 @@
             padding-top: 10%;
         }
 
-        /* LINGKARAN UTAMA JUMBO KIRI */
         .welcome-section::before {
             content: "";
             position: absolute;
             width: 130%;
-            padding-top: 130%;
+            aspect-ratio: 1 / 1;
             background: var(--primary-color);
             border-radius: 50%;
             top: -55%;
@@ -87,7 +98,8 @@
             font-weight: 500;
         }
 
-        /* DUA LINGKARAN KECIL DI BAWAH LINGKARAN UTAMA */
+        /* BULATAN KECIL */
+
         .circle {
             position: absolute;
             border-radius: 50%;
@@ -110,24 +122,27 @@
             transform: translateX(-50%);
         }
 
-        /* LINGKARAN DEKORASI JUMBO POJOK KANAN BAWAH */
+        /* BULATAN KANAN BAWAH */
+
         .bg-circle-bottom-right {
             position: absolute;
-            width: 290px;       
+            width: 290px;
             height: 290px;
             background: var(--primary-color);
             border-radius: 50%;
-            
-            bottom: -120px; 
+            bottom: -120px;
             right: -50px;
             z-index: 3;
             pointer-events: none;
         }
 
-        /* BAGIAN LOGIN (KANAN) */
+        /* =========================
+           LOGIN SECTION
+        ========================= */
+
         .login-section {
             width: 50%;
-            height: 100%;
+            min-height: 100vh;
             background: var(--background-color);
             padding: 10% 8%;
             color: var(--text-color);
@@ -166,6 +181,7 @@
             transform: translateY(-50%);
             color: #93A6A0;
             font-size: 18px;
+            pointer-events: none;
         }
 
         .input-group i.eye-icon {
@@ -176,6 +192,7 @@
             color: #93A6A0;
             font-size: 16px;
             cursor: pointer;
+            padding: 8px;
         }
 
         .input-group input {
@@ -184,7 +201,7 @@
             border: none;
             outline: none;
             border-radius: 10px;
-            padding: 0 45px 0 48px;
+            padding: 0 48px;
             background: rgba(255, 255, 255, 0.15);
             color: #ffff;
             font-size: 14px;
@@ -197,7 +214,15 @@
             font-weight: 600;
         }
 
-        /* TOMBOL LOGIN */
+        .input-group input:focus {
+            outline: 2px solid rgba(137, 215, 183, 0.7);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        /* =========================
+           TOMBOL LOGIN
+        ========================= */
+
         .login-button {
             margin-top: 30px;
             margin-left: auto;
@@ -220,19 +245,218 @@
             background: var(--primary-color);
             color: #ffffff;
             transform: translateY(-1px);
-            z-index: 5;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .login-container {
-                flex-direction: column;
+        /* =================================================
+           TABLET
+        ================================================= */
+
+        @media (max-width: 900px) and (min-width: 601px) {
+
+            .welcome-section {
+                padding: 12% 6%;
             }
 
-            .welcome-section,
+            .welcome-content h1 {
+                font-size: 42px;
+            }
+
+            .login-section {
+                padding: 8% 6%;
+            }
+
+            .login-section h2 {
+                font-size: 42px;
+            }
+
+            .login-description {
+                margin-bottom: 30px;
+            }
+
+            .input-group {
+                max-width: 100%;
+            }
+        }
+
+        /* =================================================
+           HP
+        ================================================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                min-height: 100dvh;
+                overflow-x: hidden;
+            }
+
+            .login-container {
+                min-height: 100dvh;
+                flex-direction: column;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            /* WELCOME DI ATAS */
+
+            .welcome-section {
+                width: 100%;
+                min-height: 240px;
+                height: 240px;
+                padding: 50px 28px 30px;
+                flex-shrink: 0;
+            }
+
+            .welcome-section::before {
+                width: 450px;
+                height: 450px;
+                top: -330px;
+                left: -120px;
+            }
+
+            .welcome-content {
+                max-width: 100%;
+            }
+
+            .welcome-content h1 {
+                font-size: 38px;
+                margin-bottom: 10px;
+            }
+
+            .welcome-content p {
+                font-size: 12px;
+                line-height: 1.6;
+                max-width: 310px;
+            }
+
+            /* BULATAN DEKORASI */
+
+            .circle-one {
+                width: 90px;
+                height: 90px;
+                bottom: -45px;
+                left: -25px;
+            }
+
+            .circle-two {
+                width: 55px;
+                height: 55px;
+                bottom: 15px;
+                left: 70%;
+            }
+
+            .bg-circle-bottom-right {
+                width: 130px;
+                height: 130px;
+                bottom: -70px;
+                right: -45px;
+            }
+
+            /* LOGIN */
+
             .login-section {
                 width: 100%;
-                height: 50%;
+                min-height: calc(100dvh - 240px);
+                height: auto;
+                padding: 45px 28px 50px;
+                justify-content: flex-start;
+            }
+
+            .login-section h2 {
+                font-size: 38px;
+                margin-bottom: 8px;
+            }
+
+            .login-description {
+                font-size: 12px;
+                margin-bottom: 28px;
+                max-width: 100%;
+            }
+
+            form {
+                width: 100%;
+            }
+
+            .input-group {
+                width: 100%;
+                max-width: none;
+                margin-bottom: 18px;
+            }
+
+            .input-group input {
+                width: 100%;
+                height: 54px;
+                border-radius: 12px;
+                font-size: 14px;
+            }
+
+            .input-group i.input-icon {
+                left: 16px;
+            }
+
+            .input-group i.eye-icon {
+                right: 12px;
+                padding: 10px;
+            }
+
+            /* TOMBOL FULL WIDTH DI HP */
+
+            .login-button {
+                width: 100%;
+                height: 52px;
+                margin-top: 10px;
+                border-radius: 12px;
+                font-size: 15px;
+            }
+        }
+
+        /* =================================================
+           HP KECIL
+        ================================================= */
+
+        @media (max-width: 380px) {
+
+            .welcome-section {
+                min-height: 210px;
+                height: 210px;
+                padding: 40px 22px 25px;
+            }
+
+            .welcome-section::before {
+                width: 390px;
+                height: 390px;
+                top: -290px;
+                left: -110px;
+            }
+
+            .welcome-content h1 {
+                font-size: 32px;
+                margin-bottom: 8px;
+            }
+
+            .welcome-content p {
+                font-size: 11px;
+                max-width: 280px;
+            }
+
+            .login-section {
+                min-height: calc(100dvh - 210px);
+                padding: 35px 22px 40px;
+            }
+
+            .login-section h2 {
+                font-size: 32px;
+            }
+
+            .login-description {
+                margin-bottom: 24px;
+            }
+
+            .input-group input {
+                height: 52px;
+            }
+
+            .login-button {
+                height: 50px;
             }
         }
     </style>
@@ -247,8 +471,10 @@
 
             <div class="welcome-content">
                 <h1>Welcome!</h1>
+
                 <p>
-                    Selamat Datang di Aplikasi Jurnal Absensi. Silakan masuk untuk melanjutkan ke halaman utama aplikasi.
+                    Selamat Datang di Aplikasi Jurnal Absensi.
+                    Silakan masuk untuk melanjutkan ke halaman utama aplikasi.
                 </p>
             </div>
 
@@ -272,16 +498,39 @@
 
                 <!-- INPUT EMAIL -->
                 <div class="input-group">
+
                     <i class="fa-regular fa-envelope input-icon"></i>
-                    <input type="email" name="email" required placeholder="Masukkan Email">
+
+                    <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="Masukkan Email"
+                    >
+
                 </div>
+
 
                 <!-- INPUT PASSWORD -->
                 <div class="input-group">
+
                     <i class="fa-solid fa-lock input-icon"></i>
-                    <input type="password" name="password" required placeholder="Masukkan Password" id="password-input">
-                    <i class="fa-regular fa-eye-slash eye-icon" id="toggle-password"></i>
+
+                    <input
+                        type="password"
+                        name="password"
+                        required
+                        placeholder="Masukkan Password"
+                        id="password-input"
+                    >
+
+                    <i
+                        class="fa-regular fa-eye-slash eye-icon"
+                        id="toggle-password"
+                    ></i>
+
                 </div>
+
 
                 <!-- SUBMIT BUTTON -->
                 <button type="submit" class="login-button">
@@ -294,20 +543,34 @@
 
     </div>
 
-    <!-- BULATAN HIJAU JUMBO DI SISI KANAN BAWAH -->
+
+    <!-- BULATAN HIJAU JUMBO -->
     <div class="bg-circle-bottom-right"></div>
 
+
     <script>
-        const togglePassword = document.querySelector('#toggle-password');
-        const passwordInput = document.querySelector('#password-input');
+
+        const togglePassword =
+            document.querySelector('#toggle-password');
+
+        const passwordInput =
+            document.querySelector('#password-input');
 
         togglePassword.addEventListener('click', function () {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+
+            const type =
+                passwordInput.getAttribute('type') === 'password'
+                    ? 'text'
+                    : 'password';
+
             passwordInput.setAttribute('type', type);
-            
+
             this.classList.toggle('fa-eye');
             this.classList.toggle('fa-eye-slash');
+
         });
+
     </script>
+
 </body>
 </html>

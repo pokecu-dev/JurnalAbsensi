@@ -30,7 +30,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nip' => ['required', 'string', 'digits:18', 'unique:users,nip'],
-            'nuptk' => ['required', 'string', 'digits:16', 'unique:users,nuptk'],
+            // 'nuptk' => ['required', 'string', 'digits:16', 'unique:users,nuptk'],
             'phone' => ['required', 'string', 'unique:users,phone'],
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'unique:users,email'],
@@ -82,7 +82,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nip' => ['required', 'string', 'digits:18',Rule::unique('users','nip')->ignore($user->id)],
-            'nuptk' => ['required', 'string', 'digits:16',Rule::unique('users','nuptk')->ignore($user->id)],
+            // 'nuptk' => ['required', 'string', 'digits:16',Rule::unique('users','nuptk')->ignore($user->id)],
             'phone' => ['required', 'string', 'regex:/^\+62 \d{3}-\d{4}-\d{4,}$/',Rule::unique('users','phone')],
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', Rule::unique('users','phone')->ignore($user->id)],

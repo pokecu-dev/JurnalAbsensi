@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jadwals', function (Blueprint $table) {
+        Schema::create('jurnals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->constrained('users');
-            $table->foreignId('class_id')->constrained('class');
-            $table->enum('day',['senin','selasa','rabu','kamis','jumat']);
-            $table->integer('start_time')->nullable();
-            $table->integer('end_time')->nullable();
-
+            $table->foreignId('id_jadwal')->constrained('jadwals');
+            $table->date('tgl')->useCurrent();
+            $table->string('materi')->nullable();
+            $table->string('catatan')->nullable();
+            $table->enum('status',['pending','rejected','approved']);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jadwals');
+        Schema::dropIfExists('jurnals');
     }
 };

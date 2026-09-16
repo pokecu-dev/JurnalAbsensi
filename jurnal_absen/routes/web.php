@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Livewire\Actions\Logout;
 
-Route::view('/', 'welcome');
+Route::view('/', 'auth.login');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function(){
     Route::middleware(['role:guru'])->group(function () {
         // Volt::route('/guru/dashboard', 'guru.dashboard')->name('guru.dashboard');
         Route::view('/guru/dashboard','guru/dashboard')->name('guru.dashboard');
+        Route::view('/guru/jurnal', 'guru/jurnal')->name('guru.jurnal');
         
     });
 
