@@ -30,6 +30,7 @@ Route::middleware('auth','verified')->group(function(){
     Route::middleware(['role:guru'])->group(function () {
         // Volt::route('/guru/dashboard', 'guru.dashboard')->name('guru.dashboard');
         Route::view('/guru/dashboard','guru/dashboard')->name('guru.dashboard');
+        Route::view('/guru/jurnal', 'guru/jurnal')->name('guru.jurnal');
         
     });
 
