@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jurnal Mengajar - Jurnal Absensi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --dark-green: #1A312C;
@@ -75,7 +76,7 @@
         .nav-menu {
             display: flex;
             flex-direction: column;
-            gap: 12px; 
+            gap: 12px;
             margin-top: 10px;
         }
 
@@ -92,7 +93,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-item:hover, .nav-item.active {
+        .nav-item:hover,
+        .nav-item.active {
             background-color: rgba(255, 255, 255, 0.12);
             color: var(--mint-green);
         }
@@ -239,9 +241,22 @@
             align-items: center;
         }
 
-        .info-card span { font-size: 11px; color: #A5B5B0; display: block; }
-        .info-card h4 { font-size: 16px; font-weight: 700; margin-top: 2px; }
-        .info-card i { font-size: 18px; opacity: 0.5; }
+        .info-card span {
+            font-size: 11px;
+            color: #A5B5B0;
+            display: block;
+        }
+
+        .info-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .info-card i {
+            font-size: 18px;
+            opacity: 0.5;
+        }
 
         /* FORM CARDS */
         .form-card {
@@ -275,7 +290,8 @@
             margin-bottom: 6px;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             padding: 12px 14px;
             border: 1px solid #E2ECE8;
@@ -326,7 +342,8 @@
             border-collapse: collapse;
         }
 
-        .table-absen th, .table-absen td {
+        .table-absen th,
+        .table-absen td {
             text-align: left;
             padding: 12px 14px;
             font-size: 13px;
@@ -358,8 +375,17 @@
             margin-bottom: 16px;
         }
 
-        .alert-sekre { background: #E8F5E9; color: #2E7D32; border: 1px solid #C8E6C9; }
-        .alert-piket { background: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
+        .alert-sekre {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #C8E6C9;
+        }
+
+        .alert-piket {
+            background: #FFF3E0;
+            color: #E65100;
+            border: 1px solid #FFE0B2;
+        }
 
         /* FOOTER BUTTONS */
         .action-buttons {
@@ -406,30 +432,77 @@
             gap: 8px;
         }
 
-        .btn-simpan:hover { background: #264740; }
+        .btn-simpan:hover {
+            background: #264740;
+        }
 
         /* UTILITY CLASS UNTUK LOGIKA DISPLAY */
-        .d-none { display: none !important; }
+        .d-none {
+            display: none !important;
+        }
 
         /* MEDIA QUERIES */
         @media (max-width: 768px) {
-            body { flex-direction: column; }
-            .mobile-header { display: flex; }
-            .sidebar {
-                position: fixed; top: 0; left: -260px; height: 100vh; width: 240px;
+            body {
+                flex-direction: column;
             }
-            .sidebar.active { left: 0; }
-            .sidebar-overlay.active { display: block; }
-            .main-content { padding: 20px 16px; }
-            .info-jadwal-grid { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
-            .absen-filter { flex-direction: column; }
-            .input-search, .select-custom, .btn-add { width: 100%; }
-            .action-buttons { flex-direction: column; }
-            .btn-simpan, .btn-live-foto, .btn-batal { width: 100%; justify-content: center; }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -260px;
+                height: 100vh;
+                width: 240px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .main-content {
+                padding: 20px 16px;
+            }
+
+            .info-jadwal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .absen-filter {
+                flex-direction: column;
+            }
+
+            .input-search,
+            .select-custom,
+            .btn-add {
+                width: 100%;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-simpan,
+            .btn-live-foto,
+            .btn-batal {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- MOBILE HEADER -->
@@ -453,7 +526,7 @@
                     <a href="{{ url('/guru/dashboard') }}" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
                     <a href="{{ url('/guru/jurnal') }}" class="nav-item active"><i class="fa-solid fa-book"></i> Jurnal</a>
                     <a href="{{ url('/guru/jadwal') }}" class="nav-item"><i class="fa-regular fa-calendar-days"></i> Jadwal</a>
-                
+
                 </nav>
             </nav>
         </div>
@@ -476,8 +549,8 @@
             <div class="header-meta">
                 <i class="fa-regular fa-bell"></i>
                 <div>
-                    <div>Selasa, 21 Juli 2026</div>
-                    <div style="text-align: right; font-weight: 700;">08.00 WIB</div>
+                    <div>{{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}</div>
+                    <div style="text-align: right; font-weight: 700;">{{ now()->format('H.i') }} WIB</div>
                 </div>
             </div>
         </header>
@@ -497,21 +570,27 @@
             <div class="info-card">
                 <div>
                     <span>Kelas</span>
-                    <h4>XI RPL 2</h4>
+                    <h4>{{$jadwal?->classes?->name ?? 'Gak Ada Jadwal'}}</h4>
                 </div>
                 <i class="fa-solid fa-chalkboard-user"></i>
             </div>
             <div class="info-card">
                 <div>
                     <span>Mata Pelajaran</span>
-                    <h4>Matematika</h4>
+                    <h4>{{$jadwal?->mapel?->name ?? '-'}}</h4>
                 </div>
                 <i class="fa-solid fa-book-open"></i>
             </div>
             <div class="info-card">
                 <div>
                     <span>Jam Ke-</span>
-                    <h4>Jam 5 - 9 (09.40 - 13.00)</h4>
+                    <h4>
+                        @if($jadwal)
+                        Jam {{ $jadwal->start_time }} - {{ $jadwal->end_time }} ({{ $jadwal->waktu_mulai }} - {{ $jadwal->waktu_selesai }})
+                        @else
+                        Tidak Ada Jadwal Active
+                        @endif
+                    </h4>
                 </div>
                 <i class="fa-regular fa-clock"></i>
             </div>
@@ -561,7 +640,7 @@
         <!-- SECTION 4: ABSENSI SISWA (HANYA MUNCUL JIKA GURU HADIR) -->
         <div id="sectionAbsensiSiswa" class="form-card">
             <h3><i class="fa-solid fa-users"></i> Daftar Siswa Tidak Hadir</h3>
-            
+
             <div class="absen-filter">
                 <input type="text" class="input-search" placeholder="Ketik nama siswa...">
                 <select class="select-custom" style="width: 160px;">
@@ -621,12 +700,12 @@
         // LOGIKA PERUBAHAN TAMPILAN BERDASARKAN KETERANGAN KEHADIRAN GURU
         function handleStatusChange() {
             const status = document.getElementById('statusKehadiran').value;
-            
+
             const sectionHadir = document.getElementById('sectionHadir');
             const sectionTugas = document.getElementById('sectionTugas');
             const sectionTanpaTugas = document.getElementById('sectionTanpaTugas');
             const sectionAbsensiSiswa = document.getElementById('sectionAbsensiSiswa');
-            
+
             const btnLiveFoto = document.getElementById('btnLiveFoto');
             const textBtnSimpan = document.getElementById('textBtnSimpan');
 
@@ -635,7 +714,7 @@
                 sectionAbsensiSiswa.classList.remove('d-none');
                 sectionTugas.classList.add('d-none');
                 sectionTanpaTugas.classList.add('d-none');
-                
+
                 btnLiveFoto.classList.remove('d-none');
                 textBtnSimpan.innerText = 'Simpan Jurnal';
 
@@ -644,7 +723,7 @@
                 sectionAbsensiSiswa.classList.add('d-none');
                 sectionTugas.classList.remove('d-none');
                 sectionTanpaTugas.classList.add('d-none');
-                
+
                 btnLiveFoto.classList.add('d-none');
                 textBtnSimpan.innerText = 'Kirim Tugas ke Sekre';
 
@@ -653,11 +732,12 @@
                 sectionAbsensiSiswa.classList.add('d-none');
                 sectionTugas.classList.add('d-none');
                 sectionTanpaTugas.classList.remove('d-none');
-                
+
                 btnLiveFoto.classList.add('d-none');
                 textBtnSimpan.innerText = 'Lapor ke Guru Piket';
             }
         }
     </script>
 </body>
+
 </html>

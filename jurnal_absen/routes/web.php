@@ -4,24 +4,24 @@ use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Jurnal\JurnalController;
 use App\Livewire\Actions\Logout;
 
-Route::view('/', 'auth.login');
+Route::get('/', [LoginController::class, 'Check']);
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::view('dashboard', 'dashboard')redirect()->route('login')
+// ->middleware(['auth', 'verified'])
+// ->name('dashboard');
 
 // Route::view('/login')
 
-Route::get('/login',[LoginController::class,'ShowLoginForm'])->name('login');
+Route::get('/login',[LoginController::class,'ShowLoginForm'])->middleware('guest')->name('login');
 Route::post('/login',[LoginController::class,'login']);
-// Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
-Route::post('/logout',[LoginController::class,'logout'])->name('logout');
+Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
+Route::middleware(['auth','verified'])->group(function(){
 
-// Middleware::auth(['auth','verified'])->group()
-Route::middleware('auth')->group(function(){
+    // Route::post('')
 
     // admin
     Route::middleware(['role:admin'])->group(function(){
@@ -33,8 +33,9 @@ Route::middleware('auth')->group(function(){
     Route::middleware(['role:guru'])->group(function () {
         // Volt::route('/guru/dashboard', 'guru.dashboard')->name('guru.dashboard');
         Route::view('/guru/dashboard','guru/dashboard')->name('guru.dashboard');
-        Route::view('/guru/jurnal', 'guru/jurnal')->name('guru.jurnal');
-        
+        Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
+        Route::post('/guru/jurnal/create',[JurnalController::class,'create'])->name('guru.jurnal.create');
+        Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
     });
 
     Route::middleware(['role:piket'])->group(function () {
