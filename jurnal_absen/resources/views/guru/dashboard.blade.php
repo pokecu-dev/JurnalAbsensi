@@ -395,6 +395,105 @@
             transition: background 0.2s;
         }
 
+        /* MODAL JADWAL HARI INI */
+        .modal-jadwal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background: rgba(26, 49, 44, 0.55);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-jadwal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            color: var(--text-dark);
+        }
+
+        .modal-header p {
+            margin-top: 4px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: #EBF4F0;
+            color: var(--dark-green);
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: var(--mint-green);
+        }
+
+        .jadwal-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #F8FAF9;
+            border: 1px solid #E5ECE9;
+            border-radius: 12px;
+        }
+
+        .jadwal-waktu {
+            min-width: 90px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--medium-green);
+        }
+
+        .jadwal-info {
+            flex: 1;
+        }
+
+        .jadwal-mapel {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .jadwal-kelas {
+            margin-top: 3px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .jadwal-ruang {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
     </style>
 </head>
 <body>
@@ -463,7 +562,7 @@
 
         <!-- CARDS RINGKASAN -->
         <section class="summary-grid">
-            <div class="card card-1">
+            <div class="card card-1" id="jadwalHariIni">
                 <div class="card-icon"><i class="fa-regular fa-calendar"></i></div>
                 <div class="card-info">
                     <span class="card-title">Jadwal Hari Ini</span>
@@ -471,6 +570,7 @@
                     <span class="card-sub">Jam Pelajaran</span>
                 </div>
             </div>
+            
 
             <div class="card card-2">
                 <div class="card-icon"><i class="fa-solid fa-check"></i></div>
@@ -567,6 +667,109 @@
         </section>
 
     </main>
+
+    <!-- MODAL JADWAL HARI INI -->
+<div class="modal-jadwal" id="modalJadwal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <div>
+                <h2>Jadwal Mengajar Hari Ini</h2>
+                <p>Selasa, 21 Juli 2026</p>
+            </div>
+
+            <button class="modal-close" id="tutupModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="jadwal-item">
+            <div class="jadwal-waktu">
+                09.00 - 09.40
+            </div>
+
+            <div class="jadwal-info">
+                <div class="jadwal-mapel">MATEMATIKA</div>
+                <div class="jadwal-kelas">XI PPLG 1</div>
+            </div>
+
+            <div class="jadwal-ruang">
+                Ruang 18
+            </div>
+        </div>
+
+        <div class="jadwal-item">
+            <div class="jadwal-waktu">
+                10.00 - 10.40
+            </div>
+
+            <div class="jadwal-info">
+                <div class="jadwal-mapel">MATEMATIKA</div>
+                <div class="jadwal-kelas">XI TKJ 2</div>
+            </div>
+
+            <div class="jadwal-ruang">
+                Ruang 18
+            </div>
+        </div>
+
+        <div class="jadwal-item">
+            <div class="jadwal-waktu">
+                11.00 - 11.40
+            </div>
+
+            <div class="jadwal-info">
+                <div class="jadwal-mapel">MATEMATIKA</div>
+                <div class="jadwal-kelas">XI TKI 2</div>
+            </div>
+
+            <div class="jadwal-ruang">
+                Ruang 18
+            </div>
+        </div>
+
+        <div class="jadwal-item">
+            <div class="jadwal-waktu">
+                13.00 - 13.40
+            </div>
+
+            <div class="jadwal-info">
+                <div class="jadwal-mapel">MATEMATIKA</div>
+                <div class="jadwal-kelas">XI DKV 2</div>
+            </div>
+
+            <div class="jadwal-ruang">
+                Ruang 18
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    const jadwalHariIni = document.getElementById('jadwalHariIni');
+    const modalJadwal = document.getElementById('modalJadwal');
+    const tutupModal = document.getElementById('tutupModal');
+
+    // Buka popup
+    jadwalHariIni.addEventListener('click', function () {
+        modalJadwal.classList.add('show');
+    });
+
+    // Tutup popup lewat tombol tetot
+    tutupModal.addEventListener('click', function () {
+        modalJadwal.classList.remove('show');
+    });
+
+    // Tutup popup kalau klik area luar popup
+    modalJadwal.addEventListener('click', function (event) {
+        if (event.target === modalJadwal) {
+            modalJadwal.classList.remove('show');
+        }
+    });
+</script>
 
 </body>
 </html>
