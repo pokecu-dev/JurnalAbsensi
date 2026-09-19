@@ -12,39 +12,54 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 use function Pest\Laravel\delete;
 
 class JurnalController extends Controller
 {
-    public function index() {
+
+    public function form()
+    {
+
+        // Carbon::setTestNow('2026-09-18 13:00:00');
+
+        $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
+
+        // return view()
+        return view('guru.jurnal', compact('jadwal'));
+    }
+
+    public function index()
+    {
         return response()->json([
             'data' => Jurnal::with(['teacher', 'kelas', 'mapel'])->get()
             // 'data' => Jadwal::with('teacher')->get()
         ]);
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
-        $jadwalGuru = Jadwal::GetJadwalBy($request->id_guru,1);
+        $jadwalGuru = Jadwal::GetJadwalBy($request->id_guru, 1);
 
-        if(!$jadwalGuru){
+        if (!$jadwalGuru) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'jadwal dengan id tersebut tidak ditemukan'
             ]);
         }
-        
+
         $request->merge([
             'tgl' => $request->tgl ?? now()->format('Y-m-d H:i:s'),
             'catatan' => $request->catatan ?? "kosong",
             'status' => $request->status ?? 'pending',
         ]);
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'tgl' => ['required'],
-            'id_jadwal' => ['required',Rule::in($jadwalGuru->id)],
-            'materi' => ['required','string'],
+            'id_jadwal' => ['required', Rule::in($jadwalGuru->id)],
+            'materi' => ['required', 'string'],
             'catatan' => ['required'],
             'guru' => ['required'],
             'status' => ['required'],
@@ -59,7 +74,7 @@ class JurnalController extends Controller
         }
 
         $validated = $validator->validated();
-    
+
 
         Jurnal::create($validated);
 
@@ -67,31 +82,31 @@ class JurnalController extends Controller
             'status' => 'success',
             'data' => $validated
         ]);
-        
     }
 
-    public function AddDetail(Request $request) {
-        $validator = Validator::make($request->all(),[
-            'jurnal_id' => ['required','numeric'],
-            'siswa_id' => ['required','numeric'],
-            'status' => ['required',Rule::in('dispen','izin','sakit','alpha')],
-            'catatan' => ['required','string'],
+    public function AddDetail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'jurnal_id' => ['required', 'numeric'],
+            'siswa_id' => ['required', 'numeric'],
+            'status' => ['required', Rule::in('dispen', 'izin', 'sakit', 'alpha')],
+            'catatan' => ['required', 'string'],
             'foto' => ['nullable']
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'message' => $validator->errors()
             ]);
         }
 
-        $jurnal = Jurnal::with('jadwal')->where('id',$request->jurnal_id)->first();
+        $jurnal = Jurnal::with('jadwal')->where('id', $request->jurnal_id)->first();
 
         // $classesCheck = Siswa::where('class_id',$jurnal->);
-        $dataIfExist = DB::table('detail_jurnals')->where('jurnal_id',$request->jurnal_id)->where('siswa_id',$request->siswa_id)->exists();
+        $dataIfExist = DB::table('detail_jurnals')->where('jurnal_id', $request->jurnal_id)->where('siswa_id', $request->siswa_id)->exists();
 
-        if($dataIfExist){
+        if ($dataIfExist) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'siswa sudah ada di jurnal woe>:('
@@ -108,13 +123,13 @@ class JurnalController extends Controller
             // 'message' => 'siswa berhasil di tambhkan'
             'tes' => $jurnal
         ]);
-
     }
 
-    public function updateJurnal(Request $request,Jurnal $jurnal) {
+    public function updateJurnal(Request $request, Jurnal $jurnal)
+    {
 
-        $validator = Validator::make($request->all(),[
-            'materi' => ['required','string'],
+        $validator = Validator::make($request->all(), [
+            'materi' => ['required', 'string'],
             'catatan' => ['required'],
             'guru' => ['required'],
             'status' => ['required'],
@@ -129,7 +144,7 @@ class JurnalController extends Controller
         }
 
         $validated = $validator->validated();
-        if(empty($validated['foto'])){
+        if (empty($validated['foto'])) {
             unset($validated['foto']);
         }
 
@@ -138,13 +153,13 @@ class JurnalController extends Controller
         return response()->json([
             'status' => 'success'
         ]);
-
     }
 
-    public function updateDetail(Request $request, DetailJurnal $detailJurnal){
-        $validator = Validator::make($request->all(),[
-            'status' => ['required',Rule::in('dispen','izin','sakit','alpha')],
-            'catatan' => ['required','string'],
+    public function updateDetail(Request $request, DetailJurnal $detailJurnal)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => ['required', Rule::in('dispen', 'izin', 'sakit', 'alpha')],
+            'catatan' => ['required', 'string'],
             'foto' => ['nullable'],
         ]);
 
@@ -156,7 +171,7 @@ class JurnalController extends Controller
         }
 
         $validated = $validator->validated();
-        if(empty($validated['foto'])){
+        if (empty($validated['foto'])) {
             unset($validated['foto']);
         }
 
@@ -166,19 +181,19 @@ class JurnalController extends Controller
             'status' => 'success',
             'message' => 'selese'
         ]);
-
     }
 
-    public function deleteJurnal(Jurnal $jurnal) {
+    public function deleteJurnal(Jurnal $jurnal)
+    {
         $jurnal->delete();
 
         return response()->json([
             'status' => 'success'
         ]);
-        
     }
 
-    public function deleteDetail(DetailJurnal $detailJurnal){
+    public function deleteDetail(DetailJurnal $detailJurnal)
+    {
         $detailJurnal->delete();
 
         return response()->json([

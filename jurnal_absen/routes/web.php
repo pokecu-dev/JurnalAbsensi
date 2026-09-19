@@ -4,6 +4,7 @@ use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Jurnal\JurnalController;
 use App\Livewire\Actions\Logout;
 
 Route::get('/', [LoginController::class, 'Check']);
@@ -18,7 +19,9 @@ Route::get('/login',[LoginController::class,'ShowLoginForm'])->middleware('guest
 Route::post('/login',[LoginController::class,'login']);
 Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
-Route::middleware('auth','verified')->group(function(){
+Route::middleware(['auth','verified'])->group(function(){
+
+    // Route::post('')
 
     // admin
     Route::middleware(['role:admin'])->group(function(){
@@ -30,8 +33,9 @@ Route::middleware('auth','verified')->group(function(){
     Route::middleware(['role:guru'])->group(function () {
         // Volt::route('/guru/dashboard', 'guru.dashboard')->name('guru.dashboard');
         Route::view('/guru/dashboard','guru/dashboard')->name('guru.dashboard');
-        Route::view('/guru/jurnal', 'guru/jurnal')->name('guru.jurnal');
-        
+        Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
+        Route::post('/guru/jurnal/create',[JurnalController::class,'create'])->name('guru.jurnal.create');
+        Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
     });
 
     Route::middleware(['role:piket'])->group(function () {

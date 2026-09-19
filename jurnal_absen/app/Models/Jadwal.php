@@ -30,13 +30,13 @@ class Jadwal extends Model
         return $jam ? date('H:i', strtotime($jam->waktu_selesai)) : null;
     }
 
-    public static function GetJadwalBy($teacherId = null, $hour = null)
+    public static function GetJadwalBy($teacherId = null, $hour = null,array $with = [])
     {
         $now = now();
         $today = strtolower(Jurnal::day($now->translatedFormat('l')));
         $time = $now->format('H:i:s');
 
-        $query = static::where('day',$today)->when($teacherId, function ($q) use ($teacherId) {
+        $query = static::with($with)->where('day',$today)->when($teacherId, function ($q) use ($teacherId) {
             $q->where('teacher_id',$teacherId);
         });
 
@@ -64,7 +64,7 @@ class Jadwal extends Model
     public function teacher() {
         return $this->belongsTo(User::class, 'teacher_id');
     }
-    public function classses() {
+    public function classes() {
         return $this->belongsTo(Classes::class,'class_id');
     }
     public function mapel() {

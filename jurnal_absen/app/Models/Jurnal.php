@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
+use App\Models\Jadwal;
+
 // #[Fillable(['id_jadwal','tgl', 'materi', 'catatan', 'status', 'guru','foto'])]
 class Jurnal extends Model
 {
