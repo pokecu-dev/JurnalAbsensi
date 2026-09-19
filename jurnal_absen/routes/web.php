@@ -6,22 +6,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Livewire\Actions\Logout;
 
-Route::view('/', 'auth.login');
+Route::get('/', [LoginController::class, 'Check']);
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::view('dashboard', 'dashboard')redirect()->route('login')
+// ->middleware(['auth', 'verified'])
+// ->name('dashboard');
 
 // Route::view('/login')
 
-Route::get('/login',[LoginController::class,'ShowLoginForm'])->name('login');
+Route::get('/login',[LoginController::class,'ShowLoginForm'])->middleware('guest')->name('login');
 Route::post('/login',[LoginController::class,'login']);
-// Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
-Route::post('/logout',[LoginController::class,'logout'])->name('logout');
+Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
-
-// Middleware::auth(['auth','verified'])->group()
-Route::middleware('auth')->group(function(){
+Route::middleware('auth','verified')->group(function(){
 
     // admin
     Route::middleware(['role:admin'])->group(function(){
