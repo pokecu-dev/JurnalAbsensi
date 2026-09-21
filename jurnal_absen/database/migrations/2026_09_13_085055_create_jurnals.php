@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('jurnals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_jadwal')->constrained('jadwals');
+            $table->foreignId('id_jadwal')->nullable()->constrained('jadwals')->nullOnDelete();
+            $table->foreignId('teacher_id')->constrained('users');
+            $table->foreignId('class_id')->constrained('classes');
+            $table->foreignId('mapel_id')->constrained('mapels');
+            // $table->enum('day', ['senin', 'selasa', 'rabu', 'kamis', 'jumat']);
+            $table->integer('start_time')->nullable();
+            $table->integer('end_time')->nullable();
             $table->date('tgl')->useCurrent();
-            $table->string('materi')->nullable();
+            $table->text('materi')->nullable();
             $table->string('catatan')->nullable();
-            $table->enum('status',['pending','rejected','approved']);
+            $table->enum('guru', ['hadir', 'tidak-ada_tugas', 'tidak-tanpa_tugas']); // tidak-ada_tugas berarti tidak hadir namun ada tugas, tidak-tanpa_tugas berarti tidak hadir namun tidak ada tugas
+            $table->enum('status', ['pending', 'rejected', 'approved']);
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

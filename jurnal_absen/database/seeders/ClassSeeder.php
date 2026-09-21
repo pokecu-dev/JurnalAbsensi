@@ -13,7 +13,7 @@ class ClassSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('class')->insert([
+        DB::table('classes')->insert([
             ['name' => 'X RPL 1'],
             ['name' => 'X RPL 2'],
             ['name' => 'X TKJ 1'],

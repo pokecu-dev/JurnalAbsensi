@@ -14,11 +14,21 @@ return new class extends Migration
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('teacher_id')->constrained('users');
-            $table->foreignId('class_id')->constrained('class');
-            $table->enum('day',['senin','selasa','rabu','kamis','jumat']);
+            $table->foreignId('class_id')->constrained('classes');
+            $table->foreignId('mapel_id')->constrained('mapels');
+            $table->enum('day', ['senin', 'selasa', 'rabu', 'kamis', 'jumat']);
             $table->integer('start_time')->nullable();
             $table->integer('end_time')->nullable();
 
+            $table->timestamps();
+        });
+
+        Schema::create('jam_pelajarans', function (Blueprint $table) {
+            $table->id();
+            $table->enum('hari', ['senin-kamis', 'jumat']);
+            $table->integer('jam_ke'); 
+            $table->time('waktu_mulai'); 
+            $table->time('waktu_selesai'); 
             $table->timestamps();
         });
     }
