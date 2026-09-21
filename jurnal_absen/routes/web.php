@@ -3,6 +3,9 @@
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Sekretaris\JurnalController;
+use App\Livewire\Actions\Logout;
 
 Route::view('/', 'welcome');
 
@@ -31,8 +34,18 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::middleware(['role:sekre'])->group(function () {
-        // Volt::route('/sekre/dashboard', 'sekre.dashboard')->name('sekre.dashboard');
-       
+        Route::view('/sekre/dashboard', 'sekre/dashboard')->name('sekre.dashboard');
+        Route::view('/sekre/jadwal', 'sekre/jadwal')->name('sekre.jadwal');
+        Route::view('/sekre/jurnal', 'sekre/jurnal')->name('sekre.jurnal.index');
+        Route::get('/sekre/jurnal/detail/{jurnal}', [JurnalController::class, 'show'])
+            ->name('sekre.jurnal.show');
+        Route::post('/sekre/jurnal/{jurnal}/approve', [JurnalController::class, 'approve'])
+            ->name('sekre.jurnal.approve');
+        Route::post('/sekre/jurnal/{jurnal}/reject', [JurnalController::class, 'reject'])
+            ->name('sekre.jurnal.reject');
+
+        Route::get('/sekre/status-validasi', [JurnalController::class, 'index'])
+            ->name('sekre.status-validasi');
     });
 
 });
