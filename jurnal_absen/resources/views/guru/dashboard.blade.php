@@ -447,6 +447,7 @@
                 <div class="banner-tag">Jadwal Berikutnya:</div>
                 <div class="banner-info">
                     <h2>MATEMATIKA</h2>
+                    <h2></h2>
                     <p>XI DKV 2</p>
                 </div>
             </div>

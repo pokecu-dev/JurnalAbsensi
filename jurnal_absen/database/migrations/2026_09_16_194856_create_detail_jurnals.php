@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('siswa_id')->constrained('siswas','id')->cascadeOnDelete();
             $table->enum('status',['dispen','izin','sakit','alpha']);
             $table->string('catatan')->nullable();
-            $table->string('foto')->default('-');
+            $table->foreignId('dispen_id')->nullable()->constrained('dispens')->nullOnDelete();
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
