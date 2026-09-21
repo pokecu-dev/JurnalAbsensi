@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\Jurnal\JurnalController;
 
+Route::resource('mapels', MapelController::class);
 Route::get('/', [LoginController::class, 'Check']);
 
 // Guest Routes (Login)
@@ -21,29 +22,28 @@ Route::middleware(['auth'])->group(function () {
 
     Route::view('profile', 'profile')->name('profile');
 
-    Route::resource('mapels', MapelController::class);
-
-    // Admin
-    Route::middleware(['role:admin'])->group(function () {
-        Route::view('/admin/dashboard', 'admin/dashboard')->name('admin.dashboard');
+    // Admin Group
+    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::view('/dashboard', 'admin/dashboard')->name('dashboard');  
+        Route::resource('mapels', MapelController::class);               
     });
 
-    // Guru
-    Route::middleware(['role:guru'])->group(function () {
-        Route::view('/guru/dashboard', 'guru/dashboard')->name('guru.dashboard');
-        Route::get('/guru/jurnal', [JurnalController::class, 'form'])->name('guru.jurnal');
-        Route::post('/guru/jurnal/create', [JurnalController::class, 'create'])->name('guru.jurnal.create');
-        Route::post('/guru/jurnal/create-detail', [JurnalController::class, 'AddDetail'])->name('guru.jurnal.detail');
+    // Guru Group
+    Route::middleware(['role:guru'])->prefix('guru')->name('guru.')->group(function () {
+        Route::view('/dashboard', 'guru/dashboard')->name('dashboard');  // Route: guru.dashboard
+        Route::get('/jurnal', [JurnalController::class, 'form'])->name('jurnal');
+        Route::post('/jurnal/create', [JurnalController::class, 'create'])->name('jurnal.create');
+        Route::post('/jurnal/create-detail', [JurnalController::class, 'AddDetail'])->name('jurnal.detail');
     });
 
-    // Piket
-    Route::middleware(['role:piket'])->group(function () {
-        Route::view('/piket/dashboard', 'piket/dashboard')->name('piket.dashboard');
+    // Piket Group
+    Route::middleware(['role:piket'])->prefix('piket')->name('piket.')->group(function () {
+        Route::view('/dashboard', 'piket/dashboard')->name('dashboard');  // Route: piket.dashboard
     });
 
-    // Sekretaris
-    Route::middleware(['role:sekre'])->group(function () {
-        Route::view('/sekre/dashboard', 'sekre/dashboard')->name('sekre.dashboard');
+    // Sekretaris Group
+    Route::middleware(['role:sekre'])->prefix('sekre')->name('sekre.')->group(function () {
+        Route::view('/dashboard', 'sekre/dashboard')->name('dashboard');  // Route: sekre.dashboard
     });
 
 });

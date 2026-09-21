@@ -8,7 +8,7 @@
 </head>
 <body class="bg-[#FCF9F2] font-sans text-gray-800 antialiased min-h-screen">
 
-    <!-- KONTEN UTAMA (FULL WIDTH TANPA SIDEBAR MENU) -->
+    <!-- KONTEN UTAMA -->
     <main class="w-full">
         
         <!-- TOP HEADER BAR -->
@@ -18,10 +18,10 @@
                 <span class="text-gray-300">|</span>
                 <span class="text-gray-500 flex items-center gap-1">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    Selasa, 21 Juli 2026
+                    {{ \Carbon\Carbon::now()->isoFormat('D MMMM Y') }}
                 </span>
                 <span class="text-gray-300">•</span>
-                <span class="text-gray-500">09.00 WIB</span>
+                <span class="text-gray-500">{{ \Carbon\Carbon::now()->format('H.i') }} WIB</span>
                 <span class="bg-[#86F3B0]/40 text-[#0D2F24] font-semibold px-2.5 py-0.5 rounded-full text-[10px]">
                     Semester Ganjil 2026/2027
                 </span>
@@ -59,7 +59,9 @@
                     </div>
                     <div>
                         <span class="block text-[10px] text-gray-400 font-medium">Total Mapel Aktif</span>
-                        <span class="font-extrabold text-xs text-gray-800">{{ $mapels->count() }} Mapel</span>
+                        <span class="font-extrabold text-xs text-gray-800">
+                            {{ method_exists($mapels, 'total') ? $mapels->total() : $mapels->count() }} Mapel
+                        </span>
                     </div>
                 </div>
             </div>
@@ -96,14 +98,14 @@
                     <!-- Input Kode Mapel -->
                     <div class="w-1/4">
                         <label class="block text-[11px] font-bold text-gray-600 mb-1">Kode Mapel *</label>
-                        <input type="text" name="kode_mapel" value="{{ $nextCode }}" readonly 
+                        <input type="text" name="kode_mapel" value="{{ $nextCode ?? 'MP001' }}" readonly 
                                class="w-full bg-[#F5F2EB] border-none rounded-xl px-3 py-2 text-xs font-bold text-gray-700 focus:outline-none cursor-not-allowed">
                     </div>
 
                     <!-- Input Nama Mapel -->
                     <div class="flex-1">
                         <label class="block text-[11px] font-bold text-gray-600 mb-1">Nama Mata Pelajaran *</label>
-                        <input type="text" name="nama_mapel" value="{{ old('nama_mapel') }}" placeholder="Contoh: Matematika Peminatan" required
+                        <input type="text" name="nama_mapel" value="{{ old('nama_mapel') }}" placeholder="Contoh: Pemrograman Web dan Perangkat Bergerak" required
                                class="w-full bg-[#F5F2EB] border-none rounded-xl px-3 py-2 text-xs text-gray-800 focus:bg-white focus:ring-2 focus:ring-emerald-500/30 transition focus:outline-none">
                     </div>
 
@@ -131,19 +133,15 @@
                 
                 <!-- Search & Filters -->
                 <div class="flex items-center justify-between text-xs">
-                    <div class="relative w-72">
+                    <form action="{{ route('mapels.index') }}" method="GET" class="relative w-72">
                         <svg class="w-3.5 h-3.5 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                        <input type="text" placeholder="Cari kode atau nama mapel..." 
-                               class="w-full pl-9 pr-3 py-2 bg-[#F5F2EB] border-none rounded-xl text-xs focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition">
-                    </div>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kode atau nama mapel..." 
+                               class="w-full pl-9 pr-3 py-2 bg-[#F5F2EB] border-none rounded-xl text-xs focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition"
+                               onkeydown="if(event.key === 'Enter') this.form.submit()">
+                    </form>
 
                     <div class="flex items-center gap-4 text-gray-500 text-[11px]">
-                        <span>Menampilkan <b>{{ $mapels->count() }}</b> dari total <b>{{ $mapels->count() }}</b> mata pelajaran</span>
-                        <div class="flex items-center gap-1 bg-[#F5F2EB] p-1 rounded-xl font-medium">
-                            <button class="px-2.5 py-1 bg-white text-gray-800 rounded-lg shadow-sm">Semua</button>
-                            <button class="px-2.5 py-1 text-gray-500 hover:text-gray-800">Umum</button>
-                            <button class="px-2.5 py-1 text-gray-500 hover:text-gray-800">Kejuruan</button>
-                        </div>
+                        <span>Menampilkan <b>{{ $mapels->count() }}</b> dari total <b>{{ method_exists($mapels, 'total') ? $mapels->total() : $mapels->count() }}</b> mata pelajaran</span>
                     </div>
                 </div>
 
@@ -161,7 +159,9 @@
                         <tbody class="divide-y divide-stone-100 font-medium text-gray-700">
                             @forelse($mapels as $index => $mapel)
                                 <tr class="hover:bg-stone-50/80 transition">
-                                    <td class="py-3.5 px-4 text-gray-400">{{ $index + 1 }}</td>
+                                    <td class="py-3.5 px-4 text-gray-400">
+                                        {{ method_exists($mapels, 'firstItem') ? $mapels->firstItem() + $index : $index + 1 }}
+                                    </td>
                                     <td class="py-3.5 px-4">
                                         <span class="bg-[#F5F2EB] px-2 py-0.5 rounded-md text-gray-600 font-semibold text-[11px]">{{ $mapel->kode_mapel }}</span>
                                     </td>
@@ -171,7 +171,7 @@
                                             @if(Route::has('mapels.edit'))
                                                 <a href="{{ route('mapels.edit', $mapel->id) }}" 
                                                    class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-2.5 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition">
-                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 210.3H3v-3.572L16.732 3.732z"/></svg> Edit
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21 3 21v-3.572L16.732 3.732z"/></svg> Edit
                                                 </a>
                                             @endif
                                             <form action="{{ route('mapels.destroy', $mapel->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
@@ -194,19 +194,12 @@
                     </table>
                 </div>
 
-                <!-- Footer Tabel & Pagination -->
-                <div class="flex items-center justify-between pt-3 text-[11px] text-gray-400">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        Katalog sinkron dengan kurikulum aktif
+                <!-- Pagination Nav (Hanya tampil jika memanggil paginate() di Controller) -->
+                @if(method_exists($mapels, 'links'))
+                    <div class="pt-3">
+                        {{ $mapels->withQueryString()->links() }}
                     </div>
-
-                    <div class="flex items-center gap-1">
-                        <button class="px-2 py-0.5 text-gray-300 cursor-not-allowed">Sebelumnya</button>
-                        <button class="w-5 h-5 rounded-md bg-[#86F3B0] text-[#0D2F24] font-bold text-center text-[10px]">1</button>
-                        <button class="px-2 py-0.5 text-gray-400 hover:text-gray-600">Selanjutnya</button>
-                    </div>
-                </div>
+                @endif
 
             </div>
 
