@@ -1,775 +1,623 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="overscroll-none">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Guru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --dark-green: #1A312C;
-            --medium-green: #428475;
-            --mint-green: #89D7B7;
-            --bg-cream: #FFF4E1;
 
-            --sidebar-bg: var(--dark-green);
-            --main-bg: var(--bg-cream);
-            --card-dark: var(--dark-green);
-            --primary-accent: var(--mint-green);
-            --secondary-accent: var(--medium-green);
-            --text-dark: #1A312C;
-            --text-muted: #53756C;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-green': '#1A312C',
+                        'medium-green': '#428475',
+                        'mint-green': '#89D7B7',
+                        'bg-cream': '#FFF4E1',
+                    }
+                }
+            }
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            display: flex;
-            height: 100vh;
-            background-color: var(--main-bg);
-            color: var(--text-dark);
-            overflow: hidden;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 200px;
-            min-width: 200px;
-            background-color: var(--sidebar-bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 24px 16px;
-            color: #fff;
-        }
-
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 0 45px 0;
-            text-align: center;
-        }
-
-        .logo-container img {
-            width: 65px;
-            height: auto;
-            object-fit: contain;
-        }
-
-        .logo-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 12px; 
-            margin-top: 10px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            color: #A5B5B0;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.12);
-            color: var(--mint-green);
-        }
-
-        .sidebar-footer {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn-sidebar {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .btn-sidebar:hover {
-            background: rgba(255, 255, 255, 0.18);
-        }
-
-        /* MAIN CONTENT */
-        .main-content {
-            flex: 1;
-            padding: 28px 40px;
-            overflow-y: auto;
-        }
-
-        /* HEADER */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 24px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .header p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .header-meta {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .header-meta i {
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        /* BANNER JADWAL BERIKUTNYA */
-        .banner-jadwal {
-            background-color: var(--card-dark);
-            color: #fff;
-            border-radius: 18px;
-            padding: 22px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            box-shadow: 0 6px 16px rgba(26, 49, 44, 0.15);
-        }
-
-        .banner-tag {
-            font-size: 12px;
-            color: #A5B5B0;
-            margin-bottom: 6px;
-        }
-
-        .banner-info h2 {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .banner-info p {
-            font-size: 13px;
-            color: #A5B5B0;
-            margin-top: 2px;
-        }
-
-        .banner-detail {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #E2ECE8;
-        }
-
-        .btn-jurnal {
-            background-color: var(--primary-accent);
-            color: var(--text-dark);
-            border: none;
-            padding: 10px 22px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s, background 0.2s;
-        }
-
-        .btn-jurnal:hover {
-            background-color: #A5E4CA;
-            transform: translateY(-1px);
-        }
-
-        /* RINGKASAN CARDS */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 220px);
-            gap: 20px;
-            margin-bottom: 24px;
-            justify-content: space-evenly;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 10px 16px; 
-            display: flex;
-            align-items: center;
-            justify-content: flex-start; 
-            gap: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            height: 72px; 
-        }
-
-        .card-icon {
-            width: 38px;  
-            height: 38px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .card-1 .card-icon { background-color: #EBF4F0; color: var(--dark-green); }
-        .card-2 .card-icon { background-color: #00E676; color: #fff; border-radius: 50%; }
-        .card-3 .card-icon { background-color: #FF3D00; color: #fff; border-radius: 50%; }
-
-        .card-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-dark);
-            line-height: 1.1;
-        }
-
-        .card-number {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text-dark);
-            line-height: 1.1;
-            margin: 2px 0;
-        }
-
-        .card-sub {
-            font-size: 10px;
-            color: var(--text-muted);
-            font-weight: 500;
-            line-height: 1;
-        }
-
-        /* STATUS VALIDASI SECTION */
-        .validation-section {
-            background-color: #ffffff;
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-        }
-
-        .validation-section h3 {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-        }
-
-
-        .table-card-wrapper {
-            background-color: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(230, 230, 230, 0.8);
-            border-radius: 16px;
-            padding: 16px 14px 16px 20px;
-
-            max-height: 250px;       
-            overflow-y: scroll;    
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-        }
-
-        /* CUSTOM SCROLLBAR*/
-        .table-card-wrapper::-webkit-scrollbar {
-            width: 5px; 
-        }
-
-        .table-card-wrapper::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05); 
-            border-radius: 10px;
-            margin: 12px 0; 
-        }
-
-        .table-card-wrapper::-webkit-scrollbar-thumb {
-            background: var(--medium-green); 
-            border-radius: 10px;
-        }
-
-        .table-card-wrapper::-webkit-scrollbar-thumb:hover {
-            background: var(--dark-green);
-        }
-
-        .validation-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .validation-table th {
-            text-align: left;
-            font-size: 11px;
-            color: #888888;
-            padding-bottom: 16px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
-
-        .validation-table td {
-            padding: 14px 0;
-            font-size: 12px;
-            color: #444444;
-        }
-
-        .icon-check {
-            color: #00C853;
-            font-size: 18px;
-        }
-
-        .icon-pending {
-            color: #FF9100;
-            font-size: 18px;
-        }
-
-        .status-tervalidasi {
-            color: #00C853;
-            font-weight: 700;
-        }
-
-        .status-menunggu {
-            color: #FF9100;
-            font-weight: 700;
-        }
-
-        .btn-view-all {
-            width: 100%;
-            max-width: 450px;
-            display: block;
-            margin: 0 auto;
-            padding: 12px;
-            background-color: var(--primary-accent);
-            border: none;
-            border-radius: 25px;
-            color: var(--text-dark);
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        /* MODAL JADWAL HARI INI */
-        .modal-jadwal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            inset: 0;
-            background: rgba(26, 49, 44, 0.55);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-jadwal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            width: 100%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            font-size: 20px;
-            color: var(--text-dark);
-        }
-
-        .modal-header p {
-            margin-top: 4px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .modal-close {
-            width: 36px;
-            height: 36px;
-            border: none;
-            border-radius: 50%;
-            background: #EBF4F0;
-            color: var(--dark-green);
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .modal-close:hover {
-            background: var(--mint-green);
-        }
-
-        .jadwal-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #F8FAF9;
-            border: 1px solid #E5ECE9;
-            border-radius: 12px;
-        }
-
-        .jadwal-waktu {
-            min-width: 90px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--medium-green);
-        }
-
-        .jadwal-info {
-            flex: 1;
-        }
-
-        .jadwal-mapel {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .jadwal-kelas {
-            margin-top: 3px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .jadwal-ruang {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-    </style>
+    </script>
 </head>
-<body>
+<body class="bg-bg-cream text-dark-green font-sans min-h-screen overflow-x-hidden overscroll-none w-full">      
+    <!-- MOBILE HEADER -->
+    <div class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
+        <button id="hamburgerBtn" class="text-xl focus:outline-none"><i class="fa-solid fa-bars"></i></button>
+    </div>
+
+    <!-- SIDEBAR OVERLAY (MOBILE) -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
     <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div>
-            <div class="logo-container">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo Jurnal Absensi">
-                <span class="logo-title">Jurnal Absensi</span>
+<aside id="sidebar"
+    class="fixed inset-y-0 left-0 w-60 bg-dark-green text-white p-6 flex flex-col justify-between z-50 -translate-x-full md:translate-x-0 transition-transform duration-300">   
+         <div>
+            <div class="flex flex-col items-center gap-2 mb-10 text-center">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-16 h-auto">
+                <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
             </div>
 
-            <nav class="nav-menu">
-                <nav class="nav-menu">
-                    <a href="{{ url('/guru/dashboard') }}" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
-                    <a href="{{ url('/guru/jurnal') }}" class="nav-item"><i class="fa-solid fa-book"></i> Jurnal</a>
-                    <a href="{{ url('/guru/jadwal') }}" class="nav-item"><i class="fa-regular fa-calendar-days"></i> Jadwal</a>
-                
-                </nav>
+            <nav class="flex flex-col gap-2 font-semibold text-xs">
+                <a href="{{ url('/guru/dashboard') }}" class="flex items-center gap-3 px-4 py-3 bg-white/10 text-mint-green rounded-xl transition">
+                    <i class="fa-solid fa-house w-4"></i> Dashboard
+                </a>
+                <a href="{{ url('/guru/jurnal') }}" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition">
+                    <i class="fa-solid fa-book w-4"></i> Jurnal
+                </a>
+                <a href="{{ url('/guru/riwayat') }}" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition">
+                    <i class="fa-regular fa-calendar-days w-4"></i> Riwayat
+                </a>
             </nav>
         </div>
 
-        <div class="sidebar-footer">
-            <button class="btn-sidebar"><i class="fa-regular fa-user"></i> Profile</button>
-            <button class="btn-sidebar"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+        <div class="space-y-2 pt-4 border-t border-white/10">
+            <button class="w-full flex items-center gap-3 px-4 py-3 text-xs font-semibold bg-white/5 hover:bg-white/15 rounded-xl transition text-left">
+                <i class="fa-regular fa-user w-4"></i> Profile
+            </button>
+            <button class="w-full flex items-center gap-3 px-4 py-3 text-xs font-semibold bg-white/5 hover:bg-white/15 rounded-xl transition text-left text-red-300">
+                <i class="fa-solid fa-arrow-right-from-bracket w-4"></i> Logout
+            </button>
         </div>
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="main-content">
+    <main class="flex-1 p-4 pb-12 md:p-8 md:ml-60 max-w-full md:max-w-[calc(100%-15rem)] mx-auto min-w-0 space-y-4 md:space-y-6">     
+       <header class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <h1 class="text-base sm:text-lg md:text-2xl font-black text-dark-green tracking-tight leading-snug">
+                    Selamat Datang, Pak Agus
+                </h1>
 
-        <!-- HEADER -->
-        <header class="header">
-            <div>
-                <h1>Selamat Datang, Pak Agus</h1>
-                <p>Semangat mengajar hari ini!</p>
+                <p class="text-[11px] sm:text-xs text-medium-green font-semibold mt-0.5">
+                    Semangat mengajar hari ini!
+                </p>
             </div>
-            <div class="header-meta">
-                <i class="fa-regular fa-bell"></i>
-                <div>
-                    <div>Selasa, 21 Juli 2026</div>
-                    <div style="text-align: right; font-weight: 700;">08.00 WIB</div>
+
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+
+               
+                <div class="text-right leading-tight">
+                    <div class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">
+                        {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                    </div>
+
+                    <div class="text-[10px] sm:text-xs font-extrabold text-dark-green mt-0.5">
+                        {{ now()->format('H.i') }} WIB
+                    </div>
                 </div>
+
             </div>
+
         </header>
 
         <!-- BANNER JADWAL BERIKUTNYA -->
-        <section class="banner-jadwal">
-            <div>
-                <div class="banner-tag">Jadwal Berikutnya:</div>
-                <div class="banner-info">
-                    <h2>MATEMATIKA</h2>
-                    <p>XI DKV 2</p>
-                </div>
-            </div>
-            <div class="banner-detail">
+        <section class="bg-dark-green text-white rounded-2xl p-4 sm:p-5 shadow-md space-y-3">
+            
+            <div class="flex justify-between items-start">
                 <div>
-                    <div class="detail-item"><i class="fa-regular fa-clock"></i> 13.00 - 13.40</div>
-                    <div class="detail-item" style="margin-top: 6px;"><i class="fa-solid fa-location-dot"></i> RUANG 18</div>
+                    <span class="text-[9px] sm:text-[10px] text-mint-green/80 uppercase tracking-wider font-extrabold block mb-0.5">
+                        Jadwal Berikutnya
+                    </span>
+                    <h2 class="text-lg sm:text-xl md:text-2xl font-black tracking-wide leading-tight text-white">
+                        MATEMATIKA
+                    </h2>
+                    <p class="text-xs text-gray-300 font-semibold mt-0.5">
+                        XI DKV 2
+                    </p>
                 </div>
-                <a href="{{ url('/guru/jurnal') }}" class="btn-jurnal" style="text-decoration: none;">
-                    Isi Jurnal <i class="fa-solid fa-arrow-right"></i>
+
+            </div>
+
+            <div class="border-t border-white/10 pt-3 flex items-center justify-between gap-3">
+                
+                <!-- WAKTU & RUANG -->
+                <div class="space-y-1 text-[11px] sm:text-xs font-medium text-emerald-100">
+                    <div class="flex items-center gap-1.5">
+                        <i class="fa-regular fa-clock text-mint-green text-xs w-3.5"></i>
+                        <span>13.00 - 13.40</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-location-dot text-mint-green text-xs w-3.5"></i>
+                        <span>Ruang 18</span>
+                    </div>
+                </div>
+
+                <!-- TOMBOL ISI JURNAL -->
+                <a href="{{ url('/guru/jurnal') }}"
+                   class="bg-mint-green hover:bg-emerald-300 text-dark-green font-extrabold text-xs px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0">
+                    <span>Isi Jurnal</span>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </a>
-            </div>
-        </section>
 
-        <!-- CARDS RINGKASAN -->
-        <section class="summary-grid">
-            <div class="card card-1" id="jadwalHariIni">
-                <div class="card-icon"><i class="fa-regular fa-calendar"></i></div>
-                <div class="card-info">
-                    <span class="card-title">Jadwal Hari Ini</span>
-                    <h3 class="card-number">4</h3>
-                    <span class="card-sub">Jam Pelajaran</span>
-                </div>
-            </div>
-            
-
-            <div class="card card-2">
-                <div class="card-icon"><i class="fa-solid fa-check"></i></div>
-                <div class="card-info">
-                    <span class="card-title">Jurnal Selesai</span>
-                    <h3 class="card-number">2</h3>
-                    <span class="card-sub">Sudah Diisi</span>
-                </div>
-            </div>
-
-            <div class="card card-3">
-                <div class="card-icon">!</div>
-                <div class="card-info">
-                    <span class="card-title">Belum Diisi</span>
-                    <h3 class="card-number">2</h3>
-                    <span class="card-sub">Jam Pelajaran</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- STATUS VALIDASI TABLE -->
-        <section class="validation-section">
-            <h3>Status Validasi</h3>
-            
-            <div class="table-card-wrapper">
-                <table class="validation-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>MATA PELAJARAN</th>
-                            <th>KELAS</th>
-                            <th>JAM PEMBELAJARAN</th>
-                            <th>STATUS</th>
-                            <th>KETERANGAN</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td><i class="fa-regular fa-circle-check icon-check"></i></td>
-                            <td><b>MATEMATIKA</b></td>
-                            <td>XI PPLG 1</td>
-                            <td>09.00-09.40</td>
-                            <td><span class="status-tervalidasi">Tervalidasi</span></td>
-                            <td>21 Juli 2026, 08:40</td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-regular fa-clock icon-pending"></i></td>
-                            <td><b>MATEMATIKA</b></td>
-                            <td>XI TKJ 2</td>
-                            <td>10.00-10.40</td>
-                            <td><span class="status-menunggu">Menunggu Validasi</span></td>
-                            <td>21 Juli 2026, 09:30</td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-regular fa-circle-check icon-check"></i></td>
-                            <td><b>MATEMATIKA</b></td>
-                            <td>XI TKI 2</td>
-                            <td>11.00-11.40</td>
-                            <td><span class="status-tervalidasi">Tervalidasi</span></td>
-                            <td>21 Juli 2026, 09:30</td>
-                        </tr>
-
-                        <tr>
-                            <td><i class="fa-regular fa-circle-check icon-check"></i></td>
-                            <td><b>MATEMATIKA</b></td>
-                            <td>XI TKI 2</td>
-                            <td>11.00-11.40</td>
-                            <td><span class="status-tervalidasi">Tervalidasi</span></td>
-                            <td>21 Juli 2026, 09:30</td>
-                        </tr>
-
-                        <tr>
-                            <td><i class="fa-regular fa-clock icon-pending"></i></td>
-                            <td><b>MATEMATIKA</b></td>
-                            <td>XI TKJ 2</td>
-                            <td>10.00-10.40</td>
-                            <td><span class="status-menunggu">Menunggu Validasi</span></td>
-                            <td>21 Juli 2026, 09:30</td>
-                        </tr>
-
-                        <tr>
-                            <td><i class="fa-regular fa-clock icon-pending"></i></td>
-                            <td><b>MATEMATIKA</b></td>
-                            <td>XI TKJ 2</td>
-                            <td>10.00-10.40</td>
-                            <td><span class="status-menunggu">Menunggu Validasi</span></td>
-                            <td>21 Juli 2026, 09:30</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
 
         </section>
+
+        <!-- CARDS RINGKASAN (3 KOLOM SEJAJAR - PERSEGI PANJANG SLIM) -->
+        <section class="grid grid-cols-3 gap-2 md:gap-4">
+
+            <!-- Card 1 -->
+            <div id="jadwalHariIni"
+                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md transition min-h-[52px]">
+                
+                <div class="w-6 h-6 md:w-9 md:h-9 rounded-lg bg-emerald-50 text-dark-green flex items-center justify-center text-[11px] md:text-sm shrink-0">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+
+                <div class="min-w-0 flex-1">
+                    <div class="flex items-baseline justify-between gap-1">
+                        <span class="text-[9px] md:text-xs font-bold text-gray-500 truncate">Jadwal</span>
+                        <h3 class="text-xs md:text-base font-black text-dark-green leading-none">4</h3>
+                    </div>
+                    <span class="text-[8px] md:text-[10px] text-medium-green font-semibold block truncate leading-tight mt-0.5">
+                        Hari Ini
+                    </span>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div id="cardSelesai"
+                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md hover:border-medium-green transition min-h-[52px]">
+                
+                <div class="w-6 h-6 md:w-9 md:h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] md:text-xs shrink-0 shadow-xs">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+                <div class="min-w-0 flex-1">
+                    <div class="flex items-baseline justify-between gap-1">
+                        <span class="text-[9px] md:text-xs font-bold text-gray-500 truncate">Selesai</span>
+                        <h3 class="text-xs md:text-base font-black text-dark-green leading-none">2</h3>
+                    </div>
+                    <span class="text-[8px] md:text-[10px] text-medium-green font-semibold block truncate leading-tight mt-0.5">
+                        Sudah Diisi
+                    </span>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div id="cardBelum"
+                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md hover:border-rose-400 transition min-h-[52px]">
+                
+                <div class="w-6 h-6 md:w-9 md:h-9 rounded-full bg-rose-500 text-white flex items-center justify-center text-[10px] md:text-xs font-black shrink-0 shadow-xs">
+                    !
+                </div>
+
+                <div class="min-w-0 flex-1">
+                    <div class="flex items-baseline justify-between gap-1">
+                        <span class="text-[9px] md:text-xs font-bold text-gray-500 truncate">Belum</span>
+                        <h3 class="text-xs md:text-base font-black text-rose-600 leading-none">2</h3>
+                    </div>
+                    <span class="text-[8px] md:text-[10px] text-rose-500 font-semibold block truncate leading-tight mt-0.5">
+                        Diisi
+                    </span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- STATUS VALIDASI -->
+    <section class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-emerald-100">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h3 class="text-sm md:text-base font-extrabold text-dark-green">
+                    Status Validasi Jurnal
+                </h3>
+
+                <p class="text-[10px] md:text-xs text-gray-400 mt-0.5">
+                    Status jurnal mengajar terbaru
+                </p>
+            </div>
+
+            <a href="{{ url('/guru/riwayat') }}"
+            class="text-[10px] md:text-xs font-bold text-medium-green hover:text-dark-green">
+                Lihat Semua →
+            </a>
+        </div>
+
+
+        <!-- ================= MOBILE ================= -->
+        <div class="space-y-2.5 md:hidden">
+
+            <!-- Jurnal 1 -->
+            <div class="p-3 rounded-xl border border-emerald-100 bg-emerald-50/40">
+
+                <div class="flex items-start justify-between gap-3">
+
+                    <div class="flex items-start gap-2.5 min-w-0">
+
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-check text-xs"></i>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-xs font-extrabold text-dark-green truncate">
+                                MATEMATIKA
+                            </p>
+
+                            <p class="text-[10px] text-medium-green font-semibold mt-0.5">
+                                XI PPLG 1
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <span class="shrink-0 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[9px] font-bold">
+                        Tervalidasi
+                    </span>
+
+                </div>
+
+                <div class="flex items-center justify-between mt-2.5 pt-2 border-t border-emerald-100">
+
+                    <div class="flex items-center gap-1.5 text-[10px] text-gray-500">
+                        <i class="fa-regular fa-clock"></i>
+                        09.00 - 09.40
+                    </div>
+
+                    <span class="text-[9px] text-gray-400">
+                        21 Jul 2026, 08:40
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Jurnal 2 -->
+            <div class="p-3 rounded-xl border border-amber-100 bg-amber-50/40">
+
+                <div class="flex items-start justify-between gap-3">
+
+                    <div class="flex items-start gap-2.5 min-w-0">
+
+                        <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                            <i class="fa-regular fa-clock text-xs"></i>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-xs font-extrabold text-dark-green truncate">
+                                MATEMATIKA
+                            </p>
+
+                            <p class="text-[10px] text-medium-green font-semibold mt-0.5">
+                                XI TKJ 2
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <span class="shrink-0 px-2 py-1 rounded-full bg-amber-100 text-amber-700 text-[9px] font-bold">
+                        Menunggu
+                    </span>
+
+                </div>
+
+                <div class="flex items-center justify-between mt-2.5 pt-2 border-t border-amber-100">
+
+                    <div class="flex items-center gap-1.5 text-[10px] text-gray-500">
+                        <i class="fa-regular fa-clock"></i>
+                        10.00 - 10.40
+                    </div>
+
+                    <span class="text-[9px] text-gray-400">
+                        21 Jul 2026, 09:30
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Jurnal 3 -->
+            <div class="p-3 rounded-xl border border-emerald-100 bg-emerald-50/40">
+
+                <div class="flex items-start justify-between gap-3">
+
+                    <div class="flex items-start gap-2.5 min-w-0">
+
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-check text-xs"></i>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="text-xs font-extrabold text-dark-green truncate">
+                                MATEMATIKA
+                            </p>
+
+                            <p class="text-[10px] text-medium-green font-semibold mt-0.5">
+                                XI TKI 2
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <span class="shrink-0 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[9px] font-bold">
+                        Tervalidasi
+                    </span>
+
+                </div>
+
+                <div class="flex items-center justify-between mt-2.5 pt-2 border-t border-emerald-100">
+
+                    <div class="flex items-center gap-1.5 text-[10px] text-gray-500">
+                        <i class="fa-regular fa-clock"></i>
+                        11.00 - 11.40
+                    </div>
+
+                    <span class="text-[9px] text-gray-400">
+                        21 Jul 2026, 09:30
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= DESKTOP ================= -->
+        <div class="hidden md:block border border-gray-100 rounded-xl overflow-hidden">
+
+            <table class="w-full text-left border-collapse text-xs">
+
+                <thead>
+                    <tr class="text-gray-400 font-extrabold text-[10px] uppercase tracking-wider border-b border-gray-100 bg-gray-50/50">
+
+                        <th class="p-3 w-10"></th>
+                        <th class="p-3">Mata Pelajaran</th>
+                        <th class="p-3">Kelas</th>
+                        <th class="p-3">Jam</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3">Keterangan</th>
+
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100 font-medium text-gray-700">
+
+                    <tr class="hover:bg-gray-50 transition">
+
+                        <td class="p-3 text-center">
+                            <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                        </td>
+
+                        <td class="p-3 font-bold text-dark-green">
+                            MATEMATIKA
+                        </td>
+
+                        <td class="p-3">
+                            XI PPLG 1
+                        </td>
+
+                        <td class="p-3">
+                            09.00 - 09.40
+                        </td>
+
+                        <td class="p-3">
+                            <span class="text-emerald-600 font-bold">
+                                Tervalidasi
+                            </span>
+                        </td>
+
+                        <td class="p-3 text-gray-400">
+                            21 Juli 2026, 08:40
+                        </td>
+
+                    </tr>
+
+
+                    <tr class="hover:bg-gray-50 transition">
+
+                        <td class="p-3 text-center">
+                            <i class="fa-regular fa-clock text-amber-500"></i>
+                        </td>
+
+                        <td class="p-3 font-bold text-dark-green">
+                            MATEMATIKA
+                        </td>
+
+                        <td class="p-3">
+                            XI TKJ 2
+                        </td>
+
+                        <td class="p-3">
+                            10.00 - 10.40
+                        </td>
+
+                        <td class="p-3">
+                            <span class="text-amber-500 font-bold">
+                                Menunggu Validasi
+                            </span>
+                        </td>
+
+                        <td class="p-3 text-gray-400">
+                            21 Juli 2026, 09:30
+                        </td>
+
+                    </tr>
+
+
+                    <tr class="hover:bg-gray-50 transition">
+
+                        <td class="p-3 text-center">
+                            <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                        </td>
+
+                        <td class="p-3 font-bold text-dark-green">
+                            MATEMATIKA
+                        </td>
+
+                        <td class="p-3">
+                            XI TKI 2
+                        </td>
+
+                        <td class="p-3">
+                            11.00 - 11.40
+                        </td>
+
+                        <td class="p-3">
+                            <span class="text-emerald-600 font-bold">
+                                Tervalidasi
+                            </span>
+                        </td>
+
+                        <td class="p-3 text-gray-400">
+                            21 Juli 2026, 09:30
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
 
     </main>
 
     <!-- MODAL JADWAL HARI INI -->
-<div class="modal-jadwal" id="modalJadwal">
-
-    <div class="modal-content">
-
-        <div class="modal-header">
-            <div>
-                <h2>Jadwal Mengajar Hari Ini</h2>
-                <p>Selasa, 21 Juli 2026</p>
+    <div id="modalJadwal" class="fixed inset-0 bg-dark-green/60 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto shadow-2xl space-y-4">
+            <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div>
+                    <h2 class="text-base font-extrabold text-dark-green">Jadwal Mengajar Hari Ini</h2>
+                    <p class="text-xs text-medium-green font-medium">Selasa, 21 Juli 2026</p>
+                </div>
+                <button onclick="closeModal('modalJadwal')" class="w-8 h-8 rounded-full bg-emerald-50 hover:bg-mint-green text-dark-green flex items-center justify-center text-sm transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-
-            <button class="modal-close" id="tutupModal">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <div class="jadwal-item">
-            <div class="jadwal-waktu">
-                09.00 - 09.40
-            </div>
-
-            <div class="jadwal-info">
-                <div class="jadwal-mapel">MATEMATIKA</div>
-                <div class="jadwal-kelas">XI PPLG 1</div>
-            </div>
-
-            <div class="jadwal-ruang">
-                Ruang 18
-            </div>
-        </div>
-
-        <div class="jadwal-item">
-            <div class="jadwal-waktu">
-                10.00 - 10.40
-            </div>
-
-            <div class="jadwal-info">
-                <div class="jadwal-mapel">MATEMATIKA</div>
-                <div class="jadwal-kelas">XI TKJ 2</div>
-            </div>
-
-            <div class="jadwal-ruang">
-                Ruang 18
+            <div class="space-y-2.5 text-xs">
+                <div class="flex items-center gap-3 p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                    <div class="w-24 font-bold text-medium-green shrink-0">09.00 - 09.40</div>
+                    <div class="flex-1">
+                        <div class="font-bold text-dark-green">MATEMATIKA</div>
+                        <div class="text-[11px] text-medium-green font-medium">XI PPLG 1</div>
+                    </div>
+                    <div class="text-[11px] font-semibold text-gray-400">Ruang 18</div>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                    <div class="w-24 font-bold text-medium-green shrink-0">10.00 - 10.40</div>
+                    <div class="flex-1">
+                        <div class="font-bold text-dark-green">MATEMATIKA</div>
+                        <div class="text-[11px] text-medium-green font-medium">XI TKJ 2</div>
+                    </div>
+                    <div class="text-[11px] font-semibold text-gray-400">Ruang 18</div>
+                </div>
             </div>
         </div>
-
-        <div class="jadwal-item">
-            <div class="jadwal-waktu">
-                11.00 - 11.40
-            </div>
-
-            <div class="jadwal-info">
-                <div class="jadwal-mapel">MATEMATIKA</div>
-                <div class="jadwal-kelas">XI TKI 2</div>
-            </div>
-
-            <div class="jadwal-ruang">
-                Ruang 18
-            </div>
-        </div>
-
-        <div class="jadwal-item">
-            <div class="jadwal-waktu">
-                13.00 - 13.40
-            </div>
-
-            <div class="jadwal-info">
-                <div class="jadwal-mapel">MATEMATIKA</div>
-                <div class="jadwal-kelas">XI DKV 2</div>
-            </div>
-
-            <div class="jadwal-ruang">
-                Ruang 18
-            </div>
-        </div>
-
     </div>
 
-</div>
+    <!-- MODAL 2: JURNAL SELESAI -->
+    <div id="modalSelesai" class="fixed inset-0 bg-dark-green/60 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto shadow-2xl space-y-4">
+            <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div>
+                    <h2 class="text-base font-extrabold text-dark-green">Daftar Jurnal Terisi Hari Ini</h2>
+                    <p class="text-xs text-medium-green font-medium">Jurnal yang sudah selesai diisi</p>
+                </div>
+                <button onclick="closeModal('modalSelesai')" class="w-8 h-8 rounded-full bg-emerald-50 hover:bg-mint-green text-dark-green flex items-center justify-center text-sm transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-2.5 text-xs">
+                <div class="p-3 bg-emerald-50/60 border border-emerald-100 rounded-xl flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-dark-green">MATEMATIKA - XI PPLG 1</div>
+                        <div class="text-[11px] text-gray-500 mt-0.5">Materi: Fungsi Kuadrat</div>
+                    </div>
+                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-md text-[10px]">Terkirim</span>
+                </div>
+                <div class="p-3 bg-emerald-50/60 border border-emerald-100 rounded-xl flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-dark-green">MATEMATIKA - XI TKI 2</div>
+                        <div class="text-[11px] text-gray-500 mt-0.5">Materi: Matrix Lanjutan</div>
+                    </div>
+                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-md text-[10px]">Terkirim</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<script>
-    const jadwalHariIni = document.getElementById('jadwalHariIni');
-    const modalJadwal = document.getElementById('modalJadwal');
-    const tutupModal = document.getElementById('tutupModal');
+    <!-- MODAL 3: BELUM DIISI -->
+    <div id="modalBelum" class="fixed inset-0 bg-dark-green/60 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto shadow-2xl space-y-4">
+            <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div>
+                    <h2 class="text-base font-extrabold text-dark-green">Jadwal Belum Diisi Jurnal</h2>
+                    <p class="text-xs text-rose-500 font-medium">Segera lengkapi jurnal mengajar Anda</p>
+                </div>
+                <button onclick="closeModal('modalBelum')" class="w-8 h-8 rounded-full bg-emerald-50 hover:bg-mint-green text-dark-green flex items-center justify-center text-sm transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-2.5 text-xs">
+                <div class="p-3 bg-rose-50/60 border border-rose-100 rounded-xl flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-dark-green">MATEMATIKA - XI TKJ 2</div>
+                        <div class="text-[11px] text-rose-600 mt-0.5">Jam Ke-3 (10.00 - 10.40)</div>
+                    </div>
+                    <a href="{{ url('/guru/jurnal') }}" class="bg-dark-green hover:bg-medium-green text-white font-bold px-3 py-1.5 rounded-lg text-[10px] transition">
+                        Isi Jurnal
+                    </a>
+                </div>
+                <div class="p-3 bg-rose-50/60 border border-rose-100 rounded-xl flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-dark-green">MATEMATIKA - XI DKV 2</div>
+                        <div class="text-[11px] text-rose-600 mt-0.5">Jam Ke-5 (13.00 - 13.40)</div>
+                    </div>
+                    <a href="{{ url('/guru/jurnal') }}" class="bg-dark-green hover:bg-medium-green text-white font-bold px-3 py-1.5 rounded-lg text-[10px] transition">
+                        Isi Jurnal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    // Buka popup
-    jadwalHariIni.addEventListener('click', function () {
-        modalJadwal.classList.add('show');
-    });
+    
+    <!-- SCRIPT REALTIME TOGGLE & MODAL -->
+    <script>
+        // Mobile Sidebar Toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-    // Tutup popup lewat tombol tetot
-    tutupModal.addEventListener('click', function () {
-        modalJadwal.classList.remove('show');
-    });
+        hamburgerBtn.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+        });
 
-    // Tutup popup kalau klik area luar popup
-    modalJadwal.addEventListener('click', function (event) {
-        if (event.target === modalJadwal) {
-            modalJadwal.classList.remove('show');
-        }
-    });
-</script>
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+        });
 
+        // Modal Popup Jadwal Hari Ini
+        const jadwalHariIni = document.getElementById('jadwalHariIni');
+        const modalJadwal = document.getElementById('modalJadwal');
+    
+
+        modalJadwal.addEventListener('click', function (event) {
+            if (event.target === modalJadwal) {
+                modalJadwal.classList.add('hidden');
+                modalJadwal.classList.remove('flex');
+            }
+        });
+
+        function closeModal(id) {
+        const modal = document.getElementById(id);
+
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+    </script>
 </body>
 </html>
