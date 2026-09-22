@@ -1,59 +1,51 @@
 <?php
 
-use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\MapelController;
 use App\Http\Controllers\Jurnal\JurnalController;
-use App\Livewire\Actions\Logout;
 
+Route::resource('mapels', MapelController::class);
 Route::get('/', [LoginController::class, 'Check']);
 
-// Route::view('dashboard', 'dashboard')redirect()->route('login')
-// ->middleware(['auth', 'verified'])
-// ->name('dashboard');
+// Guest Routes (Login)
+Route::get('/login', [LoginController::class, 'ShowLoginForm'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route::view('/login')
+// Authenticated Routes
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/login',[LoginController::class,'ShowLoginForm'])->middleware('guest')->name('login');
-Route::post('/login',[LoginController::class,'login']);
-Route::get('/logout',[LoginController::class,'logout'])->name('logout');
+    Route::view('dashboard', 'dashboard')
+        ->middleware(['verified'])
+        ->name('dashboard');
 
-Route::middleware(['auth','verified'])->group(function(){
+    Route::view('profile', 'profile')->name('profile');
 
-    // Route::post('')
-
-    // admin
-    Route::middleware(['role:admin'])->group(function(){
-        // Volt::route('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
-        Route::view('/admin/dashboard','admin/dashboard')->name('admin.dashboard');
-
+    // Admin Group
+    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::view('/dashboard', 'admin/dashboard')->name('dashboard');  
+        Route::resource('mapels', MapelController::class);               
     });
 
-    Route::middleware(['role:guru'])->group(function () {
-        // Volt::route('/guru/dashboard', 'guru.dashboard')->name('guru.dashboard');
-        Route::view('/guru/dashboard','guru/dashboard')->name('guru.dashboard');
-        Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
-        Route::post('/guru/jurnal/create',[JurnalController::class,'create'])->name('guru.jurnal.create');
-        Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
+    // Guru Group
+    Route::middleware(['role:guru'])->prefix('guru')->name('guru.')->group(function () {
+        Route::view('/dashboard', 'guru/dashboard')->name('dashboard');  // Route: guru.dashboard
+        Route::get('/jurnal', [JurnalController::class, 'form'])->name('jurnal');
+        Route::post('/jurnal/create', [JurnalController::class, 'create'])->name('jurnal.create');
+        Route::post('/jurnal/create-detail', [JurnalController::class, 'AddDetail'])->name('jurnal.detail');
     });
 
-    Route::middleware(['role:piket'])->group(function () {
-        Route::view('/piket/dashboard','piket/dashboard')->name('piket.dashboard');
-        // Volt::route('/piket/dashboard', 'piket.dashboard')->name('piket.dashboard');
-    
+    // Piket Group
+    Route::middleware(['role:piket'])->prefix('piket')->name('piket.')->group(function () {
+        Route::view('/dashboard', 'piket/dashboard')->name('dashboard');  // Route: piket.dashboard
     });
 
-    Route::middleware(['role:sekre'])->group(function () {
-        Route::view('/sekre/dashboard','sekre/dashboard')->name('sekre.dashboard');
-        // Volt::route('/sekre/dashboard', 'sekre.dashboard')->name('sekre.dashboard');
-       
+    // Sekretaris Group
+    Route::middleware(['role:sekre'])->prefix('sekre')->name('sekre.')->group(function () {
+        Route::view('/dashboard', 'sekre/dashboard')->name('dashboard');  // Route: sekre.dashboard
     });
 
 });
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
 
 require __DIR__.'/auth.php';
