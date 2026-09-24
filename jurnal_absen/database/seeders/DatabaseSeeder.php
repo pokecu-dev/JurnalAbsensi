@@ -34,7 +34,15 @@ class DatabaseSeeder extends Seeder
         Siswa::factory(50)->create();
 
         $this->call([
+<<<<<<< HEAD
             JurnalSeeder::class
+=======
+            UserSeeder::class,
+            ClassSeeder::class,
+            MapelSeeder::class,
+            JadwalSeeder::class,
+            JurnalSeeder::class,
+>>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
         ]);
 
 
