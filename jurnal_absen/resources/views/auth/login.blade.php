@@ -8,10 +8,14 @@
 
     <style>
         :root {
-            --primary-color: #89D7B7;
-            --secondary-color: #428475;
-            --background-color: #1A312C;
-            --text-color: #ffff;
+            --primary-light: #A7E4CA; 
+            --primary-main: #7ED0AC;   
+            --background-dark: #162C25; 
+            --input-bg: #FEFCE8;      
+            --text-dark: #000000;
+            --text-light: #FFFFFF;
+            --text-muted: #94A3B8;
+            --circle-gradient: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-main) 100%);
         }
 
         * {
@@ -25,13 +29,7 @@
         body {
             width: 100%;
             min-height: 100%;
-        }
-
-        body {
-            min-height: 100vh;
-            background: var(--background-color);
-            display: flex;
-            position: relative;
+            background: var(--background-dark);
             overflow-x: hidden;
         }
 
@@ -44,7 +42,7 @@
             min-height: 100vh;
             display: flex;
             overflow: hidden;
-            background: var(--background-color);
+            background: var(--background-dark);
             position: relative;
             z-index: 2;
         }
@@ -58,7 +56,7 @@
             min-height: 100vh;
             position: relative;
             overflow: hidden;
-            background: var(--background-color);
+            background: var(--background-dark);
             padding: 10% 8%;
             display: flex;
             justify-content: flex-start;
@@ -68,9 +66,9 @@
         .welcome-section::before {
             content: "";
             position: absolute;
-            width: 130%;
+            width: 125%;
             aspect-ratio: 1 / 1;
-            background: var(--primary-color);
+            background: var(--circle-gradient);
             border-radius: 50%;
             top: -55%;
             left: -30%;
@@ -87,13 +85,13 @@
             font-size: 52px;
             font-weight: 700;
             margin-bottom: 25px;
-            color: #000;
+            color:var(--text-dark);
         }
 
         .welcome-content p {
             font-size: 13px;
             line-height: 1.7;
-            color: #000;
+            color:var(--text-dark);
             font-weight: 500;
         }
 
@@ -102,7 +100,7 @@
         .circle {
             position: absolute;
             border-radius: 50%;
-            background: var(--primary-color);
+            background: var(--circle-gradient);
             z-index: 4;
         }
 
@@ -125,13 +123,13 @@
 
         .bg-circle-bottom-right {
             position: absolute;
-            width: 290px;
-            height: 290px;
-            background: var(--primary-color);
+            width: 200px;
+            height: 200px;
+            background: var(--circle-gradient);
             border-radius: 50%;
-            bottom: -120px;
+            bottom: 0px;
             right: -50px;
-            z-index: 3;
+            z-index: 2;
             pointer-events: none;
         }
 
@@ -142,9 +140,9 @@
         .login-section {
             width: 50%;
             min-height: 100vh;
-            background: var(--background-color);
+            background: var(--background-dark);
             padding: 10% 8%;
-            color: var(--text-color);
+            color: var(--text-light);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -241,41 +239,11 @@
         }
 
         .login-button:hover {
-            background: var(--primary-color);
+            background: var(--circle-gradient);
             color: #ffffff;
             transform: translateY(-1px);
         }
-
-        /* =================================================
-           TABLET
-        ================================================= */
-
-        @media (max-width: 900px) and (min-width: 601px) {
-
-            .welcome-section {
-                padding: 12% 6%;
-            }
-
-            .welcome-content h1 {
-                font-size: 42px;
-            }
-
-            .login-section {
-                padding: 8% 6%;
-            }
-
-            .login-section h2 {
-                font-size: 42px;
-            }
-
-            .login-description {
-                margin-bottom: 30px;
-            }
-
-            .input-group {
-                max-width: 100%;
-            }
-        }
+        
 
         /* =================================================
            HP
@@ -283,33 +251,29 @@
 
         @media (max-width: 600px) {
 
-            body {
-                min-height: 100dvh;
-                overflow-x: hidden;
-            }
-
             .login-container {
-                min-height: 100dvh;
                 flex-direction: column;
-                overflow-y: auto;
+                justify-content: flex-start;
                 overflow-x: hidden;
             }
 
-            /* WELCOME DI ATAS */
+            /* WELCOME DI ATAS — bentuk DOME penuh */
 
             .welcome-section {
                 width: 100%;
-                min-height: 240px;
-                height: 240px;
-                padding: 50px 28px 30px;
-                flex-shrink: 0;
+                min-height: 300px;
+                padding: 64px 32px 90px;
+                background: var(--circle-gradient);
+                border-radius: 0 0 46px 46px;
+                position: relative;
+                z-index: 1;
+                overflow: visible;
             }
 
+            /* pseudo-circle lama tidak dipakai lagi di mobile, digantikan
+               background langsung pada .welcome-section */
             .welcome-section::before {
-                width: 450px;
-                height: 450px;
-                top: -330px;
-                left: -120px;
+                content: none;
             }
 
             .welcome-content {
@@ -317,58 +281,65 @@
             }
 
             .welcome-content h1 {
-                font-size: 38px;
-                margin-bottom: 10px;
+                font-size: 32px;
+                margin-bottom: 12px;
             }
 
             .welcome-content p {
-                font-size: 12px;
-                line-height: 1.6;
-                max-width: 310px;
+                font-size: 13px;
+                line-height: 1.5;
+                max-width: 90%;
             }
 
-            /* BULATAN DEKORASI */
+            /* BULATAN DEKORASI — nyembul di belakang lengkungan dome */
+
+            .circle {
+                z-index: -1;
+            }
 
             .circle-one {
-                width: 90px;
-                height: 90px;
-                bottom: -45px;
-                left: -25px;
+                width: 120px;
+                height: 120px;
+                bottom: -60px;
+                left: 6%;
+                transform: none;
             }
 
             .circle-two {
-                width: 55px;
-                height: 55px;
-                bottom: 15px;
-                left: 70%;
+                width: 68px;
+                height: 68px;
+                bottom: -32px;
+                left: 40%;
+                transform: none;
             }
 
             .bg-circle-bottom-right {
-                width: 130px;
-                height: 130px;
-                bottom: -70px;
-                right: -45px;
+                width: 140px;
+                height: 140px;
+                bottom: -30px;
+                right: -30px;
             }
 
             /* LOGIN */
 
             .login-section {
                 width: 100%;
-                min-height: calc(100dvh - 240px);
-                height: auto;
-                padding: 45px 28px 50px;
+                min-height: auto;
+                flex: 1;
+                padding: 28px 28px 44px;
                 justify-content: flex-start;
+                z-index: 2;
             }
 
             .login-section h2 {
-                font-size: 38px;
-                margin-bottom: 8px;
+                font-size: 30px;
+                margin-bottom: 6px;
             }
 
             .login-description {
-                font-size: 12px;
-                margin-bottom: 28px;
-                max-width: 100%;
+                font-size: 13px;
+                margin-bottom: 26px;
+                color: #8E9F98;
             }
 
             form {
@@ -376,88 +347,85 @@
             }
 
             .input-group {
-                width: 100%;
-                max-width: none;
+                max-width: 100%;
                 margin-bottom: 18px;
             }
 
             .input-group input {
                 width: 100%;
                 height: 54px;
-                border-radius: 12px;
-                font-size: 14px;
+                border-radius: 18px;
+                background: var(--input-bg);
+                color: var(--text-dark);
+                font-weight: 600;
             }
 
-            .input-group i.input-icon {
-                left: 16px;
+            .input-group input::placeholder {
+                color: #A9A98C;
             }
 
+            .input-group i.input-icon,
             .input-group i.eye-icon {
-                right: 12px;
-                padding: 10px;
+                color: #4A4A3A;
             }
 
-            /* TOMBOL FULL WIDTH DI HP */
+            /* TOMBOL FULL WIDTH, LEBIH BULAT (PILL) */
 
             .login-button {
                 width: 100%;
-                height: 52px;
-                margin-top: 10px;
-                border-radius: 12px;
-                font-size: 15px;
+                height: 54px;
+                margin-top: 14px;
+                margin-left: 0;
+                border-radius: 20px;
+                background: var(--primary-main);
+            }
+
+            .login-button:hover {
+                background: var(--circle-gradient);
             }
         }
 
         /* =================================================
-           HP KECIL
+           HP KECIL (<380px)
         ================================================= */
 
         @media (max-width: 380px) {
 
             .welcome-section {
-                min-height: 210px;
-                height: 210px;
-                padding: 40px 22px 25px;
-            }
-
-            .welcome-section::before {
-                width: 390px;
-                height: 390px;
-                top: -290px;
-                left: -110px;
+                min-height: 250px;
+                padding: 48px 22px 80px;
+                border-radius: 0 0 50% 50% / 0 0 44px 44px;
             }
 
             .welcome-content h1 {
-                font-size: 32px;
-                margin-bottom: 8px;
+                font-size: 26px;
             }
 
             .welcome-content p {
                 font-size: 11px;
-                max-width: 280px;
             }
 
             .login-section {
-                min-height: calc(100dvh - 210px);
-                padding: 35px 22px 40px;
+                padding: 20px 20px 32px;
             }
 
             .login-section h2 {
-                font-size: 32px;
+                font-size: 26px;
             }
 
-            .login-description {
-                margin-bottom: 24px;
+            .circle-one {
+                width: 70px;
+                height: 70px;
+                bottom: -24px;
             }
 
-            .input-group input {
-                height: 52px;
-            }
-
-            .login-button {
-                height: 50px;
+            .circle-two {
+                width: 42px;
+                height: 42px;
+                bottom: -12px;
             }
         }
+
     </style>
 </head>
 
