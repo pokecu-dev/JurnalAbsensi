@@ -54,14 +54,39 @@
             </nav>
         </div>
 
-        <div class="space-y-2 pt-4 border-t border-white/10">
-            <button class="w-full flex items-center gap-3 px-4 py-3 text-xs font-semibold bg-white/5 hover:bg-white/15 rounded-xl transition text-left">
-                <i class="fa-regular fa-user w-4"></i> Profile
-            </button>
-            <button class="w-full flex items-center gap-3 px-4 py-3 text-xs font-semibold bg-white/5 hover:bg-white/15 rounded-xl transition text-left text-red-300">
-                <i class="fa-solid fa-arrow-right-from-bracket w-4"></i> Logout
-            </button>
+        <!-- ================================================= -->
+        <!-- FOOTER SIDEBAR -->
+        <!-- ================================================= -->
+
+        <div class="flex flex-col gap-1
+                    pt-3
+                    border-t border-white/10
+                    text-xs">
+
+
+           <a href="{{ url('/admin/akun') }}"
+                class="flex items-center gap-2 px-2 py-2 rounded-lg
+                        hover:bg-white/10
+                        active:scale-[0.98]
+                        transition-all duration-200">
+                    <i class="fa-solid fa-user-circle w-4"></i>
+                    <span>Akun Admin</span>
+            </a>
+
+
+            <!-- LOGOUT -->
+           <a href="{{ route('logout') }}"
+            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+                    hover:bg-white/10
+                    active:scale-[0.98]
+                    transition-all duration-200">
+                <i class="fa-solid fa-right-from-bracket w-4"></i>
+                <span>Logout</span>
+            </a>
+
         </div>
+
+    </aside>
     </aside>
 
     <!-- MAIN CONTENT -->
