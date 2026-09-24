@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="overscroll-none">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring Jurnal Kelas - Waka</title>
+    <title>Monitoring Jurnal Kelas</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -77,158 +77,409 @@
             </nav>
         </div>
 
+        <!-- ================================================= -->
         <!-- FOOTER SIDEBAR -->
-        <div class="flex flex-col gap-1 pt-3 border-t border-white/10 text-xs">
-            <button class="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-300 hover:bg-white/5 transition w-full text-left">
-                <i class="fa-solid fa-gear w-4 text-center"></i> Pengaturan
-            </button>
-            <button class="flex items-center gap-3 px-3 py-2 rounded-xl text-red-400 hover:bg-red-500/10 transition w-full text-left">
-                <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i> Logout
-            </button>
+        <!-- ================================================= -->
+
+        <div class="flex flex-col gap-1
+                    pt-3
+                    border-t border-white/10
+                    text-xs">
+
+
+           <a href="{{ url('/admin/akun') }}"
+                class="flex items-center gap-2 px-2 py-2 rounded-lg
+                        hover:bg-white/10
+                        active:scale-[0.98]
+                        transition-all duration-200">
+                    <i class="fa-solid fa-user-circle w-4"></i>
+                    <span>Akun Admin</span>
+            </a>
+
+
+            <!-- LOGOUT -->
+           <a href="{{ route('logout') }}"
+            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+                    hover:bg-white/10
+                    active:scale-[0.98]
+                    transition-all duration-200">
+                <i class="fa-solid fa-right-from-bracket w-4"></i>
+                <span>Logout</span>
+            </a>
+
         </div>
+
     </aside>
 
     <!-- 2. MAIN CONTENT -->
     <main class="flex-1 p-4 md:p-6 overflow-y-auto">
-        
-        <!-- HEADER RINGKAS (Tanpa Paragraf Panjang) -->
-        <header class="mb-5 flex justify-between items-center">
-            <div>
-                <h1 class="text-xl md:text-2xl font-extrabold text-dark-green">Monitoring Jurnal Kelas</h1>
-                <p class="text-xs text-medium-green font-medium">Pantau keterisian buku jurnal KBM harian seluruh rombel.</p>
-            </div>
-            <div class="text-right text-xs font-semibold text-gray-500 hidden sm:block">
-                <span>Selasa, 21 Juli 2026</span>
-            </div>
-        </header>
 
-        <!-- KARTU METRIK RINGKAS (Tombol 'Tambah Jurnal' Sudah Dihapus Biar Rapi) -->
-        <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-            <div class="bg-white p-3.5 rounded-2xl shadow-sm flex items-center justify-between">
-                <div>
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Rombel Aktif</span>
-                    <span class="text-xl font-black text-dark-green">24 <small class="text-xs font-medium text-emerald-600">Kelas</small></span>
-                </div>
-                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-sm">
-                    <i class="fa-solid fa-school"></i>
-                </div>
-            </div>
+        <header class="mb-5">
 
-            <div class="bg-white p-3.5 rounded-2xl shadow-sm flex items-center justify-between">
-                <div>
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Keterisian KBM</span>
-                    <span class="text-xl font-black text-dark-green">91.7%</span>
-                </div>
-                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-            </div>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-            <div class="bg-white p-3.5 rounded-2xl shadow-sm flex items-center justify-between">
-                <div>
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Valid Sekre</span>
-                    <span class="text-xl font-black text-dark-green">118 <small class="text-xs font-medium text-gray-400">Sesi</small></span>
-                </div>
-                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
-            </div>
+        <!-- JUDUL -->
+        <div>
+            <h1 class="text-xl md:text-2xl font-extrabold text-dark-green">
+                Monitoring Jurnal
+            </h1>
 
-            <div class="bg-white p-3.5 rounded-2xl shadow-sm flex items-center justify-between">
-                <div>
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Atensi Waka</span>
-                    <span class="text-xl font-black text-red-600">3 <small class="text-xs font-medium text-red-500">Sesi</small></span>
-                </div>
-                <div class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-sm">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-            </div>
-        </section>
+            <p class="text-xs text-medium-green font-medium mt-1">
+                Kelola dan pantau jurnal KBM berdasarkan kelas.
+            </p>
+        </div>
 
-        <!-- FILTER TOOLBAR (Simpel) -->
-        <section class="bg-white p-3 rounded-2xl shadow-sm mb-5 flex flex-wrap gap-2 items-center">
-            <input type="date" value="2026-07-21" class="bg-gray-50 border border-gray-200 text-xs font-bold rounded-xl px-3 py-2 text-dark-green outline-none">
-            
-            <select class="bg-gray-50 border border-gray-200 text-xs font-bold rounded-xl px-3 py-2 text-dark-green outline-none">
-                <option>Tingkat XI (Fase F)</option>
+        <!-- TANGGAL + JAM + AKSI -->
+        <div class="flex items-center justify-between sm:justify-end gap-4">
+
+            <a href="#"
+               class="bg-dark-green hover:bg-medium-green
+                      text-white text-xs font-bold
+                      px-4 py-2.5 rounded-xl
+                      transition inline-flex items-center gap-2
+                      whitespace-nowrap">
+
+                <i class="fa-solid fa-plus"></i>
+                Tambah Jurnal
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+       <!-- FILTER JURNAL -->
+<section class="bg-white p-4 rounded-2xl shadow-sm mb-5">
+    <div class="flex flex-col sm:flex-row gap-3">
+
+        <!-- Tanggal -->
+        <div class="flex-1">
+            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">
+                Tanggal
+            </label>
+
+            <input
+                type="date"
+                value="2026-07-21"
+                class="w-full bg-gray-50 border border-gray-200
+                       text-xs font-bold rounded-xl px-3 py-2.5
+                       text-dark-green outline-none
+                       focus:border-medium-green">
+        </div>
+
+        <!-- Kelas -->
+        <div class="flex-1">
+            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">
+                Kelas
+            </label>
+
+            <select
+                class="w-full bg-gray-50 border border-gray-200
+                       text-xs font-bold rounded-xl px-3 py-2.5
+                       text-dark-green outline-none
+                       focus:border-medium-green">
+
+                <option>Semua Kelas</option>
+                <option>X AKL 1</option>
+                <option>X AKL 2</option>
+                <option>XI RPL 1</option>
+                <option>XI RPL 2</option>
+                <option>XI TKJ 1</option>
             </select>
+        </div>
 
-            <select class="bg-gray-50 border border-gray-200 text-xs font-bold rounded-xl px-3 py-2 text-dark-green outline-none">
-                <option>Semua Konsentrasi Keahlian</option>
-            </select>
+        <!-- Search -->
+        <div class="flex-1">
+            <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">
+                Cari
+            </label>
 
-            <input type="text" placeholder="Cari kelas / guru..." class="bg-gray-50 border border-gray-200 text-xs font-medium rounded-xl px-3 py-2 text-dark-green outline-none flex-1 min-w-[150px]">
-        </section>
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass
+                          absolute left-3 top-1/2 -translate-y-1/2
+                          text-gray-400 text-xs"></i>
 
-        <!-- KARTU KELAS 1 (XI RPL 2) -->
-        <section class="bg-white rounded-2xl shadow-sm overflow-hidden mb-4 border border-emerald-100">
-            <!-- Header Kartu Kelas -->
-            <div class="bg-emerald-50/50 p-4 border-b border-emerald-100 flex flex-wrap justify-between items-center gap-2">
-                <div class="flex items-center gap-3">
-                    <div class="bg-dark-green text-mint-green font-black px-3 py-1.5 rounded-xl text-xs">
-                        XI RPL 2
-                    </div>
-                    <div>
-                        <div class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                            Kelas XI Rekayasa Perangkat Lunak 2 
-                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-md">4/4 Sesi Valid</span>
-                        </div>
-                        <div class="text-[11px] text-gray-500 font-medium">
-                            Walikelas: <b>Budi Santoso, S.Kom.</b> • Presensi: <span class="text-emerald-700 font-bold">34/36 Hadir</span>
-                        </div>
-                    </div>
+                <input
+                    type="text"
+                    placeholder="Cari guru / mata pelajaran..."
+                    class="w-full bg-gray-50 border border-gray-200
+                           text-xs font-medium rounded-xl
+                           pl-9 pr-3 py-2.5
+                           text-dark-green outline-none
+                           focus:border-medium-green">
+            </div>
+        </div>
+
+    </div>
+</section>
+        <!-- KELAS XI RPL 2 -->
+<section class="bg-white rounded-2xl shadow-sm overflow-hidden mb-5">
+
+    <!-- HEADER KELAS -->
+    <div class="p-4 border-b border-gray-100">
+
+        <div class="flex flex-col sm:flex-row sm:items-center
+                    justify-between gap-3">
+
+            <div class="flex items-center gap-3">
+
+                <div class="w-11 h-11 rounded-xl
+                            bg-dark-green text-mint-green
+                            flex items-center justify-center
+                            font-black text-xs">
+                    XI
                 </div>
-                <a href="{{ url('/admin/data_kelas/1/siswa') }}" class="bg-white hover:bg-gray-50 text-dark-green border border-gray-200 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-users text-medium-green"></i> Inspeksi Siswa
-                </a>
+
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+
+                <h2 class="text-sm font-extrabold text-dark-green">
+                    XI RPL 2
+                </h2>
+
+                <span class="bg-emerald-50 text-emerald-700
+                            text-[10px] font-bold
+                            px-2 py-0.5 rounded-md">
+                    34/36 hadir
+                </span>
+
             </div>
 
-            <!-- List Jam Pelajaran Kronologis -->
-            <div class="p-4 space-y-3 text-xs">
-                <!-- Jam 1-2 -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-xl bg-gray-50 hover:bg-emerald-50/30 transition gap-2">
-                    <div class="flex items-start gap-3">
-                        <div class="font-bold text-gray-400 w-20 shrink-0">Jam 1 - 2<br><small class="font-normal text-[10px]">07.00 - 08.20</small></div>
-                        <div>
-                            <div class="font-extrabold text-dark-green">Matematika Terapan</div>
-                            <div class="text-[11px] text-gray-500">Sulistyowati, S.Pd. • <span class="text-emerald-600 font-medium">Materi: Polynomial & Teorema Sisa</span></div>
-                        </div>
-                    </div>
-                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-lg text-[10px] self-start sm:self-center">
-                        <i class="fa-solid fa-check-double mr-1"></i> Validasi Sekretaris
-                    </span>
+            <p class="text-[11px] text-gray-400 mt-0.5">
+                Rabu, 23 September 2026
+            </p>
                 </div>
 
-                <!-- Jam 3-4 -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-xl bg-gray-50 hover:bg-emerald-50/30 transition gap-2">
-                    <div class="flex items-start gap-3">
-                        <div class="font-bold text-gray-400 w-20 shrink-0">Jam 3 - 4<br><small class="font-normal text-[10px]">08.20 - 09.40</small></div>
-                        <div>
-                            <div class="font-extrabold text-dark-green">Bimbingan Konseling (BK)</div>
-                            <div class="text-[11px] text-gray-500">Widodo, S.Kom. • <span class="text-amber-600 font-medium">Tugas Piket: Asesmen Diagnostik</span></div>
-                        </div>
-                    </div>
-                    <span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-lg text-[10px] self-start sm:self-center">
-                        <i class="fa-solid fa-user-shield mr-1"></i> Disposisi Piket ACC
-                    </span>
+            </div>
+
+            <span class="self-start sm:self-center
+                         bg-emerald-50 text-emerald-700
+                         text-[10px] font-bold
+                         px-2.5 py-1 rounded-lg">
+                3 Jurnal
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- DAFTAR JURNAL -->
+    <div class="p-4 space-y-3">
+
+       <!-- JURNAL 1 -->
+<div class="border border-gray-100 rounded-xl p-3
+            hover:border-emerald-200
+            transition">
+
+    <div class="flex flex-col sm:flex-row
+                sm:items-center justify-between gap-3">
+
+        <div class="flex items-start gap-3">
+
+            <!-- JAM -->
+            <div class="w-14 shrink-0 text-center">
+                <div class="text-xs font-extrabold text-dark-green">
+                    1 - 2
                 </div>
 
-                <!-- Jam 5-6 -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-xl bg-gray-50 hover:bg-emerald-50/30 transition gap-2">
-                    <div class="flex items-start gap-3">
-                        <div class="font-bold text-gray-400 w-20 shrink-0">Jam 5 - 6<br><small class="font-normal text-[10px]">10.00 - 11.20</small></div>
-                        <div>
-                            <div class="font-extrabold text-dark-green">Bahasa Daerah (Jawa)</div>
-                            <div class="text-[11px] text-gray-500">Laili Ermawati, M.Pd. • <span class="text-emerald-600 font-medium">Materi: Geguritan</span></div>
-                        </div>
-                    </div>
-                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-lg text-[10px] self-start sm:self-center">
-                        <i class="fa-solid fa-check-double mr-1"></i> Validasi Sekretaris
-                    </span>
+                <div class="text-[9px] text-gray-400 mt-0.5">
+                    07.00 - 08.20
                 </div>
             </div>
-            <!-- Footnote Panjang Sudah Dihapus Agar Tidak Kebanyakan Teks -->
-        </section>
+
+            <!-- DETAIL -->
+            <div class="min-w-0">
+
+                <h3 class="text-xs font-extrabold text-dark-green">
+                    Matematika Terapan
+                </h3>
+
+                <p class="text-[11px] text-gray-500 mt-1">
+                    Sulistyowati, S.Pd.
+                </p>
+
+                <p class="text-[10px] text-gray-400 mt-1">
+                    Materi:
+                    <span class="text-gray-600">
+                        Polynomial & Teorema Sisa
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- STATUS + DETAIL -->
+        <div class="flex items-center gap-2 self-start sm:self-center">
+
+            <span class="bg-emerald-50 text-emerald-700
+                         text-[10px] font-bold
+                         px-2.5 py-1 rounded-lg">
+                <i class="fa-solid fa-check mr-1"></i>
+                Terisi
+            </span>
+
+            <a href="#"
+               class="inline-flex items-center gap-1.5
+                      bg-dark-green text-white
+                      hover:bg-medium-green
+                      text-[10px] font-bold
+                      px-2.5 py-1 rounded-lg
+                      transition">
+                <i class="fa-solid fa-eye"></i>
+                Detail
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+        <!-- JURNAL 2 -->
+        <div class="border border-gray-100 rounded-xl p-3
+                    hover:border-emerald-200
+                    transition">
+
+            <div class="flex flex-col sm:flex-row
+                        sm:items-center justify-between gap-3">
+
+                <div class="flex items-start gap-3">
+
+                    <!-- JAM -->
+                    <div class="w-14 shrink-0 text-center">
+                        <div class="text-xs font-extrabold text-dark-green">
+                            3 - 4
+                        </div>
+
+                        <div class="text-[9px] text-gray-400 mt-0.5">
+                            08.20 - 09.40
+                        </div>
+                    </div>
+
+                    <!-- DETAIL -->
+                    <div class="min-w-0">
+
+                        <h3 class="text-xs font-extrabold text-dark-green">
+                            Bimbingan Konseling
+                        </h3>
+
+                        <p class="text-[11px] text-gray-500 mt-1">
+                            Widodo, S.Kom.
+                        </p>
+
+                        <p class="text-[10px] text-gray-400 mt-1">
+                            Materi:
+                            <span class="text-gray-600">
+                                Asesmen Diagnostik
+                            </span>
+                        </p>
+
+                    </div>
+
+                </div>
+
+               <div class="flex items-center gap-2 self-start sm:self-center">
+
+                    <span class="bg-emerald-50 text-emerald-700
+                                text-[10px] font-bold
+                                px-2.5 py-1 rounded-lg">
+                        <i class="fa-solid fa-check mr-1"></i>
+                        Terisi
+                    </span>
+
+                    <a href="#"
+                    class="inline-flex items-center gap-1.5
+                            bg-dark-green text-white
+                            hover:bg-medium-green
+                            text-[10px] font-bold
+                            px-2.5 py-1 rounded-lg
+                            transition">
+                        <i class="fa-solid fa-eye"></i>
+                        Detail
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- JURNAL 3 -->
+        <div class="border border-gray-100 rounded-xl p-3
+                    hover:border-emerald-200
+                    transition">
+
+            <div class="flex flex-col sm:flex-row
+                        sm:items-center justify-between gap-3">
+
+                <div class="flex items-start gap-3">
+
+                    <!-- JAM -->
+                    <div class="w-14 shrink-0 text-center">
+                        <div class="text-xs font-extrabold text-dark-green">
+                            5 - 6
+                        </div>
+
+                        <div class="text-[9px] text-gray-400 mt-0.5">
+                            10.00 - 11.20
+                        </div>
+                    </div>
+
+                    <!-- DETAIL -->
+                    <div class="min-w-0">
+
+                        <h3 class="text-xs font-extrabold text-dark-green">
+                            Bahasa Daerah
+                        </h3>
+
+                        <p class="text-[11px] text-gray-500 mt-1">
+                            Laili Ermawati, M.Pd.
+                        </p>
+
+                        <p class="text-[10px] text-gray-400 mt-1">
+                            Materi:
+                            <span class="text-gray-600">
+                                Geguritan
+                            </span>
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="flex items-center gap-2 self-start sm:self-center">
+
+                    <span class="bg-emerald-50 text-emerald-700
+                                text-[10px] font-bold
+                                px-2.5 py-1 rounded-lg">
+                        <i class="fa-solid fa-check mr-1"></i>
+                        Terisi
+                    </span>
+
+                    <a href="#"
+                    class="inline-flex items-center gap-1.5
+                            bg-dark-green text-white
+                            hover:bg-medium-green
+                            text-[10px] font-bold
+                            px-2.5 py-1 rounded-lg
+                            transition">
+                        <i class="fa-solid fa-eye"></i>
+                        Detail
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
     </main>
 
