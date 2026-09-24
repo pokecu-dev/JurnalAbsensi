@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-<<<<<<< HEAD
         // Schema::table('class', function (Blueprint $table) {
             // $table->foreignId('id_wali_kelas')->nullable()->change();
         // });
-=======
-        Schema::table('class', function (Blueprint $table) {
-            $table->foreignId('id_wali_kelas')->nullable()->change();
-        });
->>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
     }
 
     /**
@@ -27,14 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-<<<<<<< HEAD
         // Schema::table('class', function (Blueprint $table) {
         //     $table->foreignId('id_wali_kelas')->nullable(false)->change();
         // });
-=======
-        Schema::table('class', function (Blueprint $table) {
-            $table->foreignId('id_wali_kelas')->nullable(false)->change();
-        });
->>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
     }
 };
