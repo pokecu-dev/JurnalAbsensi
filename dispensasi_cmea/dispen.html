@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permohonan Dispensasi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #122118; /* Warna latar belakang gelap khas hijau tua */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #162a1e; /* Warna kartu sedikit lebih terang dari background */
+            border: 2px solid #285435; /* Garis pinggir hijau */
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            color: #ffffff;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #6da37f;
+            margin-bottom: 8px;
+        }
+
+        .header-title span {
+            margin-right: 8px;
+            font-size: 24px;
+        }
+
+        .header-desc {
+            font-size: 14px;
+            color: #a3c1ad;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            background-color: #1e3828;
+            border: 1.5px solid #2f5e42;
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #7b9e87;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #52b788;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Styling khusus untuk input file */
+        input[type="file"] {
+            padding: 9px 14px;
+            cursor: pointer;
+            color: #a3c1ad;
+        }
+
+        input[type="file"]::file-selector-button {
+            background-color: #2f5e42;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background 0.2s;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #3a7452;
+        }
+
+        .btn-wa {
+            width: 100%;
+            background-color: #40916c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(64, 145, 108, 0.3);
+        }
+
+        .btn-wa:hover {
+            background-color: #52b788;
+        }
+
+        .btn-wa:active {
+            transform: scale(0.98);
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #8dae99;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="header-title">
+            <span>📋</span> Permohonan Dispensasi
+        </div>
+        <div class="header-desc">
+            Isi data siswa yang izin dispensasi, lalu kirim ke admin piket via WhatsApp.
+        </div>
+
+        <form id="dispenForm" onsubmit="KirimKeWA(event)">
+            <div class="form-group">
+                <label for="namaSiswa">Nama Siswa</label>
+                <input type="text" id="namaSiswa" placeholder="Contoh: Budi Santoso" required>
+            </div>
+
+            <div class="form-group">
+                <label for="kelas">Kelas</label>
+                <input type="text" id="kelas" placeholder="Contoh: XI IPA 2" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tanggal">Tanggal Dispensasi</label>
+                <input type="date" id="tanggal" required>
+            </div>
+
+            <div class="form-group">
+                <label for="jam">Jam / Sesi</label>
+                <input type="text" id="jam" placeholder="Contoh: Jam ke 3-5 / Sepulang sekolah" required>
+            </div>
+
+            <div class="form-group">
+                <label for="alasan">Alasan Dispensasi</label>
+                <textarea id="alasan" placeholder="Contoh: Mengikuti lomba OSN tingkat provinsi" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="fotoSurat">Foto / Gambar Surat Dispensasi</label>
+                <input type="file" id="fotoSurat" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="namaPelapor">Nama Pelapor (Petugas Piket)</label>
+                <input type="text" id="namaPelapor" placeholder="Nama kamu" required>
+            </div>
+
+            <button type="submit" class="btn-wa">Kirim Dispensasi via WhatsApp</button>
+        </form>
+
+        <div class="footer-note">
+            Pesan akan otomatis terisi dan dikirim ke nomor admin piket.
+        </div>
+    </div>
+
+    <script>
+        // Mengatur tanggal otomatis ke hari ini saat halaman dibuka
+        document.getElementById('tanggal').valueAsDate = new Date();
+
+        function KirimKeWA(event) {
+            event.preventDefault();
+
+            // Mengambil nilai dari form
+            const namaSiswa = document.getElementById('namaSiswa').value;
+            const kelas = document.getElementById('kelas').value;
+            const tanggal = document.getElementById('tanggal').value;
+            const jam = document.getElementById('jam').value;
+            const alasan = document.getElementById('alasan').value;
+            const namaPelapor = document.getElementById('namaPelapor').value;
+            const inputFoto = document.getElementById('fotoSurat');
+
+            // Cek apakah ada file foto yang diunggah
+            let infoFoto = "Tidak ada foto yang dilampirkan.";
+            if (inputFoto.files && inputFoto.files[0]) {
+                infoFoto = `[Lampiran File/Foto: ${inputFoto.files[0].name}] (Harap lampirkan/unggah manual foto surat dispen di chat WhatsApp jika diperlukan)`;
+            }
+
+            // Menyusun format pesan WhatsApp
+            const pesan = `*PERMOHONAN DISPENSASI SISWA*%0A` +
+                          `----------------------------------%0A` +
+                          `*Nama Siswa:* ${namaSiswa}%0A` +
+                          `*Kelas:* ${kelas}%0A` +
+                          `*Tanggal:* ${tanggal}%0A` +
+                          `*Jam/Sesi:* ${jam}%0A` +
+                          `*Alasan:* ${alasan}%0A` +
+                          `*Bukti Surat:* ${infoFoto}%0A` +
+                          `*Pelapor (Piket):* ${namaPelapor}%0A` +
+                          `----------------------------------%0A` +
+                          `Mohon verifikasinya, terima kasih.`;
+
+            // Nomor WhatsApp tujuan (+6285122789026 -> 6285122789026)
+            const nomorWhatsApp = "6285122789026";
+
+            // Membuka tautan WhatsApp
+            const urlWA = `https://wa.me/${nomorWhatsApp}?text=${pesan}`;
+            window.open(urlWA, '_blank');
+        }
+    </script>
+
+</body>
+</html>
