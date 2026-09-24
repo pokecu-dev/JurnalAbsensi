@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Jurnal\JurnalController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Sekretaris\JurnalController as sekreJurnal;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -34,3 +35,6 @@ Route::delete('/jurnal/delete-detail/{detailJurnal}',[JurnalController::class,'d
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
 });
+
+
+Route::get('/sekre/jurnal/show/{jurnal}',[sekreJurnal::class,'show']);
