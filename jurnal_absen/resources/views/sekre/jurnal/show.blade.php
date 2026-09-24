@@ -244,13 +244,8 @@
                 @endif
 
                 <div class="detail-section">
-<<<<<<< HEAD
-                    <h4>Absensi Siswa ({{ $jurnal->detailJurnal->count() }})</h4>
-                    @if ($jurnal->detailJurnal->isNotEmpty())
-=======
                     <h4>Absensi Siswa ({{ $jurnal->absensis->count() }})</h4>
                     @if ($jurnal->absensis->isNotEmpty())
->>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
                         <table class="absensi-table">
                             <thead>
                                 <tr>
@@ -260,11 +255,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-<<<<<<< HEAD
                                 @foreach ($jurnal->detailJurnal as $i => $absen)
-=======
-                                @foreach ($jurnal->absensis as $i => $absen)
->>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
                                         <td>{{ $absen->nama_siswa }}</td>
