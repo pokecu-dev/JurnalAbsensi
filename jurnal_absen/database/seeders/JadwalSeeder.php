@@ -17,11 +17,20 @@ class JadwalSeeder extends Seeder
         User::factory()->count(5)->guru()->create();
 
         $teacherIds = DB::table('users')->where('role', 'guru')->pluck('id')->toArray();
+<<<<<<< HEAD
         $classIds = DB::table('classes')->pluck('id')->toArray();
         $mapelIds = DB::table('mapels')->pluck('id')->toArray();
         if (empty($classIds) || empty($teacherIds) || empty($mapelIds)) {
             return;
         }
+=======
+        $classIds = DB::table('class')->pluck('id')->toArray();
+        $mapelIds = DB::table('mapels')->pluck('id')->toArray();
+
+        // if (empty($classIds) || empty($teacherIds)) {
+        //     return;
+        // }
+>>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
 
         $days = ['senin', 'selasa', 'rabu', 'kamis', 'jumat'];
         $jadwals = [];
@@ -35,11 +44,19 @@ class JadwalSeeder extends Seeder
 
                 $jadwals[] = [
                     'teacher_id' => $teacherIds[array_rand($teacherIds)],
+<<<<<<< HEAD
                     'class_id' => $classId,
                     'mapel_id' => $mapelIds[array_rand($mapelIds)],
                     'day' => $day,
                     'start_time' => $startTime,
                     'end_time' => $endTime,
+=======
+                    'class_id'   => $classId,
+                    'mapel_id'   => $mapelIds[array_rand($mapelIds)],
+                    'day'        => $day,
+                    'start_time' => $startTime, 
+                    'end_time'   => $endTime,   
+>>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -48,6 +65,7 @@ class JadwalSeeder extends Seeder
 
         DB::table('jadwals')->insert($jadwals);
 
+<<<<<<< HEAD
         DB::table('jam_pelajarans')->insert([
 
             ['hari' => 'senin-kamis', 'jam_ke' => 1, 'waktu_mulai' => '07:00:00', 'waktu_selesai' => '07:40:00'],
@@ -81,5 +99,7 @@ class JadwalSeeder extends Seeder
             ['hari' => 'jumat', 'jam_ke' => 13, 'waktu_mulai' => '15:00:00', 'waktu_selesai' => '15:30:00'],
 
         ]);
+=======
+>>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
     }
 }

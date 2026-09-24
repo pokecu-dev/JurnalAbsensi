@@ -3,10 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Mapel extends Model
 {
-    public function jadwals() {
-        return $this->hasMany(Jadwal::class,'mapel_id');
+    public $timestamps = false;
+
+    protected $fillable = ['name'];
+
+    public function jadwals(): HasMany
+    {
+        return $this->hasMany(Jadwal::class, 'mapel_id');
     }
 }

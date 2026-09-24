@@ -4,7 +4,12 @@ use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
+<<<<<<< HEAD
 use App\Http\Controllers\Jurnal\JurnalController;
+use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
+=======
+use App\Http\Controllers\Sekretaris\JurnalController;
+>>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
 use App\Livewire\Actions\Logout;
 
 Route::get('/', [LoginController::class, 'Check']);
@@ -60,9 +65,35 @@ Route::middleware(['auth','verified'])->group(function(){
     });
 
     Route::middleware(['role:sekre'])->group(function () {
+<<<<<<< HEAD
         Route::view('/sekre/dashboard','sekre/dashboard')->name('sekre.dashboard');
         // Volt::route('/sekre/dashboard', 'sekre.dashboard')->name('sekre.dashboard');
        
+        Route::view('/sekre/dashboard', 'sekre/dashboard')->name('sekre.dashboard');
+        Route::view('/sekre/jadwal', 'sekre/jadwal')->name('sekre.jadwal');
+        Route::view('/sekre/jurnal', 'sekre/jurnal')->name('sekre.jurnal.index');
+        Route::get('/sekre/jurnal/detail/{jurnal}', [SekreJurnal::class, 'show'])
+            ->name('sekre.jurnal.show');
+        Route::post('/sekre/jurnal/{jurnal}/approve', [SekreJurnal::class, 'approve'])
+            ->name('sekre.jurnal.approve');
+        Route::post('/sekre/jurnal/{jurnal}/reject', [SekreJurnal::class, 'reject'])
+            ->name('sekre.jurnal.reject');
+
+        Route::get('/sekre/status-validasi', [SekreJurnal::class, 'index'])
+=======
+        Route::view('/sekre/dashboard', 'sekre/dashboard')->name('sekre.dashboard');
+        Route::view('/sekre/jadwal', 'sekre/jadwal')->name('sekre.jadwal');
+        Route::view('/sekre/jurnal', 'sekre/jurnal')->name('sekre.jurnal.index');
+        Route::get('/sekre/jurnal/detail/{jurnal}', [JurnalController::class, 'show'])
+            ->name('sekre.jurnal.show');
+        Route::post('/sekre/jurnal/{jurnal}/approve', [JurnalController::class, 'approve'])
+            ->name('sekre.jurnal.approve');
+        Route::post('/sekre/jurnal/{jurnal}/reject', [JurnalController::class, 'reject'])
+            ->name('sekre.jurnal.reject');
+
+        Route::get('/sekre/status-validasi', [JurnalController::class, 'index'])
+>>>>>>> 3985aad47f5463aac1ced55dffe6af02f76af4aa
+            ->name('sekre.status-validasi');
     });
 
 });

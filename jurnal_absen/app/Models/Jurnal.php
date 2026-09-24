@@ -84,8 +84,31 @@ class Jurnal extends Model
         return $this->belongsTo(Mapel::class, 'mapel_id');
     }
 
+    public function detailJurnal() {
+        return $this->hasMany(DetailJurnal::class,'jurnal_id');
+    }
+
     // public static function hourConvert(int $mode,$hour) {
     //     $hourMapel = 45;
         
     // }
+
+    public function getKeteranganLabelAttribute(): string
+    {
+        return match ($this->keterangan) {
+            'hadir' => 'Hadir',
+            'tidak_hadir_tugas' => 'Tidak Hadir (Ada Tugas)',
+            'tidak_hadir_tanpa_tugas' => 'Tidak Hadir (Tanpa Tugas)',
+            default => $this->keterangan ?? '-',
+        };
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return match ($this->status) {
+            'approved' => 'Tervalidasi',
+            'rejected' => 'Ditolak',
+            default => 'Menunggu Validasi',
+        };
+    }
 }
