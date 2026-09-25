@@ -1,13 +1,10 @@
 <?php
 
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
-use League\CommonMark\Extension\SmartPunct\EllipsesParser;
 
 class LoginController extends Controller
 {
@@ -18,7 +15,7 @@ class LoginController extends Controller
 
     public function RoleCheck($role, $request = null)
     {
-        if (!$role) {
+        if (! $role) {
             return redirect()->route('login');
         }
         if ($role === 'admin') {
@@ -36,7 +33,7 @@ class LoginController extends Controller
                 $request->session()->regenerateToken();
 
                 return redirect()->route('login')->withErrors([
-                    'email' => 'Akun Anda tidak memiliki hak akses/role yang valid.'
+                    'email' => 'Akun Anda tidak memiliki hak akses/role yang valid.',
                 ]);
             } else {
                 return redirect()->route('login');
@@ -52,9 +49,9 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (!Auth::attempt($validated, $request->remember)) {
+        if (! Auth::attempt($validated, $request->remember)) {
             return back()->withErrors([
-                'email' => 'Credential does not match '
+                'email' => 'Credential does not match ',
             ])->onlyInput('email');
         }
 

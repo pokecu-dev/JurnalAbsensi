@@ -165,6 +165,12 @@
             max-width: 380px;
         }
 
+        .error-message {
+            margin-bottom: 16px;
+            color: #ffb4b4;
+            font-size: 14px;
+        }
+
         .input-group {
             margin-bottom: 22px;
             position: relative;
@@ -462,6 +468,12 @@
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
+
+                @if ($errors->has('email'))
+                    <p class="error-message" role="alert">
+                        {{ $errors->first('email') }}
+                    </p>
+                @endif
 
                 <!-- INPUT EMAIL -->
                 <div class="input-group">

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\Jurnal\JurnalController;
+use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
+use App\Livewire\Actions\Logout;
 
 Route::get('/', [LoginController::class, 'Check']);
 
@@ -56,7 +58,21 @@ Route::middleware(['auth'])->group(function () {
 
     // Sekretaris
     Route::middleware(['role:sekre'])->group(function () {
+        Route::view('/sekre/dashboard','sekre/dashboard')->name('sekre.dashboard');
+        // Volt::route('/sekre/dashboard', 'sekre.dashboard')->name('sekre.dashboard');
+       
         Route::view('/sekre/dashboard', 'sekre/dashboard')->name('sekre.dashboard');
+        Route::view('/sekre/jadwal', 'sekre/jadwal')->name('sekre.jadwal');
+        Route::view('/sekre/jurnal', 'sekre/jurnal')->name('sekre.jurnal.index');
+        Route::get('/sekre/jurnal/detail/{jurnal}', [SekreJurnal::class, 'show'])
+            ->name('sekre.jurnal.show');
+        Route::post('/sekre/jurnal/{jurnal}/approve', [SekreJurnal::class, 'approve'])
+            ->name('sekre.jurnal.approve');
+        Route::post('/sekre/jurnal/{jurnal}/reject', [SekreJurnal::class, 'reject'])
+            ->name('sekre.jurnal.reject');
+
+        Route::get('/sekre/status-validasi', [SekreJurnal::class, 'index'])
+            ->name('sekre.status-validasi');
     });
 
 });
