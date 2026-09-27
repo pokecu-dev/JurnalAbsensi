@@ -124,19 +124,19 @@
                     text-xs">
 
 
-           <a href="{{ url('/admin/akun') }}"
+            <a href="{{ url('/admin/akun') }}"
                 class="flex items-center gap-2 px-2 py-2 rounded-lg
                         hover:bg-white/10
                         active:scale-[0.98]
                         transition-all duration-200">
-                    <i class="fa-solid fa-user-circle w-4"></i>
-                    <span>Akun Admin</span>
+                <i class="fa-solid fa-user-circle w-4"></i>
+                <span>Akun Admin</span>
             </a>
 
 
             <!-- LOGOUT -->
-           <a href="{{ route('logout') }}"
-            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+            <a href="{{ route('logout') }}"
+                class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
                     hover:bg-white/10
                     active:scale-[0.98]
                     transition-all duration-200">
@@ -145,8 +145,6 @@
             </a>
 
         </div>
-
-    </aside>
 
     </aside>
 
@@ -172,414 +170,417 @@
 
         </header>
 
+        @if(!$jadwal)
+            <div>ih</div>
 
-        <!-- =====================================================
-             INFORMASI SESI
-        ====================================================== -->
-        <section
-            class="bg-white rounded-2xl border border-emerald-100 shadow-sm overflow-hidden mb-5">
-
-            <!-- TANGGAL & WAKTU -->
-            <div class="px-4 py-3.5 bg-emerald-50/60 border-b border-emerald-100">
-
-                <div class="flex items-center gap-3">
-
-                    <div
-                        class="w-10 h-10 rounded-xl bg-dark-green text-mint-green flex items-center justify-center shrink-0">
-                        <i class="fa-regular fa-calendar-days"></i>
-                    </div>
-
-                    <div class="min-w-0">
-
-                        <p class="text-[9px] uppercase tracking-wider text-medium-green font-extrabold">
-                            Sesi Mengajar
-                        </p>
-
-                        <p class="text-xs sm:text-sm font-extrabold text-dark-green mt-0.5">
-                            {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
-                        </p>
-
-                        <p class="text-[10px] sm:text-xs text-gray-500 font-semibold mt-0.5">
-                            Waktu pengisian: {{ now()->format('H.i') }} WIB
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- DETAIL JADWAL -->
-            <div class="grid grid-cols-3 gap-px bg-gray-100">
-
-                <!-- KELAS -->
-                <div class="bg-white p-3">
-
-                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
-                        Kelas
-                    </span>
-
-                    <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
-                        {{ $jadwal?->classes?->name ?? 'Gak Ada' }}
-                    </p>
-
-                </div>
-
-
-                <!-- MAPEL -->
-                <div class="bg-white p-3">
-
-                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
-                        Mapel
-                    </span>
-
-                    <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
-                        {{ $jadwal?->mapel?->name ?? '-' }}
-                    </p>
-
-                </div>
-
-
-                <!-- JAM -->
-                <div class="bg-white p-3">
-
-                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
-                        Jam
-                    </span>
-
-                    <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
-
-                        @if($jadwal)
-                            {{ $jadwal->start_time }} - {{ $jadwal->end_time }}
-                        @else
-                            Tidak Aktif
-                        @endif
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             FORM UTAMA
-        ====================================================== -->
-        <form id="jurnalForm"
-            method="POST"
-            action="{{ route('guru.jurnal.create') }}"
-            class="space-y-5">
-
-            @csrf
-
-            <input type="hidden"
-                name="jadwal_id"
-                value="{{ $jadwal?->id }}">
-
-
-            <!-- =================================================
-                 STATUS KEHADIRAN GURU
-            ================================================== -->
+        @else
+            <!-- =====================================================
+                 INFORMASI SESI
+            ====================================================== -->
             <section
-                class="bg-white p-4 sm:p-5 rounded-2xl border border-emerald-100 shadow-sm">
+                class="bg-white rounded-2xl border border-emerald-100 shadow-sm overflow-hidden mb-5">
 
-                <label
-                    for="statusKehadiran"
-                    class="block text-xs font-extrabold text-dark-green mb-2">
+                <!-- TANGGAL & WAKTU -->
+                <div class="px-4 py-3.5 bg-emerald-50/60 border-b border-emerald-100">
 
-                    Kehadiran Guru
+                    <div class="flex items-center gap-3">
 
-                </label>
+                        <div
+                            class="w-10 h-10 rounded-xl bg-dark-green text-mint-green flex items-center justify-center shrink-0">
+                            <i class="fa-regular fa-calendar-days"></i>
+                        </div>
 
-                <p class="text-[10px] text-gray-400 mb-3">
-                    Pilih kondisi guru pada sesi mengajar ini.
-                </p>
+                        <div class="min-w-0">
+
+                            <p class="text-[9px] uppercase tracking-wider text-medium-green font-extrabold">
+                                Sesi Mengajar
+                            </p>
+
+                            <p class="text-xs sm:text-sm font-extrabold text-dark-green mt-0.5">
+                                {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                            </p>
+
+                            <p class="text-[10px] sm:text-xs text-gray-500 font-semibold mt-0.5">
+                                Waktu pengisian: {{ now()->format('H.i') }} WIB
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
 
-                <select
-                    id="statusKehadiran"
-                    name="status_kehadiran"
-                    onchange="handleStatusChange()"
-                    class="w-full bg-white border border-emerald-200 rounded-xl px-4 py-3 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30 cursor-pointer shadow-sm">
+                <!-- DETAIL JADWAL -->
+                <div class="grid grid-cols-3 gap-px bg-gray-100">
 
-                    <option value="hadir" selected>
-                        Hadir — Mengajar
-                    </option>
+                    <!-- KELAS -->
+                    <div class="bg-white p-3">
 
-                    <option value="tidak_hadir_tugas">
-                        Tidak Hadir — Memberikan Tugas
-                    </option>
+                        <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
+                            Kelas
+                        </span>
 
-                    <option value="tidak_hadir_tanpa_tugas">
-                        Tidak Hadir — Perlu Penanganan
-                    </option>
+                        <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
+                            {{ $jadwal?->classes?->name ?? 'Gak Ada' }}
+                        </p>
 
-                </select>
+                    </div>
+
+
+                    <!-- MAPEL -->
+                    <div class="bg-white p-3">
+
+                        <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
+                            Mapel
+                        </span>
+
+                        <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
+                            {{ $jadwal?->mapel?->name ?? '-' }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- JAM -->
+                    <div class="bg-white p-3">
+
+                        <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
+                            Jam
+                        </span>
+
+                        <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
+
+                            @if($jadwal)
+                            {{ $jadwal->start_time }} - {{ $jadwal->end_time }}
+                            @else
+                            Tidak Aktif
+                            @endif
+
+                        </p>
+
+                    </div>
+
+                </div>
 
             </section>
 
 
-            <!-- =================================================
-                 HADIR
-            ================================================== -->
-            <section
-                id="sectionHadir"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
+            <!-- =====================================================
+                 FORM UTAMA
+            ====================================================== -->
+            <form id="jurnalForm"
+                method="POST"
+                action="{{ route('guru.jurnal.create') }}"
+                class="space-y-5">
 
-                <div>
+                @csrf
 
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-regular fa-pen-to-square text-medium-green"></i>
-                        Detail Kegiatan
-                    </h3>
+                <input type="hidden"
+                    name="jadwal_id"
+                    value="{{ $jadwal?->id }}">
 
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Catat materi dan kegiatan yang dilakukan selama pembelajaran.
+
+                <!-- =================================================
+                     STATUS KEHADIRAN GURU
+                ================================================== -->
+                <section
+                    class="bg-white p-4 sm:p-5 rounded-2xl border border-emerald-100 shadow-sm">
+
+                    <label
+                        for="statusKehadiran"
+                        class="block text-xs font-extrabold text-dark-green mb-2">
+
+                        Kehadiran Guru
+
+                    </label>
+
+                    <p class="text-[10px] text-gray-400 mb-3">
+                        Pilih kondisi guru pada sesi mengajar ini.
                     </p>
 
-                </div>
+
+                    <select
+                        id="statusKehadiran"
+                        name="status_kehadiran"
+                        onchange="handleStatusChange()"
+                        class="w-full bg-white border border-emerald-200 rounded-xl px-4 py-3 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30 cursor-pointer shadow-sm">
+
+                        <option value="hadir" selected>
+                            Hadir — Mengajar
+                        </option>
+
+                        <option value="tidak_hadir_tugas">
+                            Tidak Hadir — Memberikan Tugas
+                        </option>
+
+                        <option value="tidak_hadir_tanpa_tugas">
+                            Tidak Hadir — Perlu Penanganan
+                        </option>
+
+                    </select>
+
+                </section>
 
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- =================================================
+                     HADIR
+                ================================================== -->
+                <section
+                    id="sectionHadir"
+                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
 
-                    <!-- MATERI -->
+                    <div>
+
+                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+                            <i class="fa-regular fa-pen-to-square text-medium-green"></i>
+                            Detail Kegiatan
+                        </h3>
+
+                        <p class="text-[10px] text-gray-400 mt-1">
+                            Catat materi dan kegiatan yang dilakukan selama pembelajaran.
+                        </p>
+
+                    </div>
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <!-- MATERI -->
+                        <div>
+
+                            <label
+                                class="block text-xs font-bold text-dark-green mb-1.5">
+
+                                Materi Pembelajaran
+                                <span class="text-rose-500">*</span>
+
+                            </label>
+
+                            <textarea
+                                name="materi"
+                                placeholder="Contoh: Fungsi Linear, Fungsi Kuadrat..."
+                                class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
+
+                        </div>
+
+
+                        <!-- KETERANGAN -->
+                        <div>
+
+                            <label
+                                class="block text-xs font-bold text-dark-green mb-1.5">
+
+                                Keterangan / Aktivitas Kelas
+
+                            </label>
+
+                            <textarea
+                                name="keterangan"
+                                placeholder="Contoh: Diskusi kelompok, latihan soal, tanya jawab..."
+                                class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     TUGAS
+                ================================================== -->
+                <section
+                    id="sectionTugas"
+                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
+
+                    <div>
+
+                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-medium-green"></i>
+                            Tugas untuk Siswa
+                        </h3>
+
+                        <p class="text-[10px] text-gray-400 mt-1">
+                            Digunakan ketika guru tidak hadir tetapi memberikan tugas.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs flex items-start gap-3">
+
+                        <i class="fa-solid fa-circle-info text-base mt-0.5"></i>
+
+                        <div>
+                            Tugas dapat diteruskan kepada pihak yang bertanggung jawab untuk disampaikan kepada siswa.
+                        </div>
+
+                    </div>
+
+
                     <div>
 
                         <label
                             class="block text-xs font-bold text-dark-green mb-1.5">
 
-                            Materi Pembelajaran
+                            Instruksi / Deskripsi Tugas
                             <span class="text-rose-500">*</span>
 
                         </label>
 
                         <textarea
-                            name="materi"
-                            placeholder="Contoh: Fungsi Linear, Fungsi Kuadrat..."
-                            class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
+                            name="instruksi_tugas"
+                            placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
+                            class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     TIDAK HADIR / PERLU PENANGANAN
+                ================================================== -->
+                <section
+                    id="sectionTanpaTugas"
+                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
+
+                    <div>
+
+                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+                            <i class="fa-solid fa-building-user text-medium-green"></i>
+                            Penanganan Kelas
+                        </h3>
+
+                        <p class="text-[10px] text-gray-400 mt-1">
+                            Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
+                        </p>
 
                     </div>
 
 
-                    <!-- KETERANGAN -->
+                    <div
+                        class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
+
+                        <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
+
+                        <div>
+                            Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
+                        </div>
+
+                    </div>
+
+
                     <div>
 
                         <label
                             class="block text-xs font-bold text-dark-green mb-1.5">
 
-                            Keterangan / Aktivitas Kelas
+                            Alasan / Keterangan
 
                         </label>
 
                         <textarea
-                            name="keterangan"
-                            placeholder="Contoh: Diskusi kelompok, latihan soal, tanya jawab..."
+                            name="alasan_kosong"
+                            placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
                             class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
 
                     </div>
 
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 TUGAS
-            ================================================== -->
-            <section
-                id="sectionTugas"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-medium-green"></i>
-                        Tugas untuk Siswa
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Digunakan ketika guru tidak hadir tetapi memberikan tugas.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                    <i class="fa-solid fa-circle-info text-base mt-0.5"></i>
-
-                    <div>
-                        Tugas dapat diteruskan kepada pihak yang bertanggung jawab untuk disampaikan kepada siswa.
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <label
-                        class="block text-xs font-bold text-dark-green mb-1.5">
-
-                        Instruksi / Deskripsi Tugas
-                        <span class="text-rose-500">*</span>
-
-                    </label>
-
-                    <textarea
-                        name="instruksi_tugas"
-                        placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
-                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 TIDAK HADIR / PERLU PENANGANAN
-            ================================================== -->
-            <section
-                id="sectionTanpaTugas"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-solid fa-building-user text-medium-green"></i>
-                        Penanganan Kelas
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                    <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
-
-                    <div>
-                        Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <label
-                        class="block text-xs font-bold text-dark-green mb-1.5">
-
-                        Alasan / Keterangan
-
-                    </label>
-
-                    <textarea
-                        name="alasan_kosong"
-                        placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
-                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
-
-                </div>
-
-            </section>
-
-            <!-- =================================================
-                ABSENSI SISWA
-            ================================================== -->
-            <section
-                id="sectionAbsensiSiswa"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
-
-                <!-- HEADER -->
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-solid fa-users text-medium-green"></i>
-                        Absensi Siswa
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Tandai status kehadiran setiap siswa pada sesi pembelajaran ini.
-                    </p>
-
-                </div>
-
+                </section>
 
                 <!-- =================================================
-                    SEARCH & FILTER
+                    ABSENSI SISWA
                 ================================================== -->
-                <div class="bg-amber-50/60 p-3 sm:p-4 rounded-xl border border-amber-100">
+                <section
+                    id="sectionAbsensiSiswa"
+                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
 
-                    <div class="flex flex-col sm:flex-row gap-3">
+                    <!-- HEADER -->
+                    <div>
 
-                        <!-- SEARCH -->
-                        <div class="relative flex-1">
+                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+                            <i class="fa-solid fa-users text-medium-green"></i>
+                            Absensi Siswa
+                        </h3>
 
-                            <i
-                                class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
-                            </i>
+                        <p class="text-[10px] text-gray-400 mt-1">
+                            Tandai status kehadiran setiap siswa pada sesi pembelajaran ini.
+                        </p>
 
-                            <input
-                                type="text"
-                                id="searchSiswa"
-                                placeholder="Cari nama / NISN / no. absen..."
-                                autocomplete="off"
-                                class="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs font-semibold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
+                    </div>
+
+
+                    <!-- =================================================
+                        SEARCH & FILTER
+                    ================================================== -->
+                    <div class="bg-amber-50/60 p-3 sm:p-4 rounded-xl border border-amber-100">
+
+                        <div class="flex flex-col sm:flex-row gap-3">
+
+                            <!-- SEARCH -->
+                            <div class="relative flex-1">
+
+                                <i
+                                    class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
+                                </i>
+
+                                <input
+                                    type="text"
+                                    id="searchSiswa"
+                                    placeholder="Cari nama / NISN / no. absen..."
+                                    autocomplete="off"
+                                    class="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs font-semibold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
+
+                            </div>
+
+
+                            <!-- FILTER -->
+                            <select
+                                id="filterAbsensi"
+                                class="w-full sm:w-40 bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
+
+                                <option value="semua">
+                                    Semua Siswa
+                                </option>
+
+                                <option value="tidak_hadir">
+                                    Tidak Hadir
+                                </option>
+
+                            </select>
 
                         </div>
 
 
-                        <!-- FILTER -->
-                        <select
-                            id="filterAbsensi"
-                            class="w-full sm:w-40 bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
+                        <!-- INFO -->
+                        <div class="flex items-center justify-between mt-3 px-1">
 
-                            <option value="semua">
-                                Semua Siswa
-                            </option>
+                            <p class="text-[10px] text-gray-400">
+                                Default semua siswa dianggap hadir.
+                            </p>
 
-                            <option value="tidak_hadir">
-                                Tidak Hadir
-                            </option>
+                            <p class="text-[10px] font-bold text-medium-green whitespace-nowrap">
+                                Tidak hadir:
+                                <span id="jumlahTidakHadir">0</span>
+                            </p>
 
-                        </select>
-
-                    </div>
-
-
-                    <!-- INFO -->
-                    <div class="flex items-center justify-between mt-3 px-1">
-
-                        <p class="text-[10px] text-gray-400">
-                            Default semua siswa dianggap hadir.
-                        </p>
-
-                        <p class="text-[10px] font-bold text-medium-green whitespace-nowrap">
-                            Tidak hadir:
-                            <span id="jumlahTidakHadir">0</span>
-                        </p>
+                        </div>
 
                     </div>
 
-                </div>
 
+                    <!-- =================================================
+                        DAFTAR SISWA
+                    ================================================== -->
+                    <div
+                        id="studentList"
+                        class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
 
-                <!-- =================================================
-                    DAFTAR SISWA
-                ================================================== -->
-                <div
-                    id="studentList"
-                    class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
-
-                   @php
-                    $dummySiswas = [
+                        @php
+                        $dummySiswas = [
                         ['id' => 1, 'name' => 'MARVEL MAULANA SAPUTRA'],
                         ['id' => 2, 'name' => 'MARWA RIZQIANI PUTRI'],
                         ['id' => 3, 'name' => 'MAULANA QUBRO ALGHOZALI'],
@@ -616,130 +617,131 @@
                         ['id' => 34, 'name' => 'VARADITA APRILIANDINI'],
                         ['id' => 35, 'name' => 'WILDAN RAMADHAN ZULKARNAEN'],
                         ['id' => 36, 'name' => 'ZHEFITRA ANANDA WIJAYA'],
-                    ];
-                @endphp
-                @foreach($dummySiswas as $index => $siswa)
+                        ];
+                        @endphp
+                        @foreach($jadwal->classes->siswas as $index => $siswa)
 
-                    <div
-                        class="student-item p-3 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-between gap-3 transition"
-                        data-nama="{{ strtolower($siswa['name']) }}"
-                        data-nisn=""
-                        data-no-absen="{{ $index + 1 }}">
+                        <div
+                            class="student-item p-3 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-between gap-3 transition"
+                            data-nama="{{ strtolower($siswa['name']) }}"
+                            data-nisn=""
+                            data-no-absen="{{ $index + 1 }}">
 
-                        <!-- IDENTITAS SISWA -->
-                        <div class="flex items-center gap-3 min-w-0">
+                            <!-- IDENTITAS SISWA -->
+                            <div class="flex items-center gap-3 min-w-0">
 
-                            <div
-                                class="w-8 h-8 rounded-lg bg-emerald-100 text-medium-green flex items-center justify-center text-xs font-extrabold shrink-0">
-                                {{ $index + 1 }}
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-emerald-100 text-medium-green flex items-center justify-center text-xs font-extrabold shrink-0">
+                                    {{ $index + 1 }}
+                                </div>
+
+                                <div class="min-w-0">
+
+                                    <p class="text-xs font-extrabold text-dark-green truncate">
+                                        {{ $siswa['name'] }}
+                                    </p>
+
+                                    <p class="text-[9px] text-gray-400 mt-0.5">
+                                        Siswa kelas ini
+                                    </p>
+
+                                </div>
+
                             </div>
 
-                            <div class="min-w-0">
+                            <!-- STATUS -->
+                            <div class="shrink-0">
 
-                                <p class="text-xs font-extrabold text-dark-green truncate">
-                                    {{ $siswa['name'] }}
-                                </p>
+                                <select
+                                    name="absensi[{{ $siswa['id'] }}]"
+                                    class="status-siswa bg-white border border-gray-200 rounded-lg px-2.5 py-2 text-[10px] font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30 cursor-pointer">
 
-                                <p class="text-[9px] text-gray-400 mt-0.5">
-                                    Siswa kelas ini
-                                </p>
+                                    <option value="hadir">Hadir</option>
+                                    <option value="sakit">Sakit</option>
+                                    <option value="izin">Izin</option>
+                                    <option value="alpha">Alpha</option>
+                                    <option value="dispen">Dispen</option>
+
+                                </select>
 
                             </div>
 
                         </div>
 
-                        <!-- STATUS -->
-                        <div class="shrink-0">
-
-                            <select
-                                name="absensi[{{ $siswa['id'] }}]"
-                                class="status-siswa bg-white border border-gray-200 rounded-lg px-2.5 py-2 text-[10px] font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30 cursor-pointer">
-
-                                <option value="hadir">Hadir</option>
-                                <option value="sakit">Sakit</option>
-                                <option value="izin">Izin</option>
-                                <option value="alpha">Alpha</option>
-                                <option value="dispen">Dispen</option>
-
-                            </select>
-
-                        </div>
+                        @endforeach
 
                     </div>
 
-                @endforeach
 
-                </div>
+                    <!-- INFO BAWAH -->
+                    <div
+                        class="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-start gap-3">
 
+                        <i class="fa-solid fa-circle-info text-medium-green text-sm mt-0.5"></i>
 
-                <!-- INFO BAWAH -->
+                        <p class="text-[10px] text-emerald-800 leading-relaxed">
+
+                            Gunakan pencarian jika siswa yang tidak hadir memiliki nomor
+                            absen di bagian bawah daftar. Kamu tidak perlu menggulir sampai
+                            menemukan siswa tersebut.
+
+                        </p>
+
+                    </div>
+
+                </section>
+
+                <!-- =================================================
+                     ACTION BUTTONS
+                ================================================== -->
                 <div
-                    class="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-start gap-3">
+                    class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex flex-col gap-2.5 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
 
-                    <i class="fa-solid fa-circle-info text-medium-green text-sm mt-0.5"></i>
+                    <!-- BATAL -->
+                    <button
+                        type="button"
+                        onclick="openCancelConfirm()"
+                        class="w-full sm:w-auto px-5 py-3 text-xs font-bold text-gray-500 hover:text-dark-green hover:bg-gray-50 rounded-xl transition order-3 sm:order-1">
 
-                    <p class="text-[10px] text-emerald-800 leading-relaxed">
+                        <i class="fa-solid fa-xmark mr-1"></i>
+                        Batal
 
-                        Gunakan pencarian jika siswa yang tidak hadir memiliki nomor
-                        absen di bagian bawah daftar. Kamu tidak perlu menggulir sampai
-                        menemukan siswa tersebut.
+                    </button>
 
-                    </p>
+
+                    <!-- SIMPAN DRAF -->
+                    <button
+                        type="button"
+                        onclick="openConfirm('draft')"
+                        class="w-full sm:w-auto bg-white text-dark-green border-2 border-medium-green hover:bg-emerald-50 font-bold text-xs px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 order-2">
+
+                        <i class="fa-regular fa-bookmark"></i>
+
+                        Simpan Draf
+
+                    </button>
+
+
+                    <!-- KIRIM -->
+                    <button
+                        type="button"
+                        onclick="openConfirm('submit')"
+                        id="btnSubmit"
+                        class="w-full sm:w-auto bg-dark-green hover:bg-medium-green text-white font-bold text-xs px-5 py-3 rounded-xl transition shadow-sm flex items-center justify-center gap-2 order-1 sm:order-3">
+
+                        <i class="fa-regular fa-paper-plane"></i>
+
+                        <span id="textBtnSimpan">
+                            Kirim Jurnal
+                        </span>
+
+                    </button>
 
                 </div>
 
-            </section>
+            </form>
 
-            <!-- =================================================
-                 ACTION BUTTONS
-            ================================================== -->
-            <div
-                class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex flex-col gap-2.5 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
-
-                <!-- BATAL -->
-               <button
-                    type="button"
-                    onclick="openCancelConfirm()"
-                    class="w-full sm:w-auto px-5 py-3 text-xs font-bold text-gray-500 hover:text-dark-green hover:bg-gray-50 rounded-xl transition order-3 sm:order-1">
-
-                    <i class="fa-solid fa-xmark mr-1"></i>
-                    Batal
-
-                </button>
-
-
-                <!-- SIMPAN DRAF -->
-                <button
-                    type="button"
-                    onclick="openConfirm('draft')"
-                    class="w-full sm:w-auto bg-white text-dark-green border-2 border-medium-green hover:bg-emerald-50 font-bold text-xs px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 order-2">
-
-                    <i class="fa-regular fa-bookmark"></i>
-
-                    Simpan Draf
-
-                </button>
-
-
-                <!-- KIRIM -->
-                <button
-                    type="button"
-                    onclick="openConfirm('submit')"
-                    id="btnSubmit"
-                    class="w-full sm:w-auto bg-dark-green hover:bg-medium-green text-white font-bold text-xs px-5 py-3 rounded-xl transition shadow-sm flex items-center justify-center gap-2 order-1 sm:order-3">
-
-                    <i class="fa-regular fa-paper-plane"></i>
-
-                    <span id="textBtnSimpan">
-                        Kirim Jurnal
-                    </span>
-
-                </button>
-
-            </div>
-
-        </form>
-
+        @endif
     </main>
 
 
@@ -929,58 +931,58 @@
         MODAL ERROR
     ========================================================== -->
     @if ($errors->any())
+    <div
+        id="errorModal"
+        class="fixed inset-0 bg-dark-green/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4">
+
         <div
-            id="errorModal"
-            class="fixed inset-0 bg-dark-green/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4">
+            class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-5 text-center">
+
+            <div class="flex justify-center mb-4">
+                <div
+                    class="w-16 h-16 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center">
+
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+
+                </div>
+            </div>
+
+            <h2 class="text-base font-extrabold text-dark-green">
+                Data Belum Berhasil Disimpan
+            </h2>
+
+            <p class="text-xs text-gray-500 leading-relaxed mt-2">
+                Periksa kembali data yang kamu isi.
+            </p>
 
             <div
-                class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-5 text-center">
+                class="mt-4 bg-rose-50 border border-rose-100 rounded-xl p-3 text-left">
 
-                <div class="flex justify-center mb-4">
-                    <div
-                        class="w-16 h-16 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center">
+                <ul class="space-y-1 text-[10px] text-rose-700 font-medium">
 
-                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    @foreach ($errors->all() as $error)
+                    <li class="flex gap-2">
+                        <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                        <span>{{ $error }}</span>
+                    </li>
+                    @endforeach
 
-                    </div>
-                </div>
-
-                <h2 class="text-base font-extrabold text-dark-green">
-                    Data Belum Berhasil Disimpan
-                </h2>
-
-                <p class="text-xs text-gray-500 leading-relaxed mt-2">
-                    Periksa kembali data yang kamu isi.
-                </p>
-
-                <div
-                    class="mt-4 bg-rose-50 border border-rose-100 rounded-xl p-3 text-left">
-
-                    <ul class="space-y-1 text-[10px] text-rose-700 font-medium">
-
-                        @foreach ($errors->all() as $error)
-                            <li class="flex gap-2">
-                                <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
-                                <span>{{ $error }}</span>
-                            </li>
-                        @endforeach
-
-                    </ul>
-
-                </div>
-
-                <button
-                    type="button"
-                    onclick="closeErrorModal()"
-                    class="w-full mt-5 px-4 py-3 rounded-xl bg-dark-green hover:bg-medium-green text-white text-xs font-bold transition">
-
-                    Periksa Kembali
-
-                </button>
+                </ul>
 
             </div>
 
+            <button
+                type="button"
+                onclick="closeErrorModal()"
+                class="w-full mt-5 px-4 py-3 rounded-xl bg-dark-green hover:bg-medium-green text-white text-xs font-bold transition">
+
+                Periksa Kembali
+
+            </button>
+
         </div>
+
+    </div>
     @endif
 
     <!-- =========================================================
@@ -1037,9 +1039,6 @@
          JAVASCRIPT
     ========================================================== -->
     <script>
-
-  
-
         /* =====================================================
            MOBILE SIDEBAR
         ====================================================== */
@@ -1145,169 +1144,169 @@
             Model: Semua siswa + status langsung
         ====================================================== */
 
-            const searchSiswa =
-                document.getElementById('searchSiswa');
+        const searchSiswa =
+            document.getElementById('searchSiswa');
 
-            const filterAbsensi =
-                document.getElementById('filterAbsensi');
+        const filterAbsensi =
+            document.getElementById('filterAbsensi');
 
-            const studentItems =
-                document.querySelectorAll('.student-item');
-
-
-            function filterDaftarSiswa() {
-
-                const keyword =
-                    (searchSiswa?.value || '').toLowerCase().trim();
-
-                const filter =
-                    filterAbsensi?.value || 'semua';
+        const studentItems =
+            document.querySelectorAll('.student-item');
 
 
-                studentItems.forEach(item => {
+        function filterDaftarSiswa() {
 
-                    const nama =
-                        (item.dataset.nama || '').toLowerCase();
+            const keyword =
+                (searchSiswa?.value || '').toLowerCase().trim();
 
-                    const nisn =
-                        (item.dataset.nisn || '').toLowerCase();
-
-                    const noAbsen =
-                        (item.dataset.noAbsen || '').toLowerCase();
-
-                    const statusSelect =
-                        item.querySelector('.status-siswa');
-
-                    const status =
-                        statusSelect?.value || 'hadir';
+            const filter =
+                filterAbsensi?.value || 'semua';
 
 
-                    const cocokPencarian =
-                        nama.includes(keyword) ||
-                        nisn.includes(keyword) ||
-                        noAbsen.includes(keyword);
+            studentItems.forEach(item => {
+
+                const nama =
+                    (item.dataset.nama || '').toLowerCase();
+
+                const nisn =
+                    (item.dataset.nisn || '').toLowerCase();
+
+                const noAbsen =
+                    (item.dataset.noAbsen || '').toLowerCase();
+
+                const statusSelect =
+                    item.querySelector('.status-siswa');
+
+                const status =
+                    statusSelect?.value || 'hadir';
 
 
-                    const cocokFilter =
-                        filter === 'semua' ||
-                        (filter === 'tidak_hadir' && status !== 'hadir');
+                const cocokPencarian =
+                    nama.includes(keyword) ||
+                    nisn.includes(keyword) ||
+                    noAbsen.includes(keyword);
 
 
-                    if (cocokPencarian && cocokFilter) {
-
-                        item.classList.remove('hidden');
-
-                    } else {
-
-                        item.classList.add('hidden');
-
-                    }
-
-                });
+                const cocokFilter =
+                    filter === 'semua' ||
+                    (filter === 'tidak_hadir' && status !== 'hadir');
 
 
-                updateJumlahTidakHadir();
+                if (cocokPencarian && cocokFilter) {
 
-            }
+                    item.classList.remove('hidden');
 
+                } else {
 
-            function updateJumlahTidakHadir() {
-
-                let jumlah =
-                    0;
-
-
-                document
-                    .querySelectorAll('.status-siswa')
-                    .forEach(select => {
-
-                        if (select.value !== 'hadir') {
-
-                            jumlah++;
-
-                        }
-
-                    });
-
-
-                const counter =
-                    document.getElementById('jumlahTidakHadir');
-
-
-                if (counter) {
-
-                    counter.innerText =
-                        jumlah;
+                    item.classList.add('hidden');
 
                 }
 
-            }
+            });
 
 
-            if (searchSiswa) {
+            updateJumlahTidakHadir();
 
-                searchSiswa.addEventListener(
-                    'input',
-                    filterDaftarSiswa
-                );
-
-            }
+        }
 
 
-            if (filterAbsensi) {
+        function updateJumlahTidakHadir() {
 
-                filterAbsensi.addEventListener(
-                    'change',
-                    filterDaftarSiswa
-                );
-
-            }
+            let jumlah =
+                0;
 
 
             document
                 .querySelectorAll('.status-siswa')
                 .forEach(select => {
 
-                    select.addEventListener(
-                        'change',
-                        function () {
+                    if (select.value !== 'hadir') {
 
-                            const item =
-                                this.closest('.student-item');
+                        jumlah++;
 
-                            if (!item) return;
-
-
-                            /* Tandai siswa yang tidak hadir */
-
-                            if (this.value === 'hadir') {
-
-                                item.classList.remove(
-                                    'border-rose-200',
-                                    'bg-rose-50/40'
-                                );
-
-                            } else {
-
-                                item.classList.add(
-                                    'border-rose-200',
-                                    'bg-rose-50/40'
-                                );
-
-                            }
-
-
-                            /* Terapkan filter kembali */
-
-                            filterDaftarSiswa();
-
-                        }
-                    );
+                    }
 
                 });
 
 
-            updateJumlahTidakHadir();
+            const counter =
+                document.getElementById('jumlahTidakHadir');
+
+
+            if (counter) {
+
+                counter.innerText =
+                    jumlah;
+
+            }
+
+        }
+
+
+        if (searchSiswa) {
+
+            searchSiswa.addEventListener(
+                'input',
+                filterDaftarSiswa
+            );
+
+        }
+
+
+        if (filterAbsensi) {
+
+            filterAbsensi.addEventListener(
+                'change',
+                filterDaftarSiswa
+            );
+
+        }
+
+
+        document
+            .querySelectorAll('.status-siswa')
+            .forEach(select => {
+
+                select.addEventListener(
+                    'change',
+                    function() {
+
+                        const item =
+                            this.closest('.student-item');
+
+                        if (!item) return;
+
+
+                        /* Tandai siswa yang tidak hadir */
+
+                        if (this.value === 'hadir') {
+
+                            item.classList.remove(
+                                'border-rose-200',
+                                'bg-rose-50/40'
+                            );
+
+                        } else {
+
+                            item.classList.add(
+                                'border-rose-200',
+                                'bg-rose-50/40'
+                            );
+
+                        }
+
+
+                        /* Terapkan filter kembali */
+
+                        filterDaftarSiswa();
+
+                    }
+                );
+
+            });
+
+
+        updateJumlahTidakHadir();
         /* =====================================================
            MODAL KONFIRMASI
         ====================================================== */
@@ -1557,18 +1556,18 @@
 
         /* SUCCESS MODAL */
 
-        @if (session('success'))
-            document.addEventListener('DOMContentLoaded', function () {
+        @if(session('success'))
+        document.addEventListener('DOMContentLoaded', function() {
 
-                const modal =
-                    document.getElementById('successModal');
+            const modal =
+                document.getElementById('successModal');
 
-                if (!modal) return;
+            if (!modal) return;
 
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
 
-            });
+        });
         @endif
 
         /* BATAL MODAL */
@@ -1576,19 +1575,19 @@
 
             const modal = document.getElementById('cancelModal');
 
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
 
         }
 
-            function closeCancelConfirm() {
+        function closeCancelConfirm() {
 
-                const modal = document.getElementById('cancelModal');
+            const modal = document.getElementById('cancelModal');
 
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
 
-            }
+        }
     </script>
 
 </body>
