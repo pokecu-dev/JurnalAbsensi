@@ -8,8 +8,8 @@ use App\Models\Jadwal;
 class Classes extends Model
 {
 
-    public function siswa() {
-        return $this->hasMany(Jadwal::class,'class_id');
+    public function siswas() {
+        return $this->hasMany(Siswa::class,'class_id');
     }
 
     public function jadwals()

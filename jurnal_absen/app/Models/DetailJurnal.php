@@ -14,4 +14,8 @@ class DetailJurnal extends Model
         'catatan',
         'foto',
     ];
+
+    public function jurnal() {
+        return $this->belongsTo(Jurnal::class, 'jurnal_id');
+    }
 }

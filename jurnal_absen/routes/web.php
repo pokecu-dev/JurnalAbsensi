@@ -3,6 +3,7 @@
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Jadwal;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Jurnal\JurnalController;
 use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
@@ -27,6 +28,9 @@ Route::middleware(['auth','verified'])->group(function(){
     // admin
     Route::middleware(['role:admin'])->group(function(){
         // Volt::route('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
+        // route::get('/admin/dashboard', function () {
+        //     return view('')
+        // })
         Route::view('/admin/dashboard','admin/dashboard')->name('admin.dashboard');
         Route::view('/admin/data_jurnal', 'admin/data_jurnal')->name('admin.data_jurnal');
         Route::view('/admin/data_dispensasi', 'admin.data_dispensasi')->name('admin.data_dispensasi');
@@ -42,13 +46,24 @@ Route::middleware(['auth','verified'])->group(function(){
     });
 
     Route::middleware(['role:guru'])->group(function () {
-        // Volt::route('/guru/dashboard', 'guru.dashboard')->name('guru.dashboard');
-
-        Route::view('/guru/dashboard', 'guru/dashboard')->name('guru.dashboard');
         
-        Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
+        route::get('/guru/dashboard', function () {
+            $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
+
+            return view('guru.dashboard',compact(['jadwal']));
+        })->name('guru.dashboard');
+        // Route::view('/guru/dashboard','guru/dashboard')->name('guru.dashboard');
+
+        route::get('/guru/jurnal',[JurnalController::class,'form']);
+        // route::get('/guru/jurnal', function () {
+        //     $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
+
+        //     return view('guru.jurnal',compact(['jadwal']));
+        // });
+        
+        // Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
         Route::post('/guru/jurnal/create',[JurnalController::class,'create'])->name('guru.jurnal.create');
-        Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
+        // Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
         
 
         Route::view('/guru/riwayat', 'guru/riwayat')->name('guru.riwayat');
