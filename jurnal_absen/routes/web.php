@@ -19,7 +19,7 @@ Route::get('/', [LoginController::class, 'Check']);
 Route::get('/login',[LoginController::class,'ShowLoginForm'])->middleware('guest')->name('login');
 Route::post('/login',[LoginController::class,'login']);
 Route::get('/logout',[LoginController::class,'logout'])->name('logout');
-x
+
 Route::middleware(['auth','verified'])->group(function(){
 
     // Route::post('')
@@ -43,15 +43,19 @@ Route::middleware(['auth','verified'])->group(function(){
         })->name('guru.dashboard');
         // Route::view('/guru/dashboard','guru/dashboard')->name('guru.dashboard');
 
-        route::get('/guru/jurnal', function () {
-            $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
+        route::get('/guru/jurnal',[JurnalController::class,'form']);
+        // route::get('/guru/jurnal', function () {
+        //     $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
 
-            return view('guru.jurnal',compact(['jadwal']));
-        });
+        //     return view('guru.jurnal',compact(['jadwal']));
+        // });
         
         // Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
         Route::post('/guru/jurnal/create',[JurnalController::class,'create'])->name('guru.jurnal.create');
-        Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
+        // Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
+        
+
+        Route::view('/guru/riwayat', 'guru/riwayat')->name('guru.riwayat');
     });
 
     Route::middleware(['role:piket'])->group(function () {

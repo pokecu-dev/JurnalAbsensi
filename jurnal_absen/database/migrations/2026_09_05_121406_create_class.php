@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique()->nullable();
-            $table->integer('total_students')->nullable();
+            // $table->integer('total_students')->nullable();
             // $table->timestamps();
         });
     }

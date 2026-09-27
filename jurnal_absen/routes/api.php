@@ -11,26 +11,53 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/login',[LoginController::class,'login']);
+Route::post('/login', [LoginController::class, 'login']);
 
-Route::post('/user/create',[UserController::class,'create']);
+Route::post('/user/create', [UserController::class, 'create']);
 
-Route::get('/user/get',[UserController::class,'GetAllUsers']);
+Route::get('/user/get', [UserController::class, 'GetAllUsers']);
 
 Route::delete('/user/{user}', [UserController::class, 'delete'])->name('user.destroy');
 
 // Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
 
-Route::get('/jurnal/get',[JurnalController::class,'index']);
+// Route::get('/jurnal/get',[JurnalController::class,'index']);
 
-Route::post('/jurnal/create',[JurnalController::class, 'Create']);
+// Route::post('/jurnal/create',[JurnalController::class, 'Create']);
 
-Route::post('/jurnal/add-siswa',[JurnalController::class, 'AddDetails']);
+// Route::post('/jurnal/add-siswa',[JurnalController::class, 'AddDetails']);
 
-Route::delete('/jurnal/delete-jurnal/{jurnal}',[JurnalController::class,'deleteJurnal']);
+// Route::delete('/jurnal/delete-jurnal/{jurnal}',[JurnalController::class,'deleteJurnal']);
 
-Route::delete('/jurnal/delete-detail/{detailJurnal}',[JurnalController::class,'deleteDetail']);
+// Route::delete('/jurnal/delete-detail/{detailJurnal}',[JurnalController::class,'deleteDetail']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/update/{user}', [UserController::class, 'update'])->name('user.update');
+});
+
+
+// Route::get('/sekre/jurnal/show/{jurnal}',[sekreJurnal::class,'show']);
+
+Route::prefix('jurnal')->group(function () {
+
+    Route::get('/', [JurnalController::class, 'index'])
+        ->name('api.jurnal.index');
+
+    Route::get('/form', [JurnalController::class, 'form'])
+        ->name('api.jurnal.index');
+
+    Route::post('/', [JurnalController::class, 'create'])
+        ->name('api.jurnal.create');
+
+    Route::patch('/{jurnal}', [JurnalController::class, 'updateJurnal'])
+        ->name('api.jurnal.update');
+
+    Route::delete('/{jurnal}', [JurnalController::class, 'deleteJurnal'])
+        ->name('api.jurnal.delete');
+
+    Route::patch('/detail/{detailJurnal}', [JurnalController::class, 'updateDetail'])
+        ->name('api.jurnal.detail.update');
+
+    Route::delete('/detail/{detailJurnal}', [JurnalController::class, 'deleteDetail'])
+        ->name('api.jurnal.detail.delete');
 });

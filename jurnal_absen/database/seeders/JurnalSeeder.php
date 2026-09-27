@@ -21,7 +21,7 @@ class JurnalSeeder extends Seeder
         ]);
 
         DB::table('detail_jurnals')->insert([
-            ['jurnal_id' => 1,'siswa_id' => 1,'status'=>'izin','catatan'=>'acara']
+            ['jurnal_id' => 1,'siswa_id' => 1,'status'=>'izin']
         ]);
     }
 }
