@@ -11,11 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Jadwal;
 
-<<<<<<< HEAD
 #[Fillable(['name', 'email', 'password','nip','nuptk','phone','role'])]
-=======
 #[Fillable(['nip','phone','name', 'email', 'password'])]
->>>>>>> 96da4a6472ab043ca4ee3599ccd63f004bd58245
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
