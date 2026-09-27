@@ -4,50 +4,74 @@ namespace App\Http\Controllers;
 
 use App\Models\Mapel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class MapelController extends Controller
 {
-    public function index()
+    /**
+     * Tampilkan daftar mata pelajaran
+     */
+    public function index(Request $request)
     {
-        $mapels = Mapel::all();
+        $search = $request->input('search');
 
-        // Generate kode otomatis untuk ditampilkan di form index
-        $maxCode = DB::table('mapels')->selectRaw('MAX(CAST(SUBSTRING(kode_mapel, 3) AS UNSIGNED)) as max_num')->value('max_num');
-        $number = $maxCode ? $maxCode + 1 : 1;
-        $nextCode = 'MP' . str_pad($number, 3, '0', STR_PAD_LEFT);
+        $mapels = Mapel::when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%")
+                         // Prioritaskan nama mapel yang DIAWALI kata pencarian
+                         ->orderByRaw("CASE 
+                             WHEN name LIKE ? THEN 1 
+                             ELSE 2 
+                         END", ["{$search}%"]);
+        })
+        ->latest()
+        ->paginate(10)
+        ->withQueryString(); // Menjaga parameter pencarian tetap ada saat berpindah halaman pagination
 
-        return view('mapels.index', compact('mapels', 'nextCode'));
+        return view('admin.data_mapel', compact('mapels'));
     }
 
-public function store(Request $request)
-{
-    // Generate kode otomatis
-    $maxCode = DB::table('mapels')->selectRaw('MAX(CAST(SUBSTRING(kode_mapel, 3) AS UNSIGNED)) as max_num')->value('max_num');
-    $number = $maxCode ? $maxCode + 1 : 1;
-    $nextCode = 'MP' . str_pad($number, 3, '0', STR_PAD_LEFT);
+    /**
+     * Jika halaman /create diakses, redirect balik ke index
+     */
+    public function create()
+    {
+        return redirect()->route('admin.data_mapel.index');
+    }
 
-    // Validasi pencegahan duplikat nama_mapel
-    $request->validate([
-        'nama_mapel' => 'required|string|max:255|unique:mapels,nama_mapel'
-    ], [
-        // Pesan error kustom (opsional)
-        'nama_mapel.unique' => 'Mata pelajaran ini sudah terdaftar!',
-    ]);
+    /**
+     * Simpan mata pelajaran baru langsung dari halaman mapel
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ], [
+            'name.required' => 'Nama mata pelajaran wajib diisi.',
+        ]);
 
-    Mapel::create([
-        'kode_mapel' => $nextCode,
-        'nama_mapel' => $request->nama_mapel
-    ]);
+        Mapel::create([
+            'name' => $request->name,
+            'kategori' => 'Umum',
+        ]);
 
-    return redirect()->route('mapels.index')->with('success', 'Mata pelajaran berhasil ditambahkan.');
-}
+        return redirect()->route('admin.data_mapel.index')->with('success', 'Mata pelajaran berhasil ditambahkan!');
+    }
 
-   public function destroy(Mapel $mapel)
-{
-    // Hapus data mapel
-    $mapel->delete();
+    /**
+     * Hapus mata pelajaran beserta jadwal terkait secara otomatis
+     */
+    public function destroy(Mapel $data_mapel)
+    {
+        try {
+            // 1. Hapus semua jadwal yang menggunakan mapel ini terlebih dahulu
+            $data_mapel->jadwals()->delete();
 
-    return redirect()->route('mapels.index')->with('success', 'Mata pelajaran berhasil dihapus!');
-}
+            // 2. Hapus data mapelnya
+            $data_mapel->delete();
+
+            return redirect()->route('admin.data_mapel.index')->with('success', 'Mata pelajaran dan jadwal terkait berhasil dihapus!');
+        } catch (QueryException $e) {
+            return redirect()->route('admin.data_mapel.index')->with('error', 'Gagal menghapus data mata pelajaran.');
+        }
+    }
 }

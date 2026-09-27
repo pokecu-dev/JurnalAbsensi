@@ -4,15 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\Jurnal\JurnalController;
-use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
-use App\Livewire\Actions\Logout;
 
+Route::resource('mapels', MapelController::class);
 Route::get('/', [LoginController::class, 'Check']);
 
 // Guest Routes (Login)
 Route::get('/login', [LoginController::class, 'ShowLoginForm'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::match(['get', 'post'], '/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {
@@ -22,8 +21,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('dashboard');
 
     Route::view('profile', 'profile')->name('profile');
-
-    Route::resource('mapels', MapelController::class);
 
     // admin
     Route::middleware(['role:admin'])->group(function(){
@@ -36,45 +33,29 @@ Route::middleware(['auth'])->group(function () {
         Route::view('/admin/data_guru/{id}', 'admin.detail_guru')->name('admin.detail_guru');
         Route::view('/admin/data_siswa', 'admin/data_siswa')->name('admin.data_siswa');
         Route::view('/admin/data_siswa/{id}', 'admin.detail_siswa')->name('admin.detail_siswa');
+        Route::resource('admin/data_mapel', MapelController::class)->names('admin.data_mapel');
+    });
+   
+
+    // Guru Group
+    Route::middleware(['role:guru'])->prefix('guru')->name('guru.')->group(function () {
+        Route::view('/dashboard', 'guru/dashboard')->name('dashboard');  // Route: guru.dashboard
+        Route::get('/jurnal', [JurnalController::class, 'form'])->name('jurnal');
+        Route::post('/jurnal/create', [JurnalController::class, 'create'])->name('jurnal.create');
+        Route::post('/jurnal/create-detail', [JurnalController::class, 'AddDetail'])->name('jurnal.detail');
     });
 
-    // Guru
-    Route::middleware(['role:guru'])->group(function () {
-        // Volt::route('/guru/dashboard', 'guru.dashboard')->name('guru.dashboard');
-
-        Route::view('/guru/dashboard', 'guru/dashboard')->name('guru.dashboard');
-        
-        Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
-        Route::post('/guru/jurnal/create',[JurnalController::class,'create'])->name('guru.jurnal.create');
-        Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
-        
-        Route::view('/guru/riwayat', 'guru/riwayat')->name('guru.riwayat');
+    // Piket Group
+    Route::middleware(['role:piket'])->prefix('piket')->name('piket.')->group(function () {
+        Route::view('/dashboard', 'piket/dashboard')->name('dashboard');  // Route: piket.dashboard
     });
 
-    // Piket
-    Route::middleware(['role:piket'])->group(function () {
-        Route::view('/piket/dashboard', 'piket/dashboard')->name('piket.dashboard');
+    // Sekretaris Group
+    Route::middleware(['role:sekre'])->prefix('sekre')->name('sekre.')->group(function () {
+        Route::view('/dashboard', 'sekre/dashboard')->name('dashboard');  // Route: sekre.dashboard
     });
-
-    // Sekretaris
-    Route::middleware(['role:sekre'])->group(function () {
-        Route::view('/sekre/dashboard','sekre/dashboard')->name('sekre.dashboard');
-        // Volt::route('/sekre/dashboard', 'sekre.dashboard')->name('sekre.dashboard');
-       
-        Route::view('/sekre/dashboard', 'sekre/dashboard')->name('sekre.dashboard');
-        Route::view('/sekre/jadwal', 'sekre/jadwal')->name('sekre.jadwal');
-        Route::view('/sekre/jurnal', 'sekre/jurnal')->name('sekre.jurnal.index');
-        Route::get('/sekre/jurnal/detail/{jurnal}', [SekreJurnal::class, 'show'])
-            ->name('sekre.jurnal.show');
-        Route::post('/sekre/jurnal/{jurnal}/approve', [SekreJurnal::class, 'approve'])
-            ->name('sekre.jurnal.approve');
-        Route::post('/sekre/jurnal/{jurnal}/reject', [SekreJurnal::class, 'reject'])
-            ->name('sekre.jurnal.reject');
-
-        Route::get('/sekre/status-validasi', [SekreJurnal::class, 'index'])
-            ->name('sekre.status-validasi');
-    });
-
 });
+
+
 
 require __DIR__.'/auth.php';

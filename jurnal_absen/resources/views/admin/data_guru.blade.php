@@ -218,24 +218,19 @@
     <main class="flex-1 p-4 md:p-6 overflow-y-auto">
 
 
-        <!-- HEADER -->
-        <header class="mb-5">
+              <!-- HEADER -->
+                <header class="mb-5">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <h1 class="text-xl md:text-2xl font-extrabold text-dark-green">
+                                Data Mata Pelajaran
+                            </h1>
 
-            <div class="flex items-center justify-between gap-4">
-
-                <div>
-
-                    <h1 class="text-xl md:text-2xl
-                               font-extrabold text-dark-green">
-                        Data Guru
-                    </h1>
-
-                    <p class="text-xs text-medium-green
-                              font-medium mt-1">
-                        Kelola data guru yang terdaftar dalam sistem.
-                    </p>
-
-                </div>
+                            <p class="text-xs text-medium-green font-medium mt-1">
+                                Kelola daftar mata pelajaran dan kategori dalam sistem.
+                            </p>
+                        </div>
+                    </div>
 
 
                 <!-- TAMBAH GURU -->
