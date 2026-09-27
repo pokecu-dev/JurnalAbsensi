@@ -28,66 +28,215 @@
             }
         }
     </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        #scrollIndicator {
+            transition: top 0.15s ease-out;
+        }
+    </style>
 </head>
 
-<body class="bg-bg-cream text-dark-green font-sans flex min-h-screen">
 
+<body class="bg-bg-cream text-dark-green font-sans min-h-screen">
+
+
+    <!-- ========================================================= -->
+    <!-- MOBILE HEADER -->
+    <!-- ========================================================= -->
+
+    <header
+        class="md:hidden sticky top-0 z-40
+               bg-dark-green text-white
+               h-16 px-4
+               flex items-center justify-between
+               shadow-sm">
+
+        <div class="flex items-center gap-3">
+
+            <img src="{{ asset('image/logo.png') }}"
+                 alt="Logo"
+                 class="w-9 h-9 object-contain">
+
+            <div>
+                <div class="text-sm font-extrabold leading-tight">
+                    Jurnal Absensi
+                </div>
+
+                <div class="text-[10px] text-mint-green mt-0.5">
+                    Admin
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- BUTTON SIDEBAR -->
+        <button
+            type="button"
+            onclick="openSidebar()"
+            aria-label="Buka menu"
+            class="w-10 h-10
+                   rounded-xl
+                   bg-white/10
+                   hover:bg-white/15
+                   flex items-center justify-center
+                   transition">
+
+            <i class="fa-solid fa-bars text-sm"></i>
+
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================================================= -->
+    <!-- SIDEBAR OVERLAY MOBILE -->
+    <!-- ========================================================= -->
+
+    <div
+        id="sidebarOverlay"
+        onclick="closeSidebar()"
+        class="fixed inset-0 z-40
+               bg-black/40
+               hidden md:hidden">
+    </div>
+
+
+
+    <!-- ========================================================= -->
     <!-- SIDEBAR -->
-    <aside class="hidden md:flex md:w-56 bg-dark-green text-white
-                  flex-col justify-between p-5 shrink-0
-                  h-screen sticky top-0">
+    <!-- ========================================================= -->
+
+    <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0
+               w-60 md:w-56
+               bg-dark-green text-white
+               flex flex-col justify-between
+               p-6
+               z-50
+               -translate-x-full
+               md:translate-x-0
+               transition-transform duration-300 ease-in-out
+               shadow-xl md:shadow-none">
+
 
         <div>
 
-            <!-- LOGO -->
-            <div class="flex flex-col items-center justify-center
-                        gap-1.5 mb-6 text-center">
+          
+
+            <div class="flex flex-col items-center gap-2
+                        mb-10 text-center">
 
                 <img src="{{ asset('image/logo.png') }}"
                      alt="Logo"
-                     class="w-12 h-auto object-contain">
+                     class="w-16 h-auto">
 
-                <span class="text-sm font-bold tracking-wide">
+                <span class="font-bold text-sm tracking-wide">
                     Jurnal Absensi
                 </span>
 
             </div>
 
-            <!-- NAVIGASI -->
-            <nav class="flex flex-col gap-4 text-xs font-semibold">
 
+
+            <!-- ================================================= -->
+            <!-- NAVIGASI -->
+            <!-- ================================================= -->
+
+            <nav class="flex flex-col gap-5 text-xs font-semibold">
+
+
+                <!-- ========================= -->
                 <!-- UTAMA -->
+                <!-- ========================= -->
+
                 <div>
 
                     <div class="text-[10px] uppercase font-extrabold
-                                text-gray-400 tracking-wider mb-1.5 px-2">
+                                text-gray-400 tracking-wider
+                                mb-2 px-2">
+
                         Utama
+
                     </div>
 
-                    <div class="space-y-0.5">
+
+                    <div class="space-y-1">
+
+                        <!-- DASHBOARD -->
 
                         <a href="{{ url('/admin/dashboard') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  text-gray-300 hover:bg-white/5
-                                  hover:text-white transition">
-                            <i class="fa-solid fa-house w-4 text-center"></i>
-                            Dashboard
+                           class="flex items-center gap-3
+                                  px-4 py-3
+                                  rounded-xl
+                                  text-gray-300
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  transition
+                                  active:scale-[0.98]">
+
+                            <i class="fa-solid fa-house
+                                      w-4 text-center"></i>
+
+                            <span>
+                                Dashboard
+                            </span>
+
                         </a>
+
+
+
+                        <!-- MONITORING JURNAL -->
 
                         <a href="{{ url('/admin/data_jurnal') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  text-gray-300 hover:bg-white/5
-                                  hover:text-white transition">
-                            <i class="fa-solid fa-book-bookmark w-4 text-center"></i>
-                            Monitoring Jurnal
+                           class="flex items-center gap-3
+                                  px-4 py-3
+                                  rounded-xl
+                                  text-gray-300
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  transition
+                                  active:scale-[0.98]">
+
+                            <i class="fa-solid fa-book-bookmark
+                                      w-4 text-center"></i>
+
+                            <span>
+                                Monitoring Jurnal
+                            </span>
+
                         </a>
 
-                        <!-- ACTIVE -->
+
+
+                        <!-- DISPENSASI ACTIVE -->
+
                         <a href="{{ url('/admin/data_dispensasi') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  bg-white/10 text-mint-green font-bold">
-                            <i class="fa-solid fa-file-signature w-4 text-center"></i>
-                            Dispensasi
+                           class="flex items-center gap-3
+                                  px-4 py-3
+                                  rounded-xl
+                                  bg-white/10
+                                  text-mint-green
+                                  transition
+                                  active:scale-[0.98]">
+
+                            <i class="fa-solid fa-file-signature
+                                      w-4 text-center"></i>
+
+                            <span>
+                                Dispensasi
+                            </span>
+
                         </a>
 
                     </div>
@@ -95,54 +244,113 @@
                 </div>
 
 
+
+                <!-- ========================= -->
                 <!-- DATA MASTER -->
+                <!-- ========================= -->
+
                 <div>
 
                     <div class="text-[10px] uppercase font-extrabold
-                                text-gray-400 tracking-wider mb-1.5 px-2">
+                                text-gray-400 tracking-wider
+                                mb-2 px-2">
+
                         Data Master
+
                     </div>
 
-                    <div class="space-y-0.5">
+
+                    <div class="space-y-1">
+
+
+                        <!-- DATA GURU -->
 
                         <a href="{{ url('/admin/data_guru') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  text-gray-300 hover:bg-white/5
-                                  hover:text-white transition">
-                            <i class="fa-solid fa-chalkboard-user w-4 text-center"></i>
-                            Data Guru
+                           class="flex items-center gap-3
+                                  px-4 py-3
+                                  rounded-xl
+                                  text-gray-300
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  transition
+                                  active:scale-[0.98]">
+
+                            <i class="fa-solid fa-chalkboard-user
+                                      w-4 text-center"></i>
+
+                            <span>
+                                Data Guru
+                            </span>
+
                         </a>
+
+
+
+                        <!-- DATA SISWA -->
 
                         <a href="{{ url('/admin/data_siswa') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  text-gray-300 hover:bg-white/5
-                                  hover:text-white transition">
-                            <i class="fa-solid fa-user-graduate w-4 text-center"></i>
-                            Data Siswa
+                           class="flex items-center gap-3
+                                  px-4 py-3
+                                  rounded-xl
+                                  text-gray-300
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  transition
+                                  active:scale-[0.98]">
+
+                            <i class="fa-solid fa-user-graduate
+                                      w-4 text-center"></i>
+
+                            <span>
+                                Data Siswa
+                            </span>
+
                         </a>
+
+
+
+                        <!-- DATA KELAS -->
 
                         <a href="{{ url('/admin/data_kelas') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  text-gray-300 hover:bg-white/5
-                                  hover:text-white transition">
-                            <i class="fa-solid fa-school w-4 text-center"></i>
-                            Data Kelas
+                           class="flex items-center gap-3
+                                  px-4 py-3
+                                  rounded-xl
+                                  text-gray-300
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  transition
+                                  active:scale-[0.98]">
+
+                            <i class="fa-solid fa-school
+                                      w-4 text-center"></i>
+
+                            <span>
+                                Data Kelas
+                            </span>
+
                         </a>
 
-                        <a href="{{ url('/admin/data_mapel') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  text-gray-300 hover:bg-white/5
-                                  hover:text-white transition">
-                            <i class="fa-solid fa-book-open w-4 text-center"></i>
-                            Mata Pelajaran
-                        </a>
+
+
+                        <!-- JADWAL -->
 
                         <a href="{{ url('/admin/jadwal') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  text-gray-300 hover:bg-white/5
-                                  hover:text-white transition">
-                            <i class="fa-solid fa-calendar-days w-4 text-center"></i>
-                            Jadwal
+                           class="flex items-center gap-3
+                                  px-4 py-3
+                                  rounded-xl
+                                  text-gray-300
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  transition
+                                  active:scale-[0.98]">
+
+                            <i class="fa-solid fa-calendar-days
+                                      w-4 text-center"></i>
+
+                            <span>
+                                Jadwal
+                            </span>
+
                         </a>
 
                     </div>
@@ -153,81 +361,192 @@
 
         </div>
 
-<!-- ================================================= -->
+
+
+        <!-- ================================================= -->
         <!-- FOOTER SIDEBAR -->
         <!-- ================================================= -->
 
-        <div class="flex flex-col gap-1
-                    pt-3
-                    border-t border-white/10
-                    text-xs">
+        <div
+            class="flex flex-col gap-1
+                   pt-3
+                   border-t border-white/10
+                   text-xs">
 
 
-           <a href="{{ url('/admin/akun') }}"
-                class="flex items-center gap-2 px-2 py-2 rounded-lg
-                        hover:bg-white/10
-                        active:scale-[0.98]
-                        transition-all duration-200">
-                    <i class="fa-solid fa-user-circle w-4"></i>
-                    <span>Akun Admin</span>
+            <!-- AKUN ADMIN -->
+
+            <a href="{{ url('/admin/akun') }}"
+               class="flex items-center gap-2
+                      px-2 py-2
+                      rounded-lg
+                      hover:bg-white/10
+                      active:scale-[0.98]
+                      transition-all duration-200">
+
+                <i class="fa-solid fa-user-circle w-4"></i>
+
+                <span>
+                    Akun Admin
+                </span>
+
             </a>
 
 
+
             <!-- LOGOUT -->
-           <a href="{{ route('logout') }}"
-            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
-                    hover:bg-white/10
-                    active:scale-[0.98]
-                    transition-all duration-200">
+
+            <a href="{{ route('logout') }}"
+               class="w-full flex items-center gap-2
+                      px-2 py-2
+                      rounded-lg
+                      hover:bg-white/10
+                      active:scale-[0.98]
+                      transition-all duration-200">
+
                 <i class="fa-solid fa-right-from-bracket w-4"></i>
-                <span>Logout</span>
+
+                <span>
+                    Logout
+                </span>
+
             </a>
 
         </div>
 
     </aside>
 
+
+
+    <!-- ========================================================= -->
+    <!-- SCROLL HELPER MOBILE -->
+    <!-- SAMA SEPERTI DASHBOARD ADMIN -->
+    <!-- ========================================================= -->
+
+    <div
+        id="scrollHelper"
+        class="md:hidden fixed right-2 sm:right-3
+               top-1/2 -translate-y-1/2
+               z-30
+               flex flex-col items-center gap-1">
+
+
+        <!-- KE ATAS -->
+
+        <button
+            type="button"
+            onclick="scrollToTop()"
+            title="Kembali ke atas"
+            class="w-7 h-7
+                   rounded-full
+                   bg-white/90
+                   border border-emerald-100
+                   shadow-sm
+                   text-medium-green
+                   hover:bg-mint-green
+                   transition
+                   flex items-center justify-center">
+
+            <i class="fa-solid fa-chevron-up text-[9px]"></i>
+
+        </button>
+
+
+
+        <!-- TRACK -->
+
+        <div
+            class="relative
+                   w-1 h-24
+                   bg-dark-green/10
+                   rounded-full">
+
+            <div
+                id="scrollIndicator"
+                class="absolute left-0
+                       w-1 h-7
+                       bg-medium-green
+                       rounded-full"
+                style="top: 0;">
+            </div>
+
+        </div>
+
+
+
+        <!-- KE BAWAH -->
+
+        <button
+            type="button"
+            onclick="scrollToBottom()"
+            title="Ke bagian bawah"
+            class="w-7 h-7
+                   rounded-full
+                   bg-white/90
+                   border border-emerald-100
+                   shadow-sm
+                   text-medium-green
+                   hover:bg-mint-green
+                   transition
+                   flex items-center justify-center">
+
+            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ========================================================= -->
     <!-- MAIN -->
-    <main class="flex-1 p-4 md:p-6 overflow-y-auto">
+    <!-- ========================================================= -->
+
+    <main
+        class="min-w-0
+               w-full
+               p-4 pb-10
+               md:p-8
+               md:ml-56
+               md:max-w-[calc(100%-14rem)]
+               space-y-5 md:space-y-6">
 
 
+        <!-- ================================================= -->
         <!-- HEADER -->
-        <header class="mb-5">
+        <!-- ================================================= -->
 
-            <div class="flex items-center justify-between gap-4">
+        <header>
 
-                <div>
-                    <h1 class="text-xl md:text-2xl font-extrabold text-dark-green">
+            <div
+                class="flex items-start
+                       justify-between
+                       gap-4">
+
+
+                <!-- TITLE -->
+
+                <div class="min-w-0">
+
+                    <h1
+                        class="text-xl md:text-2xl
+                               font-extrabold
+                               text-dark-green">
+
                         Pengajuan Dispensasi
+
                     </h1>
 
-                    <p class="text-xs text-medium-green font-medium mt-1">
+
+                    <p
+                        class="text-xs md:text-sm
+                               text-medium-green
+                               font-medium
+                               mt-1">
+
                         Kelola dan pantau permohonan dispensasi siswa.
+
                     </p>
-                </div>
-
-
-                <!-- NOTIFIKASI -->
-                <div class="relative shrink-0">
-
-                    <button
-                        type="button"
-                        class="w-10 h-10 rounded-xl bg-white shadow-sm
-                               text-dark-green hover:bg-gray-50
-                               transition flex items-center justify-center">
-
-                        <i class="fa-solid fa-bell"></i>
-
-                    </button>
-
-                    <!-- JUMLAH NOTIF -->
-                    <span class="absolute -top-1 -right-1
-                                 min-w-[18px] h-[18px] px-1
-                                 rounded-full bg-red-500 text-white
-                                 text-[9px] font-bold
-                                 flex items-center justify-center">
-                        3
-                    </span>
 
                 </div>
 
@@ -236,48 +555,95 @@
         </header>
 
 
-        <!-- FILTER -->
-        <section class="bg-white p-4 rounded-2xl shadow-sm mb-5">
 
-            <div class="flex flex-col sm:flex-row gap-3">
+        <!-- ================================================= -->
+        <!-- FILTER -->
+        <!-- ================================================= -->
+
+        <section
+            class="bg-white
+                   p-4 md:p-5
+                   rounded-2xl
+                   shadow-sm">
+
+
+            <div
+                class="grid
+                       grid-cols-1
+                       sm:grid-cols-2
+                       lg:grid-cols-3
+                       gap-4">
+
 
                 <!-- TANGGAL -->
-                <div class="flex-1">
 
-                    <label class="block text-[10px]
-                                  font-bold text-gray-400
-                                  uppercase tracking-wider mb-1.5">
+                <div>
+
+                    <label
+                        class="block
+                               text-[11px]
+                               md:text-xs
+                               font-bold
+                               text-gray-500
+                               uppercase
+                               tracking-wider
+                               mb-1.5">
+
                         Tanggal
+
                     </label>
 
-                    <input type="date"
-                           value="2026-09-23"
-                           class="w-full bg-gray-50
-                                  border border-gray-200
-                                  text-xs font-bold
-                                  rounded-xl px-3 py-2.5
-                                  text-dark-green outline-none
-                                  focus:border-medium-green">
+
+                    <input
+                        type="date"
+                        value="2026-09-23"
+                        class="w-full
+                               bg-gray-50
+                               border border-gray-200
+                               text-sm
+                               rounded-xl
+                               px-3 py-3
+                               text-dark-green
+                               outline-none
+                               focus:border-medium-green
+                               focus:ring-2
+                               focus:ring-medium-green/10">
 
                 </div>
 
 
-                <!-- STATUS -->
-                <div class="flex-1">
 
-                    <label class="block text-[10px]
-                                  font-bold text-gray-400
-                                  uppercase tracking-wider mb-1.5">
+                <!-- STATUS -->
+
+                <div>
+
+                    <label
+                        class="block
+                               text-[11px]
+                               md:text-xs
+                               font-bold
+                               text-gray-500
+                               uppercase
+                               tracking-wider
+                               mb-1.5">
+
                         Status
+
                     </label>
 
+
                     <select
-                        class="w-full bg-gray-50
+                        class="w-full
+                               bg-gray-50
                                border border-gray-200
-                               text-xs font-bold
-                               rounded-xl px-3 py-2.5
-                               text-dark-green outline-none
-                               focus:border-medium-green">
+                               text-sm
+                               rounded-xl
+                               px-3 py-3
+                               text-dark-green
+                               outline-none
+                               focus:border-medium-green
+                               focus:ring-2
+                               focus:ring-medium-green/10">
 
                         <option>Semua Status</option>
                         <option>Menunggu</option>
@@ -289,31 +655,52 @@
                 </div>
 
 
-                <!-- SEARCH -->
-                <div class="flex-1">
 
-                    <label class="block text-[10px]
-                                  font-bold text-gray-400
-                                  uppercase tracking-wider mb-1.5">
+                <!-- SEARCH -->
+
+                <div>
+
+                    <label
+                        class="block
+                               text-[11px]
+                               md:text-xs
+                               font-bold
+                               text-gray-500
+                               uppercase
+                               tracking-wider
+                               mb-1.5">
+
                         Cari
+
                     </label>
+
 
                     <div class="relative">
 
-                        <i class="fa-solid fa-magnifying-glass
-                                  absolute left-3 top-1/2
-                                  -translate-y-1/2
-                                  text-gray-400 text-xs"></i>
+                        <i
+                            class="fa-solid fa-magnifying-glass
+                                   absolute
+                                   left-3 top-1/2
+                                   -translate-y-1/2
+                                   text-gray-400
+                                   text-xs">
+                        </i>
 
-                        <input type="text"
-                               placeholder="Cari nama siswa..."
-                               class="w-full bg-gray-50
-                                      border border-gray-200
-                                      text-xs font-medium
-                                      rounded-xl
-                                      pl-9 pr-3 py-2.5
-                                      text-dark-green outline-none
-                                      focus:border-medium-green">
+
+                        <input
+                            type="text"
+                            placeholder="Cari nama siswa..."
+                            class="w-full
+                                   bg-gray-50
+                                   border border-gray-200
+                                   text-sm
+                                   rounded-xl
+                                   pl-9 pr-3 py-3
+                                   text-dark-green
+                                   outline-none
+                                   focus:border-medium-green
+                                   focus:ring-2
+                                   focus:ring-medium-green/10">
 
                     </div>
 
@@ -324,30 +711,69 @@
         </section>
 
 
+
+        <!-- ================================================= -->
         <!-- DAFTAR PENGAJUAN -->
-        <section class="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <!-- ================================================= -->
+
+        <section
+            class="bg-white
+                   rounded-2xl
+                   shadow-sm
+                   overflow-hidden">
+
 
             <!-- HEADER -->
-            <div class="p-4 border-b border-gray-100">
 
-                <div class="flex items-center justify-between">
+            <div
+                class="p-4 md:p-5
+                       border-b border-gray-100">
+
+
+                <div
+                    class="flex
+                           flex-col
+                           sm:flex-row
+                           sm:items-center
+                           justify-between
+                           gap-3">
+
 
                     <div>
 
-                        <h2 class="text-sm font-extrabold text-dark-green">
+                        <h2
+                            class="text-base md:text-lg
+                                   font-extrabold
+                                   text-dark-green">
+
                             Pengajuan Terbaru
+
                         </h2>
 
-                        <p class="text-[11px] text-gray-400 mt-0.5">
+
+                        <p
+                            class="text-xs md:text-sm
+                                   text-gray-500
+                                   mt-1">
+
                             Permohonan yang dikirim oleh guru piket.
+
                         </p>
 
                     </div>
 
-                    <span class="bg-gray-100 text-gray-500
-                                 text-[10px] font-bold
-                                 px-2.5 py-1 rounded-lg">
+
+                    <span
+                        class="self-start sm:self-auto
+                               bg-gray-100
+                               text-gray-600
+                               text-xs
+                               font-bold
+                               px-3 py-1.5
+                               rounded-lg">
+
                         3 Pengajuan
+
                     </span>
 
                 </div>
@@ -355,62 +781,110 @@
             </div>
 
 
+
+            <!-- ================================================= -->
             <!-- LIST -->
-            <div class="p-4 space-y-3">
+            <!-- ================================================= -->
+
+            <div class="p-4 md:p-5 space-y-3">
+
 
 
                 <!-- ================================================= -->
                 <!-- PENGAJUAN 1 -->
                 <!-- ================================================= -->
 
-                <a href="{{ url('/admin/data_dispensasi/1') }}"
-                   class="block border border-amber-100
-                          bg-amber-50/30
-                          rounded-xl p-3
-                          transition-all duration-200
-                          hover:-translate-y-0.5
-                          hover:shadow-md
-                          hover:border-medium-green
-                          cursor-pointer">
+                <a
+                    href="{{ url('/admin/data_dispensasi/1') }}"
+                    class="block
+                           border border-amber-100
+                           bg-amber-50/30
+                           rounded-xl
+                           p-4
+                           transition-all duration-200
+                           hover:-translate-y-0.5
+                           hover:shadow-md
+                           hover:border-medium-green">
 
-                    <div class="flex flex-col sm:flex-row
-                                sm:items-center
-                                justify-between gap-3">
 
-                        <div class="flex items-start gap-3">
+                    <div
+                        class="flex
+                               flex-col
+                               lg:flex-row
+                               lg:items-center
+                               justify-between
+                               gap-4">
 
-                            <div class="w-10 h-10 shrink-0
-                                        rounded-xl bg-dark-green
-                                        text-mint-green
-                                        flex items-center justify-center">
 
-                                <i class="fa-solid fa-user-graduate text-xs"></i>
+                        <!-- INFORMASI -->
+
+                        <div
+                            class="flex
+                                   items-start
+                                   gap-3
+                                   min-w-0">
+
+
+                            <div
+                                class="w-11 h-11
+                                       shrink-0
+                                       rounded-xl
+                                       bg-dark-green
+                                       text-mint-green
+                                       flex items-center
+                                       justify-center">
+
+                                <i class="fa-solid fa-user-graduate text-sm"></i>
 
                             </div>
 
-                            <div>
 
-                                <h3 class="text-xs font-extrabold
-                                           text-dark-green">
+                            <div class="min-w-0">
+
+                                <h3
+                                    class="text-sm md:text-base
+                                           font-extrabold
+                                           text-dark-green
+                                           break-words">
+
                                     MARVEL MAULANA SAPUTRA
+
                                 </h3>
 
-                                <p class="text-[11px] text-gray-500 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     XI RPL 2
+
                                 </p>
 
-                                <p class="text-[10px] text-gray-400 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     Keperluan:
-                                    <span class="text-gray-600">
+                                    <span class="text-gray-700 font-medium">
                                         Lomba
                                     </span>
+
                                 </p>
 
-                                <p class="text-[10px] text-gray-400 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     Diajukan oleh:
-                                    <span class="text-gray-600">
+                                    <span class="text-gray-700 font-medium">
                                         Guru Piket
                                     </span>
+
                                 </p>
 
                             </div>
@@ -418,23 +892,44 @@
                         </div>
 
 
-                        <!-- STATUS + DETAIL -->
-                        <div class="flex items-center gap-2
-                                    self-start sm:self-center">
 
-                            <span class="bg-amber-100
-                                         text-amber-700
-                                         text-[10px] font-bold
-                                         px-2.5 py-1 rounded-lg">
+                        <!-- STATUS + DETAIL -->
+
+                        <div
+                            class="flex
+                                   items-center
+                                   gap-2
+                                   self-start
+                                   lg:self-center
+                                   shrink-0">
+
+
+                            <span
+                                class="bg-amber-100
+                                       text-amber-700
+                                       text-xs
+                                       font-bold
+                                       px-3 py-1.5
+                                       rounded-lg">
+
                                 Menunggu
+
                             </span>
 
-                            <span class="inline-flex items-center gap-1.5
-                                         bg-dark-green text-white
-                                         text-[10px] font-bold
-                                         px-2.5 py-1 rounded-lg">
+
+                            <span
+                                class="inline-flex
+                                       items-center
+                                       gap-1.5
+                                       bg-dark-green
+                                       text-white
+                                       text-xs
+                                       font-bold
+                                       px-3 py-1.5
+                                       rounded-lg">
 
                                 <i class="fa-solid fa-eye"></i>
+
                                 Detail
 
                             </span>
@@ -444,59 +939,103 @@
                     </div>
 
                 </a>
+
 
 
                 <!-- ================================================= -->
                 <!-- PENGAJUAN 2 -->
                 <!-- ================================================= -->
 
-                <a href="{{ url('/admin/data_dispensasi/2') }}"
-                   class="block border border-gray-100
-                          rounded-xl p-3
-                          transition-all duration-200
-                          hover:-translate-y-0.5
-                          hover:shadow-md
-                          hover:border-medium-green
-                          cursor-pointer">
+                <a
+                    href="{{ url('/admin/data_dispensasi/2') }}"
+                    class="block
+                           border border-gray-100
+                           rounded-xl
+                           p-4
+                           transition-all duration-200
+                           hover:-translate-y-0.5
+                           hover:shadow-md
+                           hover:border-medium-green">
 
-                    <div class="flex flex-col sm:flex-row
-                                sm:items-center
-                                justify-between gap-3">
 
-                        <div class="flex items-start gap-3">
+                    <div
+                        class="flex
+                               flex-col
+                               lg:flex-row
+                               lg:items-center
+                               justify-between
+                               gap-4">
 
-                            <div class="w-10 h-10 shrink-0
-                                        rounded-xl bg-dark-green
-                                        text-mint-green
-                                        flex items-center justify-center">
 
-                                <i class="fa-solid fa-user-graduate text-xs"></i>
+                        <!-- INFORMASI -->
+
+                        <div
+                            class="flex
+                                   items-start
+                                   gap-3
+                                   min-w-0">
+
+
+                            <div
+                                class="w-11 h-11
+                                       shrink-0
+                                       rounded-xl
+                                       bg-dark-green
+                                       text-mint-green
+                                       flex items-center
+                                       justify-center">
+
+                                <i class="fa-solid fa-user-graduate text-sm"></i>
 
                             </div>
 
-                            <div>
 
-                                <h3 class="text-xs font-extrabold
-                                           text-dark-green">
+                            <div class="min-w-0">
+
+                                <h3
+                                    class="text-sm md:text-base
+                                           font-extrabold
+                                           text-dark-green
+                                           break-words">
+
                                     MARWA RIZQIANI PUTRI
+
                                 </h3>
 
-                                <p class="text-[11px] text-gray-500 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     XI RPL 2
+
                                 </p>
 
-                                <p class="text-[10px] text-gray-400 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     Keperluan:
-                                    <span class="text-gray-600">
+                                    <span class="text-gray-700 font-medium">
                                         Kegiatan Sekolah
                                     </span>
+
                                 </p>
 
-                                <p class="text-[10px] text-gray-400 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     Diajukan oleh:
-                                    <span class="text-gray-600">
+                                    <span class="text-gray-700 font-medium">
                                         Guru Piket
                                     </span>
+
                                 </p>
 
                             </div>
@@ -504,23 +1043,44 @@
                         </div>
 
 
-                        <!-- STATUS + DETAIL -->
-                        <div class="flex items-center gap-2
-                                    self-start sm:self-center">
 
-                            <span class="bg-emerald-50
-                                         text-emerald-700
-                                         text-[10px] font-bold
-                                         px-2.5 py-1 rounded-lg">
+                        <!-- STATUS + DETAIL -->
+
+                        <div
+                            class="flex
+                                   items-center
+                                   gap-2
+                                   self-start
+                                   lg:self-center
+                                   shrink-0">
+
+
+                            <span
+                                class="bg-emerald-50
+                                       text-emerald-700
+                                       text-xs
+                                       font-bold
+                                       px-3 py-1.5
+                                       rounded-lg">
+
                                 Disetujui
+
                             </span>
 
-                            <span class="inline-flex items-center gap-1.5
-                                         bg-dark-green text-white
-                                         text-[10px] font-bold
-                                         px-2.5 py-1 rounded-lg">
+
+                            <span
+                                class="inline-flex
+                                       items-center
+                                       gap-1.5
+                                       bg-dark-green
+                                       text-white
+                                       text-xs
+                                       font-bold
+                                       px-3 py-1.5
+                                       rounded-lg">
 
                                 <i class="fa-solid fa-eye"></i>
+
                                 Detail
 
                             </span>
@@ -532,57 +1092,101 @@
                 </a>
 
 
+
                 <!-- ================================================= -->
                 <!-- PENGAJUAN 3 -->
                 <!-- ================================================= -->
 
-                <a href="{{ url('/admin/data_dispensasi/3') }}"
-                   class="block border border-gray-100
-                          rounded-xl p-3
-                          transition-all duration-200
-                          hover:-translate-y-0.5
-                          hover:shadow-md
-                          hover:border-medium-green
-                          cursor-pointer">
+                <a
+                    href="{{ url('/admin/data_dispensasi/3') }}"
+                    class="block
+                           border border-gray-100
+                           rounded-xl
+                           p-4
+                           transition-all duration-200
+                           hover:-translate-y-0.5
+                           hover:shadow-md
+                           hover:border-medium-green">
 
-                    <div class="flex flex-col sm:flex-row
-                                sm:items-center
-                                justify-between gap-3">
 
-                        <div class="flex items-start gap-3">
+                    <div
+                        class="flex
+                               flex-col
+                               lg:flex-row
+                               lg:items-center
+                               justify-between
+                               gap-4">
 
-                            <div class="w-10 h-10 shrink-0
-                                        rounded-xl bg-dark-green
-                                        text-mint-green
-                                        flex items-center justify-center">
 
-                                <i class="fa-solid fa-user-graduate text-xs"></i>
+                        <!-- INFORMASI -->
+
+                        <div
+                            class="flex
+                                   items-start
+                                   gap-3
+                                   min-w-0">
+
+
+                            <div
+                                class="w-11 h-11
+                                       shrink-0
+                                       rounded-xl
+                                       bg-dark-green
+                                       text-mint-green
+                                       flex items-center
+                                       justify-center">
+
+                                <i class="fa-solid fa-user-graduate text-sm"></i>
 
                             </div>
 
-                            <div>
 
-                                <h3 class="text-xs font-extrabold
-                                           text-dark-green">
+                            <div class="min-w-0">
+
+                                <h3
+                                    class="text-sm md:text-base
+                                           font-extrabold
+                                           text-dark-green
+                                           break-words">
+
                                     NAZWA AFIFAH ANWAR
+
                                 </h3>
 
-                                <p class="text-[11px] text-gray-500 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     XI RPL 2
+
                                 </p>
 
-                                <p class="text-[10px] text-gray-400 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     Keperluan:
-                                    <span class="text-gray-600">
+                                    <span class="text-gray-700 font-medium">
                                         Kejuaraan
                                     </span>
+
                                 </p>
 
-                                <p class="text-[10px] text-gray-400 mt-1">
+
+                                <p
+                                    class="text-xs
+                                           text-gray-500
+                                           mt-1">
+
                                     Diajukan oleh:
-                                    <span class="text-gray-600">
+                                    <span class="text-gray-700 font-medium">
                                         Guru Piket
                                     </span>
+
                                 </p>
 
                             </div>
@@ -590,22 +1194,44 @@
                         </div>
 
 
-                        <!-- STATUS + DETAIL -->
-                        <div class="flex items-center gap-2
-                                    self-start sm:self-center">
 
-                            <span class="bg-red-50 text-red-600
-                                         text-[10px] font-bold
-                                         px-2.5 py-1 rounded-lg">
+                        <!-- STATUS + DETAIL -->
+
+                        <div
+                            class="flex
+                                   items-center
+                                   gap-2
+                                   self-start
+                                   lg:self-center
+                                   shrink-0">
+
+
+                            <span
+                                class="bg-red-50
+                                       text-red-600
+                                       text-xs
+                                       font-bold
+                                       px-3 py-1.5
+                                       rounded-lg">
+
                                 Ditolak
+
                             </span>
 
-                            <span class="inline-flex items-center gap-1.5
-                                         bg-dark-green text-white
-                                         text-[10px] font-bold
-                                         px-2.5 py-1 rounded-lg">
+
+                            <span
+                                class="inline-flex
+                                       items-center
+                                       gap-1.5
+                                       bg-dark-green
+                                       text-white
+                                       text-xs
+                                       font-bold
+                                       px-3 py-1.5
+                                       rounded-lg">
 
                                 <i class="fa-solid fa-eye"></i>
+
                                 Detail
 
                             </span>
@@ -622,6 +1248,141 @@
         </section>
 
     </main>
+
+
+
+    <!-- ========================================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================================= -->
+
+    <script>
+
+        /* =========================================================
+           SIDEBAR MOBILE
+        ========================================================= */
+
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+
+        function openSidebar() {
+
+            sidebar.classList.remove('-translate-x-full');
+
+            sidebarOverlay.classList.remove('hidden');
+
+            document.body.classList.add('overflow-hidden');
+
+        }
+
+
+        function closeSidebar() {
+
+            sidebar.classList.add('-translate-x-full');
+
+            sidebarOverlay.classList.add('hidden');
+
+            document.body.classList.remove('overflow-hidden');
+
+        }
+
+
+
+        document.querySelectorAll('#sidebar a').forEach(link => {
+
+            link.addEventListener('click', function () {
+
+                if (window.innerWidth < 768) {
+
+                    closeSidebar();
+
+                }
+
+            });
+
+        });
+
+
+        const scrollIndicator =
+            document.getElementById('scrollIndicator');
+
+
+        function updateScrollIndicator() {
+
+            const scrollTop = window.scrollY;
+
+            const maxScroll =
+                document.documentElement.scrollHeight -
+                window.innerHeight;
+
+
+            if (maxScroll <= 0) {
+
+                scrollIndicator.style.top = '0px';
+
+                return;
+
+            }
+
+
+            const trackHeight = 96;
+
+            const indicatorHeight = 28;
+
+            const percentage =
+                scrollTop / maxScroll;
+
+            const maxTop =
+                trackHeight - indicatorHeight;
+
+
+            scrollIndicator.style.top =
+                `${percentage * maxTop}px`;
+
+        }
+
+
+        window.addEventListener(
+            'scroll',
+            updateScrollIndicator
+        );
+
+
+        window.addEventListener(
+            'resize',
+            updateScrollIndicator
+        );
+
+
+        function scrollToTop() {
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: 'smooth'
+
+            });
+
+        }
+
+
+        function scrollToBottom() {
+
+            window.scrollTo({
+
+                top: document.documentElement.scrollHeight,
+
+                behavior: 'smooth'
+
+            });
+
+        }
+
+
+        updateScrollIndicator();
+
+    </script>
 
 </body>
 </html>
