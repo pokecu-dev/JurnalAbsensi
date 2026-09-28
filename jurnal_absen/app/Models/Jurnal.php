@@ -22,6 +22,8 @@ class Jurnal extends Model
         'tgl',
         'materi',
         'catatan',
+        'instruksi_tugas',
+        'alasan_kosong',
         'guru',
         'status',
         'foto',
@@ -61,12 +63,11 @@ class Jurnal extends Model
         // return $daftar_hari[$day]; 
 
         return now()->locale('id')->isoFormat('dddd');
-
-
     }
 
-    public function jadwal(){
-        return $this->belongsTo(Jadwal::class,'id_jadwal');
+    public function jadwal()
+    {
+        return $this->belongsTo(Jadwal::class, 'id_jadwal');
     }
 
     public function teacher()
@@ -84,8 +85,31 @@ class Jurnal extends Model
         return $this->belongsTo(Mapel::class, 'mapel_id');
     }
 
+    public function detailJurnal() {
+        return $this->hasMany(DetailJurnal::class,'jurnal_id');
+    }
+
     // public static function hourConvert(int $mode,$hour) {
     //     $hourMapel = 45;
-        
+
     // }
+
+    public function getKeteranganLabelAttribute(): string
+    {
+        return match ($this->keterangan) {
+            'hadir' => 'Hadir',
+            'tidak_hadir_tugas' => 'Tidak Hadir (Ada Tugas)',
+            'tidak_hadir_tanpa_tugas' => 'Tidak Hadir (Tanpa Tugas)',
+            default => $this->keterangan ?? '-',
+        };
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return match ($this->status) {
+            'approved' => 'Tervalidasi',
+            'rejected' => 'Ditolak',
+            default => 'Menunggu Validasi',
+        };
+    }
 }
