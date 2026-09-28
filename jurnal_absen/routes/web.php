@@ -40,7 +40,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::view('/admin/data_guru/{id}', 'admin.detail_guru')->name('admin.detail_guru');
         Route::view('/admin/data_siswa', 'admin/data_siswa')->name('admin.data_siswa');
         Route::view('/admin/data_siswa/{id}', 'admin.detail_siswa')->name('admin.detail_siswa');
-
+Route::view('/admin/data_kelas', 'admin.data_kelas')->name('admin.data_kelas');
+Route::view('/admin/jadwal', 'admin.jadwal')->name('admin.jadwal');
+Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
     });
 
     Route::middleware(['role:guru'])->group(function () {
@@ -95,5 +97,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
-
 require __DIR__.'/auth.php';
+
