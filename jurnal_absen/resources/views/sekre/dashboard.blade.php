@@ -120,10 +120,39 @@
                     transition: background 0.2s;                                                                                                                                                               
                 }                                                                                                                                                                                              
                                                                                                                                                                                                                
-                .btn-sidebar:hover {                                                                                                                                                                           
-                    background: rgba(255, 255, 255, 0.18);                                                                                                                                                     
-                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                        
+                .btn-sidebar:hover {
+                    background: rgba(255, 255, 255, 0.18);
+                }
+
+            .mobile-header {
+                display: none;
+                background-color: var(--bg-sidebar);
+                color: #fff;
+                padding: 14px 20px;
+                align-items: center;
+                justify-content: space-between;
+                position: sticky;
+                top: 0;
+                z-index: 99;
+            }
+            .btn-hamburger {
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 20px;
+                cursor: pointer;
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 998;
+            }
+
             .main-content {
                 flex: 1;
                 padding: 30px 45px;
@@ -487,11 +516,74 @@
     text-align: right;
     min-width: 120px;
 }
+
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
+            .mobile-header { display: flex; }
+            .sidebar-overlay.active { display: block; }
+
+            .sidebar {
+                position: fixed; top: 0; left: -260px;
+                width: 240px; height: 100vh;
+                min-width: 0;
+                z-index: 999;
+            }
+            .sidebar.active { left: 0; }
+
+            .main-content { padding: 20px 16px; }
+
+            .top-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .header-right { width: 100%; justify-content: space-between; }
+
+            .welcome-title { font-size: 20px; }
+
+            .benner-body {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .banner-col { padding-right: 0; border-right: none; width: 100%; }
+            .banner-col + .banner-col { margin-top: 12px; }
+            .btn-detail-banner { width: 100%; justify-content: center; }
+
+            .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .stat-card { padding: 14px 16px; }
+            .stat-value { font-size: 22px; }
+
+            .bottom-row { grid-template-columns: 1fr; gap: 16px; }
+            .section-card { padding: 16px 18px; }
+
+            .validasi-item { flex-wrap: wrap; gap: 8px; }
+            .validasi-info { flex: 0 0 100%; }
+            .validasi-right {
+                width: 100%;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                text-align: left;
+                padding-top: 8px;
+                border-top: 1px solid #EDE6DA;
+                gap: 12px;
+            }
+            .validasi-status { min-width: auto; }
+            .validasi-tanggal { min-width: auto; text-align: left; }
+
+            .btn-detail { padding: 6px 16px; }
+            .btn-lihat-semua { padding: 10px; }
+        }
         </style>                                                                                                   
     </head>
     <body>
+        <div class="mobile-header">
+            <span class="logo-title">Jurnal Absensi</span>
+            <button class="btn-hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
         <div class="dasboard-layout">
-            <aside class="sidebar">
+            <aside class="sidebar" id="sidebar">
                 <div>
                   <div class="logo-container">
                             <img src="{{ asset('image/logo.png') }}" alt="Logo Jurnal Absensi">
@@ -621,86 +713,94 @@
                                     <span class="validasi-mapel">MATEMATIKA</span>
                                     <span class="validasi-kelas">XI PPLG 2 - Jam ke 1</span>
                                 </div>
-                                <span class="validasi-status tervalidasi">TERVALIDASI</span>
-                                <span class="validasi-kelas">21 juli 2026, 08:20</span>
+                                <div class="validasi-right">
+                                    <span class="validasi-status tervalidasi">TERVALIDASI</span>
+                                    <span class="validasi-tanggal">21 juli 2026, 08:20</span>
+                                </div>
                             </div>
                             <div class="validasi-item">
                                 <span class="dot hijau"></span>
                                 <div class="validasi-info">
                                     <span class="validasi-mapel">MATEMATIKA</span>
                                     <span class="validasi-kelas">XI PPLG 1 - Jam ke 2</span>
+                                </div>
+                                <div class="validasi-right">
+                                    <span class="validasi-status tervalidasi">TERVALIDASI</span>
+                                    <span class="validasi-tanggal">21 juli 2026, 08:40</span>
+                                </div>
                             </div>
-                            <span class="validasi-status tervalidasi">TERVALIDASI</span>
-                            <span class="validasi-kelas">21 juli 2026, 08:40</span>
+                            <div class="validasi-item">
+                                <span class="dot kuning"></span>
+                                <div class="validasi-info">
+                                    <span class="validasi-mapel">MATEMATIKA</span>
+                                    <span class="validasi-kelas">XI TKJ 2 - Jam ke 4</span>
+                                </div>
+                                <div class="validasi-right">
+                                    <span class="validasi-status menunggu">MENUNGGU</span>
+                                    <span class="validasi-tanggal">21 juli 2026, 09:00</span>
+                                </div>
+                            </div>
+                            <div class="validasi-item">
+                                <span class="dot merah"></span>
+                                <div class="validasi-info">
+                                    <span class="validasi-mapel">MATEMATIKA</span>
+                                    <span class="validasi-kelas">XI TKI 2 - Jam ke 5</span>
+                                </div>
+                                <div class="validasi-right">
+                                    <span class="validasi-status perlu-diperbaiki">Perlu Diperbaiki</span>
+                                    <span class="validasi-tanggal">21 juli 2026, 09:50</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="validasi-item">
-                            <span class="dot kuning"></span>
-                            <div class="validasi-info">
-                                <span class="validasi-mapel">MATEMATIKA</span>
-                                <span class="validasi-kelas">XI TKJ 2 - Jam ke 4</span>                                                          
-                        </div>
-                        <span class="validasi-status menunggu">MENUNGGU</span>
-                        <span class="validasi-kelas"> 21 juli 2026, 09:00</span>
+                        <a href="#" class="btn-lihat-semua">Lihat Semua Status Validasi</a>
                     </div>
-                    <div class="validasi-item">
-                        <span class="dot merah"></span>
-                        <div class="validasi-info">
-                            <span class="validasi-mapel">MATEMATIKA</span>
-                            <span class="validasi-kelas">XI TKI 2 - Jam ke 5</span>
+                    <div class="section-card card-perlu-validasi">
+                        <h3>Perlu Validasi</h3>
+                        <div class="validasi-list">
+                            <div class="validasi-item">
+                                <div class="validasi-info">
+                                    <span class="validasi-mapel">MATEMATIKA</span>
+                                    <span class="validasi-kelas">XI PPLG 2 - Jam ke 1</span>
+                                </div>
+                                <div class="validasi-right">
+                                    <a href="#" class="btn-detail">Detail</a>
+                                    <span class="validasi-tanggal">21 Juli 2026, 08:20</span>
+                                </div>
+                            </div>
+                            <div class="validasi-item">
+                                <div class="validasi-info">
+                                    <span class="validasi-mapel">MATEMATIKA</span>
+                                    <span class="validasi-kelas">XI PPLG 1 - Jam ke 8</span>
+                                </div>
+                                <div class="validasi-right">
+                                    <a href="#" class="btn-detail">Detail</a>
+                                    <span class="validasi-tanggal">21 Juli 2026, 08:40</span>
+                                </div>
+                            </div>
+                            <div class="validasi-item">
+                                <div class="validasi-info">
+                                    <span class="validasi-mapel">MATEMATIKA</span>
+                                    <span class="validasi-kelas">XI TKJ 2 - Jam ke 8</span>
+                                </div>
+                                <div class="validasi-right">
+                                    <a href="#" class="btn-detail">Detail</a>
+                                    <span class="validasi-tanggal">21 Juli 2026, 09:30</span>
+                                </div>
+                            </div>
+                            <div class="validasi-item">
+                                <div class="validasi-info">
+                                    <span class="validasi-mapel">MATEMATIKA</span>
+                                    <span class="validasi-kelas">XI TKI 2 - Jam ke 10</span>
+                                </div>
+                                <div class="validasi-right">
+                                    <a href="#" class="btn-detail">Detail</a>
+                                    <span class="validasi-tanggal">21 Juli 2026, 09:30</span>
+                                </div>
+                            </div>
                         </div>
-                        <span class="validasi-status perlu-diperbaiki">Perlu Diperbaiki</span>
-                        <span class="validasi-kelas">21 juli 2026, 09:50</span>
+                        <a href="#" class="btn-lihat-semua">Lihat Semua Antrean</a>
                     </div>
-                  </div>
-                  <a href="#" class="btn-lihat-semua">LIhat Semua Status Validasi</a>
-              </div>
-              <div class="section-card card-perlu-validasi">
-        <h3>Perlu Validasi</h3>
-        <div class="validasi-list">
-            <div class="validasi-item">
-                <div class="validasi-info">
-                    <span class="validasi-mapel">MATEMATIKA</span>
-                    <span class="validasi-kelas">XI PPLG 2 - Jam ke 1</span>
                 </div>
-                <div class="validasi-right">
-                <a href="#" class="btn-detail">Detail</a>
-                <span class="validasi-tanggal">21 Juli 2026, 08:20</span>
-                </div>
-            </div>
-            <div class="validasi-item">
-                <div class="validasi-info">
-                    <span class="validasi-mapel">MATEMATIKA</span>
-                    <span class="validasi-kelas">XI PPLG 1 - Jam ke 8</span>
-                </div>
-                <div class="validasi-right">
-                <a href="#" class="btn-detail">Detail</a>
-                <span class="validasi-tanggal">21 Juli 2026, 08:40</span>
-                </div>
-            </div>
-            <div class="validasi-item">
-                <div class="validasi-info">
-                    <span class="validasi-mapel">MATEMATIKA</span>
-                    <span class="validasi-kelas">XI TKJ 2 - Jam ke 8</span>
-                </div>
-                <div class="validasi-right">
-                <a href="#" class="btn-detail">Detail</a>
-                <span class="validasi-tanggal">21 Juli 2026, 09:30</span>
-                </div>
-            </div>
-            <div class="validasi-item">
-                <div class="validasi-info">
-                    <span class="validasi-mapel">MATEMATIKA</span>
-                    <span class="validasi-kelas">XI TKI 2 - Jam ke 10</span>
-                </div>
-                <div class="validasi-right">
-                <a href="#" class="btn-detail">Detail</a>
-                <span class="validasi-tanggal">21 Juli 2026, 09:30</span>
-                </div>
-            </div>
-        </div>
-        <a href="#" class="btn-lihat-semua">Lihat Semua Antrean</a>
-    </div>
-</div> <!-- .bottom-row -->
             </main>
         </div> <!-- .dasboard-layout -->
            <script> 
@@ -717,6 +817,22 @@
                 } 
                 updateLiveTIME();
                 setInterval(updateLiveTIME, 1000);
+
+                const hamburgerBtn = document.getElementById('hamburgerBtn');
+                const sidebar = document.getElementById('sidebar');
+                const sidebarOverlay = document.getElementById('sidebarOverlay');
+                if (hamburgerBtn) {
+                    hamburgerBtn.addEventListener('click', () => {
+                        sidebar.classList.toggle('active');
+                        sidebarOverlay.classList.toggle('active');
+                    });
+                }
+                if (sidebarOverlay) {
+                    sidebarOverlay.addEventListener('click', () => {
+                        sidebar.classList.remove('active');
+                        sidebarOverlay.classList.remove('active');
+                    });
+                }
             </script>
 
     </body>                                                                                                                                                                                                    
