@@ -223,29 +223,34 @@
                     <div class="flex items-center justify-between gap-4">
                         <div>
                             <h1 class="text-xl md:text-2xl font-extrabold text-dark-green">
-                                Data Mata Pelajaran
+                                Data Guru
                             </h1>
 
                             <p class="text-xs text-medium-green font-medium mt-1">
-                                Kelola daftar mata pelajaran dan kategori dalam sistem.
+                                Kelola daftar data guru.
                             </p>
                         </div>
                     </div>
 
 
                 <!-- TAMBAH GURU -->
-                <button type="button"
-                    onclick="openTambahGuru()"
+              <button
+                    type="button"
+                    onclick="openTambahSiswa()"
                     class="bg-dark-green
                            hover:bg-medium-green
                            active:scale-95
-                           text-white text-xs font-bold
-                           px-4 py-2.5 rounded-xl
+                           text-white
+                           text-xs font-bold
+                           px-4 py-2.5
+                           rounded-xl
                            transition-all duration-200
-                           inline-flex items-center gap-2">
+                           inline-flex items-center
+                           gap-2 whitespace-nowrap">
 
                     <i class="fa-solid fa-plus"></i>
-                    Tambah Guru
+
+                    Tambah Siswa
 
                 </button>
 

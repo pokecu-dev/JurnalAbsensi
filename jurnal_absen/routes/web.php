@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:guru'])->group(function () {
 
         Route::get('/guru/dashboard', function () {
-            //    $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
+                $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
 
             return view('guru.dashboard', compact(['jadwal']));
         })->name('guru.dashboard');
