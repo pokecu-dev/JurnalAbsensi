@@ -21,65 +21,71 @@
             }
         }
     </script>
+
 </head>
 <body class="bg-bg-cream text-dark-green font-sans min-h-screen overflow-x-hidden overscroll-none w-full">      
     <!-- MOBILE HEADER -->
     <div class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
-        <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
-        <button id="hamburgerBtn" class="text-xl focus:outline-none"><i class="fa-solid fa-bars"></i></button>
+        <div class="flex items-center gap-2">
+            <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
+            <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
+        </div>
+        <button id="hamburgerBtn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </div>
 
     <!-- SIDEBAR OVERLAY (MOBILE) -->
     <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
     <!-- SIDEBAR -->
-<aside id="sidebar"
-    class="fixed inset-y-0 left-0 w-60 bg-dark-green text-white p-6 flex flex-col justify-between z-50 -translate-x-full md:translate-x-0 transition-transform duration-300">   
-         <div>
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-60 md:w-56 bg-dark-green text-white p-6 flex flex-col justify-between z-50 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+
+        <div>
             <div class="flex flex-col items-center gap-2 mb-10 text-center">
                 <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-16 h-auto">
                 <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
             </div>
 
-            <nav class="flex flex-col gap-2 font-semibold text-xs">
-                <a href="{{ url('/guru/dashboard') }}" class="flex items-center gap-3 px-4 py-3 bg-white/10 text-mint-green rounded-xl transition">
-                    <i class="fa-solid fa-house w-4"></i> Dashboard
+            <nav class="flex flex-col gap-5 font-semibold text-xs">
+
+                <!-- UTAMA -->
+                <div>
+                    <div class="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider mb-2 px-2">Utama</div>
+                    <div class="space-y-1">
+                <a href="{{ url('/guru/dashboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 bg-white/10 text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-solid fa-house w-4 text-center"></i>
+                    Dashboard
                 </a>
-                <a href="{{ url('/guru/jurnal') }}" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition">
-                    <i class="fa-solid fa-book w-4"></i> Jurnal
+
+                <a href="{{ url('/guru/jurnal') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-solid fa-book w-4 text-center"></i>
+                    Jurnal
                 </a>
-                <a href="{{ url('/guru/riwayat') }}" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition">
-                    <i class="fa-regular fa-calendar-days w-4"></i> Riwayat
+
+                <a href="{{ url('/guru/riwayat') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-regular fa-calendar-days w-4 text-center"></i>
+                    Riwayat
                 </a>
+</div>
             </nav>
         </div>
 
-        <!-- ================================================= -->
         <!-- FOOTER SIDEBAR -->
-        <!-- ================================================= -->
+        <div class="flex flex-col gap-1 pt-3 border-t border-white/10 text-xs">
 
-        <div class="flex flex-col gap-1
-                    pt-3
-                    border-t border-white/10
-                    text-xs">
-
-
-           <a href="{{ url('/admin/akun') }}"
-                class="flex items-center gap-2 px-2 py-2 rounded-lg
-                        hover:bg-white/10
-                        active:scale-[0.98]
-                        transition-all duration-200">
-                    <i class="fa-solid fa-user-circle w-4"></i>
-                    <span>Akun Admin</span>
+            <a href="{{ url('/guru/akun') }}"
+                class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
+                <i class="fa-solid fa-user-circle w-4"></i>
+                <span>Akun Guru</span>
             </a>
 
-
-            <!-- LOGOUT -->
-           <a href="{{ route('logout') }}"
-            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
-                    hover:bg-white/10
-                    active:scale-[0.98]
-                    transition-all duration-200">
+            <a href="{{ route('logout') }}"
+                class="w-full flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
                 <i class="fa-solid fa-right-from-bracket w-4"></i>
                 <span>Logout</span>
             </a>
@@ -87,10 +93,9 @@
         </div>
 
     </aside>
-    </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 p-4 pb-12 md:p-8 md:ml-60 max-w-full md:max-w-[calc(100%-15rem)] mx-auto min-w-0 space-y-4 md:space-y-6">     
+    <main class="flex-1 p-4 pb-12 md:p-8 md:ml-56 max-w-full md:max-w-[calc(100%-14rem)] mx-auto min-w-0 space-y-4 md:space-y-6">     
        <header class="flex items-center justify-between gap-3">
             <div class="min-w-0">
                 <h1 class="text-base sm:text-lg md:text-2xl font-black text-dark-green tracking-tight leading-snug">
@@ -106,11 +111,11 @@
 
                
                 <div class="text-right leading-tight">
-                    <div class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">
+                    <div id="live-date" class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">
                         {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
                     </div>
 
-                    <div class="text-[10px] sm:text-xs font-extrabold text-dark-green mt-0.5">
+                    <div id="live-clock" class="text-[10px] sm:text-xs font-extrabold text-dark-green mt-0.5">
                         {{ now()->format('H.i') }} WIB
                     </div>
                 </div>
@@ -128,11 +133,11 @@
                         Jadwal Berikutnya
                     </span>
                     <h2 class="text-lg sm:text-xl md:text-2xl font-black tracking-wide leading-tight text-white">
-                        MATEMATIKA
+                        XI RPL 2
                     </h2>
                     <p class="text-xs text-gray-300 font-semibold mt-0.5">
-                        XI DKV 2
-                    </p>
+                        MATEMATIKA                   
+                     </p>
                 </div>
 
             </div>
@@ -166,8 +171,8 @@
         <section class="grid grid-cols-3 gap-2 md:gap-4">
 
             <!-- Card 1 -->
-            <div id="jadwalHariIni"
-                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md transition min-h-[52px]">
+            <button type="button" onclick="openModal('modalJadwal')" id="jadwalHariIni"
+                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md hover:border-medium-green active:scale-[0.98] transition min-h-[52px] text-left">
                 
                 <div class="w-6 h-6 md:w-9 md:h-9 rounded-lg bg-emerald-50 text-dark-green flex items-center justify-center text-[11px] md:text-sm shrink-0">
                     <i class="fa-solid fa-calendar-days"></i>
@@ -182,11 +187,11 @@
                         Hari Ini
                     </span>
                 </div>
-            </div>
+            </button>
 
             <!-- Card 2 -->
-            <div id="cardSelesai"
-                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md hover:border-medium-green transition min-h-[52px]">
+            <button type="button" onclick="openModal('modalSelesai')" id="cardSelesai"
+                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md hover:border-medium-green active:scale-[0.98] transition min-h-[52px] text-left">
                 
                 <div class="w-6 h-6 md:w-9 md:h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] md:text-xs shrink-0 shadow-xs">
                     <i class="fa-solid fa-check"></i>
@@ -194,18 +199,18 @@
 
                 <div class="min-w-0 flex-1">
                     <div class="flex items-baseline justify-between gap-1">
-                        <span class="text-[9px] md:text-xs font-bold text-gray-500 truncate">Selesai</span>
+                        <span class="text-[9px] md:text-xs font-bold text-gray-500 truncate">Jurnal</span>
                         <h3 class="text-xs md:text-base font-black text-dark-green leading-none">2</h3>
                     </div>
                     <span class="text-[8px] md:text-[10px] text-medium-green font-semibold block truncate leading-tight mt-0.5">
                         Sudah Diisi
                     </span>
                 </div>
-            </div>
+            </button>
 
             <!-- Card 3 -->
-            <div id="cardBelum"
-                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md hover:border-rose-400 transition min-h-[52px]">
+            <button type="button" onclick="openModal('modalBelum')" id="cardBelum"
+                class="bg-white px-2.5 py-2 md:p-3.5 rounded-xl border border-emerald-100/60 flex items-center gap-2 cursor-pointer hover:shadow-md hover:border-rose-400 active:scale-[0.98] transition min-h-[52px] text-left">
                 
                 <div class="w-6 h-6 md:w-9 md:h-9 rounded-full bg-rose-500 text-white flex items-center justify-center text-[10px] md:text-xs font-black shrink-0 shadow-xs">
                     !
@@ -213,14 +218,14 @@
 
                 <div class="min-w-0 flex-1">
                     <div class="flex items-baseline justify-between gap-1">
-                        <span class="text-[9px] md:text-xs font-bold text-gray-500 truncate">Belum</span>
+                        <span class="text-[9px] md:text-xs font-bold text-gray-500 truncate">Jurnal</span>
                         <h3 class="text-xs md:text-base font-black text-rose-600 leading-none">2</h3>
                     </div>
                     <span class="text-[8px] md:text-[10px] text-rose-500 font-semibold block truncate leading-tight mt-0.5">
-                        Diisi
+                        Belum Diisi
                     </span>
                 </div>
-            </div>
+            </button>
 
         </section>
 
@@ -610,39 +615,93 @@
     
     <!-- SCRIPT REALTIME TOGGLE & MODAL -->
     <script>
-        // Mobile Sidebar Toggle
+        /* ===== MOBILE SIDEBAR (sama seperti Guru Piket & Admin) ===== */
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-        hamburgerBtn.addEventListener('click', () => {
+        function openSidebar() {
             sidebar.classList.remove('-translate-x-full');
             sidebarOverlay.classList.remove('hidden');
-        });
-
-        sidebarOverlay.addEventListener('click', () => {
+            document.body.classList.add('overflow-hidden');
+        }
+        function closeSidebar() {
             sidebar.classList.add('-translate-x-full');
             sidebarOverlay.classList.add('hidden');
-        });
+            document.body.classList.remove('overflow-hidden');
+        }
 
-        // Modal Popup Jadwal Hari Ini
-        const jadwalHariIni = document.getElementById('jadwalHariIni');
-        const modalJadwal = document.getElementById('modalJadwal');
-    
+        if (hamburgerBtn) hamburgerBtn.addEventListener('click', openSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
 
-        modalJadwal.addEventListener('click', function (event) {
-            if (event.target === modalJadwal) {
-                modalJadwal.classList.add('hidden');
-                modalJadwal.classList.remove('flex');
+        if (sidebar) {
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) closeSidebar();
+                });
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                sidebarOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
             }
         });
 
-        function closeModal(id) {
-        const modal = document.getElementById(id);
 
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
+        /* ===== JAM LIVE (HEADER) — otomatis update tiap detik ===== */
+        function updateLiveTime() {
+            const now = new Date();
+            const dateEl = document.getElementById('live-date');
+            const clockEl = document.getElementById('live-clock');
+
+            if (dateEl) {
+                dateEl.textContent = now.toLocaleDateString('id-ID', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+            }
+            if (clockEl) {
+                const jam = String(now.getHours()).padStart(2, '0');
+                const menit = String(now.getMinutes()).padStart(2, '0');
+                clockEl.textContent = `${jam}.${menit} WIB`;
+            }
+        }
+        updateLiveTime();
+        setInterval(updateLiveTime, 1000);
+
+        /* ===== MODAL: Jadwal Hari Ini / Selesai / Belum Diisi ===== */
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        
+        ['modalJadwal', 'modalSelesai', 'modalBelum'].forEach(id => {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) closeModal(id);
+            });
+        });
+
+        /* Tombol Escape untuk menutup modal yang sedang terbuka */
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                ['modalJadwal', 'modalSelesai', 'modalBelum'].forEach(closeModal);
+            }
+        });
     </script>
 </body>
 </html>
