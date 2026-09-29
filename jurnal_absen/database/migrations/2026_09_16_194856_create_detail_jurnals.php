@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('jurnal_id')->constrained('jurnals','id')->cascadeOnDelete();
             $table->foreignId('siswa_id')->constrained('siswas','id')->cascadeOnDelete();
-            $table->enum('status',['dispen','izin','sakit','alpha']);
-            $table->string('catatan')->nullable();
-            $table->string('foto')->default('-');
+            $table->enum('status',['hadir','dispen','izin','sakit','alpha']);
             $table->timestamps();
         });
     }
