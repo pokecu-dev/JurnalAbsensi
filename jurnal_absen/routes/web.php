@@ -48,6 +48,7 @@ Route::middleware(['auth','verified'])->group(function(){
         Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
         Route::post('/guru/jurnal/create',[JurnalController::class,'create'])->name('guru.jurnal.create');
         Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
+        Route::view('/guru/akun', 'guru/akun')->name('guru.akun');
         
 
         Route::view('/guru/riwayat', 'guru/riwayat')->name('guru.riwayat');
