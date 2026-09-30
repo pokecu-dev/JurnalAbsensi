@@ -1,1103 +1,657 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="overscroll-none">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jurnal Mengajar - Jurnal Absensi</title>
+    <title>Jurnal Kelas</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --dark-green: #1A312C;
-            --medium-green: #428475;
-            --mint-green: #89D7B7;
-            --bg-cream: #FFF4E1;
 
-            --sidebar-bg: var(--dark-green);
-            --main-bg: var(--bg-cream);
-            --card-dark: var(--dark-green);
-            --primary-accent: var(--mint-green);
-            --secondary-accent: var(--medium-green);
-            --text-dark: #1A312C;
-            --text-muted: #53756C;
-            --tag-active: #CBEAD9;
-            --tag-inactive: #F4ECE1;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            display: flex;
-            height: 100vh;
-            background-color: var(--main-bg);
-            color: var(--text-dark);
-            overflow: hidden;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 200px;
-            min-width: 200px;
-            background-color: var(--sidebar-bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 24px 16px;
-            color: #fff;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            flex-shrink: 0;
-            z-index: 100;
-        }
-
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 0 45px 0;
-            text-align: center;
-        }
-
-        .logo-container img {
-            width: 65px;
-            height: auto;
-            object-fit: contain;
-        }
-
-        .logo-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 12px; 
-            margin-top: 10px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            color: #A5B5B0;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.12);
-            color: var(--mint-green);
-        }
-
-        .sidebar-footer {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn-sidebar {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .btn-sidebar:hover {
-            background: rgba(255, 255, 255, 0.18);
-        }
-
-        /* MAIN CONTENT */
-        .main-content {
-            flex: 1;
-            padding: 28px 40px;
-            overflow-y: auto;
-        }
-
-        /* HEADER */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 24px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .header p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .header-meta {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .header-meta i {
-            font-size: 18px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
-
-    
-        .mobile-header {
-            display: none;
-            background-color: var(--sidebar-bg);
-            color: #fff;
-            padding: 14px 20px;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 99;
-        }
-
-        .btn-hamburger {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 998;
-        }
-
-        /* KETERANGAN & INFO JADWAL */
-        .select-status-box {
-            margin-bottom: 20px;
-        }
-
-        .select-status-box label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .select-custom {
-            padding: 8px 16px;
-            border-radius: 10px;
-            border: 1px solid #D2E0DA;
-            background: #fff;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-dark);
-            outline: none;
-            cursor: pointer;
-            width: 150px;
-            max-width: 100%;
-        }
-
-        
-        .info-jadwal-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 8px;
-        }
-
-        .info-card-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .info-card-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .info-card-label i {
-            font-size: 13px;
-        }
-
-        .info-card {
-            background: var(--card-dark);
-            color: #fff;
-            padding: 14px 18px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 56px;
-        }
-
-        .info-card h4 { 
-            font-size: 15px; 
-            font-weight: 700; 
-            color: #fff; 
-        }
-
-        .info-card .sub-jam {
-            font-size: 11px;
-            color: #89D7B7;
-            margin-top: 2px;
-            font-weight: 500;
-        }
-
-        .info-card i.btn-action-icon { 
-            font-size: 13px; 
-            color: #89D7B7;
-            opacity: 0.85;
-            cursor: pointer;
-        }
-
-        .info-jadwal-desc {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 22px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* FORM CARDS */
-        .form-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            margin-bottom: 24px;
-        }
-
-        .form-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
-        .form-card h3 {
-            font-size: 15px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-dark);
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-group label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-dark);
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .form-group label .req {
-            color: #EF4444;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #E2ECE8;
-            border-radius: 12px;
-            font-size: 13px;
-            outline: none;
-            background: #FAFDFB;
-            color: var(--text-dark);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            height: 100px;
-        }
-
-        .form-group textarea:focus {
-            border-color: var(--medium-green);
-        }
-
-        /* QUICK ACTIVITY TAGS DI BAWAH TEXTAREA */
-        .activity-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .tag-pill {
-            background-color: var(--tag-inactive);
-            color: var(--text-dark);
-            padding: 5px 12px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
-
-        .tag-pill:hover {
-            background-color: #ebdcca;
-        }
-
-        .tag-pill.active {
-            background-color: var(--tag-active);
-            color: var(--text-dark);
-            font-weight: 700;
-        }
-
-        
-        .card-stats-badges {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .stat-badge {
-            font-size: 12px;
-            font-weight: 600;
-            color: #53756C;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .stat-badge .dot-total {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: #53756C;
-            display: inline-block;
-        }
-
-        .stat-badge .dot-absen {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: #FF3D00;
-            display: inline-block;
-        }
-
-        .absen-filter {
-            background: #FFF8EB;
-            padding: 14px 18px;
-            border-radius: 14px;
-            display: flex;
-            gap: 14px;
-            align-items: flex-end;
-            margin-bottom: 18px;
-        }
-
-        .absen-input-col {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .absen-input-col.col-search {
-            flex: 2;
-        }
-
-        .absen-input-col.col-status {
-            flex: 1;
-        }
-
-        .absen-input-col label {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .search-box-wrap {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-box-wrap i {
-            position: absolute;
-            left: 12px;
-            font-size: 12px;
-            color: #A0B0AA;
-        }
-
-        .input-search {
-            width: 100%;
-            padding: 9px 12px 9px 34px;
-            border: 1px solid #E2ECE8;
-            border-radius: 8px;
-            font-size: 13px;
-            background: #fff;
-            outline: none;
-        }
-
-        .select-status-absen {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1px solid #E2ECE8;
-            border-radius: 8px;
-            font-size: 13px;
-            background: #fff;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .btn-add {
-            background: var(--dark-green);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            height: 38px;
-            transition: background 0.2s;
-        }
-
-        .btn-add:hover {
-            background: #264740;
-        }
-
-        .table-absen {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .table-absen th, .table-absen td {
-            text-align: left;
-            padding: 12px 14px;
-            font-size: 13px;
-        }
-
-        .table-absen th {
-            background: #FFF8EB;
-            font-size: 12px;
-            color: #637871;
-            font-weight: 600;
-            border-bottom: 1px solid #EADBCC;
-        }
-
-        .table-absen td {
-            border-bottom: 1px solid #F0E8DC;
-        }
-
-        .table-absen tr:last-child td {
-            border-bottom: none;
-        }
-
-        .badge-sakit {
-            background: #FFEBEB;
-            color: #FF3D00;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        .badge-izin {
-            background: #EFF6FF;
-            color: #2563EB;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        .badge-alpha {
-            background: #FEF2F2;
-            color: #DC2626;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        .badge-dispen {
-            background: #FAF5FF;
-            color: #7E22CE;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        /* ALERT BOX UNTUK PETUNJUK SEKR / PIKET */
-        .alert-info-box {
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .alert-sekre { background: #E8F5E9; color: #2E7D32; border: 1px solid #C8E6C9; }
-        .alert-piket { background: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
-
-        /* FOOTER BUTTONS DI DALAM KARTU */
-        .action-buttons {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 14px;
-            margin-top: 10px;
-        }
-
-        .btn-batal {
-            background: transparent;
-            border: none;
-            padding: 10px 18px;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--text-muted);
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .btn-batal:hover {
-            color: var(--text-dark);
-        }
-
-        .btn-live-foto {
-            background: var(--dark-green);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.2s;
-        }
-
-        .btn-live-foto:hover {
-            background: #264740;
-        }
-
-        .btn-simpan {
-            background: var(--dark-green);
-            color: #fff;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.2s;
-        }
-
-        .btn-simpan:hover { 
-            background: #264740; 
-        }
-
-        /* UTILITY CLASS UNTUK LOGIKA DISPLAY */
-        .d-none { display: none !important; }
-
-        /* MEDIA QUERIES */
-        @media (max-width: 768px) {
-            body { flex-direction: column; overflow-y: auto; }
-            .mobile-header { display: flex; }
-            .sidebar {
-                position: fixed; top: 0; left: -260px; height: 100vh; width: 240px;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-green': '#1A312C',
+                        'medium-green': '#428475',
+                        'mint-green': '#89D7B7',
+                        'bg-cream': '#FFF4E1',
+                    }
+                }
             }
-            .sidebar.active { left: 0; }
-            .sidebar-overlay.active { display: block; }
-            .main-content { padding: 20px 16px; }
-            .info-jadwal-grid { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
-            .absen-filter { flex-direction: column; align-items: stretch; }
-            .input-search, .select-custom, .btn-add { width: 100%; }
-            .action-buttons { flex-direction: column; }
-            .btn-simpan, .btn-live-foto, .btn-batal { width: 100%; justify-content: center; }
         }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        body { overflow-x: hidden; }
+        #scrollIndicator { transition: top 0.15s ease-out; }
     </style>
 </head>
-<body>
+
+<body class="bg-bg-cream text-dark-green font-sans min-h-screen overflow-x-hidden overscroll-none">
 
     <!-- MOBILE HEADER -->
-    <div class="mobile-header">
-        <span class="logo-title">Jurnal Absensi</span>
-        <button class="btn-hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
+    <div class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        <div class="flex items-center gap-2">
+            <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
+            <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
+        </div>
+        <button id="hamburgerBtn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </div>
 
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
     <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-60 bg-dark-green text-white p-6 flex flex-col justify-between z-50
+               -translate-x-full md:translate-x-0 transition-transform duration-300">
         <div>
-            <div class="logo-container">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo Jurnal Absensi">
-                <span class="logo-title">Jurnal Absensi</span>
+            <div class="flex flex-col items-center gap-2 mb-10 text-center">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo Jurnal Absensi" class="w-16 h-auto">
+                <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
             </div>
 
-            <nav class="nav-menu">
-                <a href="{{ url('/sekre/dashboard') }}" class="nav-item">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Home</span>
+            <nav class="flex flex-col gap-3 font-semibold text-xs">
+                <a href="{{ url('/sekre/dashboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-solid fa-house w-4 text-center"></i>
+                    <span>Dashboard</span>
                 </a>
-                <a href="{{ url('/sekre/jadwal') }}" class="nav-item">
-                    <i class="fa-regular fa-calendar-days"></i>
-                    <span>Jadwal</span>
-                </a>
-                <a href="{{ url('/sekre/jurnal') }}" class="nav-item active">
-                    <i class="fa-solid fa-book"></i>
+                <a href="{{ url('/sekre/jurnal') }}"
+                    class="flex items-center gap-3 px-4 py-3 bg-white/10 text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-solid fa-book-open w-4 text-center"></i>
                     <span>Jurnal</span>
                 </a>
-                <a href="{{ url('/sekre/status-validasi') }}" class="nav-item">
-                    <i class="fa-regular fa-file-lines"></i>
-                    <span>Status Validasi</span>
+                <a href="{{ url('/sekre/jadwal') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-regular fa-calendar-days w-4 text-center"></i>
+                    <span>Jadwal Mata Pelajaran</span>
                 </a>
             </nav>
         </div>
 
-        <div class="sidebar-footer">
-            <a href="{{ route('profile') }}" class="btn-sidebar">
-                <i class="fa-regular fa-user"></i>
-                <span>Profile</span>
+        <div class="flex flex-col gap-1 pt-3 border-t border-white/10 text-xs">
+             <a href="{{ url('/sekre/akun') }}"
+                class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
+                <i class="fa-solid fa-user-circle w-4"></i>
+                <span>Akun Sekre</span>
             </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn-sidebar" style="width: 100%;">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <button type="submit"
+                    class="w-full flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-4"></i>
                     <span>Logout</span>
                 </button>
             </form>
         </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
+    <!-- MAIN -->
+    <main class="min-w-0 p-4 pb-32 md:p-8 md:pb-32 md:ml-60 max-w-full md:max-w-[calc(100%-15rem)] space-y-4 md:space-y-6">
 
         <!-- HEADER -->
-        <header class="header">
-            <div>
-                <h1>Jurnal Mengajar</h1>
-                <p>Lengkapi data jurnal sesi mengajar saat ini</p>
+        <header class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <h1 class="text-lg sm:text-xl md:text-2xl font-black text-dark-green truncate">Jurnal Kelas XI DKV 2</h1>
+                <p class="text-[11px] sm:text-xs text-gray-400 font-semibold mt-1">
+                    Cek jurnal tiap mata pelajaran, perbaiki jika perlu, lalu kirim satu paket ke Guru Piket saat pulang sekolah.
+                </p>
             </div>
-            <div class="header-meta">
-                <i class="fa-regular fa-bell"></i>
-                <div>
-                    <div id="live-date">Selasa, 21 Juli 2026</div>
-                    <div id="live-clock" style="text-align: right; font-weight: 700;">08.00 WIB</div>
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                <div class="text-right leading-tight">
+                    <div id="live-date" class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">memuat tanggal....</div>
+                    <div id="live-clock" class="text-[10px] sm:text-xs font-extrabold text-dark-green mt-0.5">00.00 WIB</div>
                 </div>
             </div>
         </header>
 
-        <!-- KETERANGAN KEHADIRAN GURU -->
-        <div class="select-status-box">
-            <label for="statusKehadiran">Keterangan</label>
-            <select id="statusKehadiran" class="select-custom" onchange="handleStatusChange()">
-                <option value="hadir" selected>hadir</option>
-                <option value="tidak_hadir_tugas">tidak hadir (ada tugas)</option>
-                <option value="tidak_hadir_tanpa_tugas">tidak hadir (tanpa tugas)</option>
-            </select>
+        <!-- RINGKASAN = FILTER STATUS -->
+        <div class="grid grid-cols-3 gap-3 md:gap-[18px]">
+            <button type="button" data-filter="all"
+                class="filter-card text-left bg-white border-[1.5px] border-[#E5DCCE] rounded-2xl p-3.5 md:p-5 flex items-center gap-3 md:gap-3.5 transition active:scale-[0.98]">
+                <div class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-blue-100 text-blue-500 flex items-center justify-center text-lg md:text-xl shrink-0">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[9px] md:text-[11px] text-gray-400 font-medium leading-tight">Semua Jurnal</p>
+                    <p id="countAll" class="text-lg md:text-2xl font-bold text-dark-green">0</p>
+                </div>
+            </button>
+
+            <button type="button" data-filter="belum"
+                class="filter-card text-left bg-white border-[1.5px] border-amber-200 rounded-2xl p-3.5 md:p-5 flex items-center gap-3 md:gap-3.5 transition active:scale-[0.98]">
+                <div class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-amber-100 text-amber-500 flex items-center justify-center text-lg md:text-xl shrink-0">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[9px] md:text-[11px] text-gray-400 font-medium leading-tight">Belum Dikirim</p>
+                    <p id="countBelum" class="text-lg md:text-2xl font-bold text-amber-600">0</p>
+                </div>
+            </button>
+
+            <button type="button" data-filter="terkirim"
+                class="filter-card text-left bg-white border-[1.5px] border-[#E5DCCE] rounded-2xl p-3.5 md:p-5 flex items-center gap-3 md:gap-3.5 transition active:scale-[0.98]">
+                <div class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-emerald-100 text-emerald-500 flex items-center justify-center text-lg md:text-xl shrink-0">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[9px] md:text-[11px] text-gray-400 font-medium leading-tight">Sudah Dikirim</p>
+                    <p id="countTerkirim" class="text-lg md:text-2xl font-bold text-dark-green">0</p>
+                </div>
+            </button>
         </div>
 
-        <!-- 3 CARDS JADWAL (KELAS, MAPEL, JAM KE-) -->
-        <div class="info-jadwal-grid">
-            <div class="info-card-group">
-                <span class="info-card-label">
-                    <i class="fa-solid fa-users"></i> Kelas
-                </span>
-                <div class="info-card">
-                    <h4>XI RPL 2</h4>
-                    <i class="fa-regular fa-pen-to-square btn-action-icon" title="Edit Kelas"></i>
-                </div>
-            </div>
-
-            <div class="info-card-group">
-                <span class="info-card-label">
-                    <i class="fa-solid fa-book-open"></i> Mata Pelajaran
-                </span>
-                <div class="info-card">
-                    <h4>Matematika</h4>
-                    <i class="fa-regular fa-pen-to-square btn-action-icon" title="Edit Mata Pelajaran"></i>
-                </div>
-            </div>
-
-            <div class="info-card-group">
-                <span class="info-card-label">
-                    <i class="fa-regular fa-clock"></i> Jam Ke-
-                </span>
-                <div class="info-card">
-                    <div>
-                        <h4>Jam 5 - 9</h4>
-                        <div class="sub-jam">09:40 - 13:00</div>
-                    </div>
-                    <i class="fa-regular fa-pen-to-square btn-action-icon" title="Edit Jam"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="info-jadwal-desc">
-            <i class="fa-solid fa-circle-info"></i>
-            <span>Data di atas terisi otomatis berdasarkan jadwal mengajar Anda saat ini.</span>
-        </div>
-
-        <!-- SECTION 1: HADIR (MATERI & AKTIVITAS) -->
-        <div id="sectionHadir" class="form-card">
-            <div class="form-card-header">
-                <h3><i class="fa-regular fa-pen-to-square"></i> Detail Kegiatan</h3>
-            </div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>Materi Pembelajaran <span class="req">*</span></label>
-                    <textarea id="materiPembelajaran" placeholder="Contoh: Fungsi Linear, Fungsi Kuadrat..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Keterangan / Aktivitas Kelas</label>
-                    <textarea id="keteranganAktivitas" placeholder="Catatan kegiatan..."></textarea>
-                    
-                    <!-- QUICK TAGS PILLS SESUAI FIGMA -->
-                    <div class="activity-tags">
-                        <span class="tag-pill active" onclick="toggleTag(this, 'Penjelasan')">Penjelasan</span>
-                        <span class="tag-pill" onclick="toggleTag(this, 'Diskusi Kelompok')">Diskusi Kelompok</span>
-                        <span class="tag-pill" onclick="toggleTag(this, 'Latihan Soal')">Latihan Soal</span>
-                        <span class="tag-pill" onclick="toggleTag(this, 'Ulangan Harian')">Ulangan Harian</span>
-                    </div>
-                </div>
+        <!-- CARI -->
+        <div class="bg-white rounded-2xl border-[1.5px] border-[#E5DCCE] p-4 md:p-5">
+            <label for="searchInput" class="block text-[10px] font-extrabold text-gray-500 mb-1.5">Cari Mata Pelajaran / Guru</label>
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                <input id="searchInput" type="text" placeholder="Contoh: Matematika..."
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-xs outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30 transition">
             </div>
         </div>
 
-        <!-- SECTION 2: TUGAS (HANYA MUNCUL JIKA TIDAK HADIR + ADA TUGAS) -->
-        <div id="sectionTugas" class="form-card d-none">
-            <div class="form-card-header">
-                <h3><i class="fa-solid fa-list-check"></i> Detail Tugas untuk Siswa</h3>
+        <!-- DAFTAR JURNAL (dirender oleh JS) -->
+        <div id="journalList" class="space-y-3"></div>
+
+        <div id="emptyState" class="hidden bg-white rounded-2xl border border-gray-100 p-10 text-center">
+            <div class="w-12 h-12 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mx-auto mb-3">
+                <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <div class="alert-info-box alert-sekre">
-                <i class="fa-solid fa-circle-info"></i>
-                <div>Tugas ini akan otomatis dikirimkan ke <b>Sekretaris Kelas (Sekre)</b> untuk diumumkan di kelas.</div>
-            </div>
-            <div class="form-group">
-                <label>Instruksi / Deskripsi Tugas <span class="req">*</span></label>
-                <textarea style="height: 120px;" placeholder="Tuliskan instruksi tugas secara jelas, batas waktu, dan cara pengumpulan..."></textarea>
-            </div>
+            <p class="text-xs font-bold text-gray-500">Jurnal tidak ditemukan.</p>
         </div>
-
-        <!-- SECTION 3: TANPA TUGAS (MUNCUL JIKA TIDAK HADIR + TANPA TUGAS) -->
-        <div id="sectionTanpaTugas" class="form-card d-none">
-            <div class="form-card-header">
-                <h3><i class="fa-solid fa-building-user"></i> Penanganan Kelas Kosong</h3>
-            </div>
-            <div class="alert-info-box alert-piket">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <div>Laporan ini akan langsung diteruskan ke <b>Guru Piket</b> agar kelas dapat didampingi/diisi.</div>
-            </div>
-            <div class="form-group">
-                <label>Alasan / Catatan Tambahan (Opsional)</label>
-                <textarea placeholder="Contoh: Sedang mendampingi lomba / Sakit mendadak..."></textarea>
-            </div>
-        </div>
-
-        <!-- SECTION 4: ABSENSI SISWA -->
-        <div id="sectionAbsensiSiswa" class="form-card">
-            <div class="form-card-header">
-                <h3><i class="fa-solid fa-users"></i> Daftar Siswa Tidak Hadir</h3>
-                <div class="card-stats-badges">
-                    <span class="stat-badge">
-                        <span class="dot-total"></span> Total: <strong id="statTotal">36</strong>
-                    </span>
-                    <span class="stat-badge">
-                        <span class="dot-absen"></span> Absen: <strong id="statAbsen">1</strong>
-                    </span>
-                </div>
-            </div>
-            
-            <div class="absen-filter">
-                <div class="absen-input-col col-search">
-                    <label>Cari Nama Siswa</label>
-                    <div class="search-box-wrap">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="inputNamaSiswa" class="input-search" placeholder="Ketik nama..." list="listSiswaKelas">
-                        <datalist id="listSiswaKelas">
-                            <option value="Roy Kiyoshi"></option>
-                            <option value="Ahmad Fauzi"></option>
-                            <option value="Budi Setiawan"></option>
-                            <option value="Citra Kirana"></option>
-                            <option value="Dewi Lestari"></option>
-                            <option value="Fajar Nugraha"></option>
-                            <option value="Rafi Arkhan"></option>
-                        </datalist>
-                    </div>
-                </div>
-
-                <div class="absen-input-col col-status">
-                    <label>Keterangan</label>
-                    <select id="selectStatusSiswa" class="select-status-absen">
-                        <option value="Sakit" selected>Sakit (S)</option>
-                        <option value="Izin">Izin (I)</option>
-                        <option value="Alpha">Alpha (A)</option>
-                        <option value="Dispen">Dispen (D)</option>
-                    </select>
-                </div>
-
-                <button type="button" class="btn-add" onclick="tambahSiswaAbsen()">+ Tambah</button>
-            </div>
-
-            <table class="table-absen">
-                <thead>
-                    <tr>
-                        <th style="width: 50px;">No</th>
-                        <th>Nama Siswa</th>
-                        <th style="width: 140px;">Keterangan</th>
-                        <th style="width: 60px; text-align: center;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBodyAbsen">
-                    <tr>
-                        <td>1</td>
-                        <td><b>Roy Kiyoshi</b></td>
-                        <td><span class="badge-sakit">Sakit</span></td>
-                        <td style="text-align: center;">
-                            <i class="fa-regular fa-trash-can" style="color: #9AAEA7; cursor: pointer;" onclick="hapusSiswa(this)" title="Hapus"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- ACTION BUTTONS SESUAI FIGMA -->
-            <div class="action-buttons">
-                <button type="button" class="btn-batal" onclick="window.history.back()">Batal</button>
-                <input type="file" id="fileFotoKelas" accept="image/*" style="display: none;" onchange="handleFotoUpload(this)">
-                <button type="button" id="btnLiveFoto" class="btn-live-foto" onclick="document.getElementById('fileFotoKelas').click()">
-                    <i class="fa-solid fa-camera"></i> <span id="labelLiveFoto">Live Foto</span>
-                </button>
-                <button type="button" id="btnSubmit" class="btn-simpan" onclick="simpanJurnal()">
-                    <span id="textBtnSimpan">Simpan Jurnal</span>
-                </button>
-            </div>
-        </div>
-
     </main>
 
+    <!-- BAR KIRIM KE GURU PIKET -->
+    <div id="sendBar" class="fixed bottom-0 left-0 right-0 md:left-60 z-30 bg-white border-t border-[#E5DCCE] px-4 py-3 md:px-8 shadow-[0_-4px_16px_rgba(26,49,44,0.06)]">
+        <div class="flex items-center justify-between gap-3 max-w-full">
+            <div class="min-w-0 flex-1">
+                <p id="sendTitle" class="text-xs md:text-sm font-bold text-dark-green truncate">Kirim ke Guru Piket</p>
+                <p id="sendInfo" class="text-[10px] md:text-[11px] text-gray-500 mt-0.5 truncate">-</p>
+                <div id="sendProgressWrap" class="mt-1.5 h-1.5 w-full max-w-xs bg-gray-100 rounded-full overflow-hidden">
+                    <div id="sendProgress" class="h-full bg-medium-green rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+            </div>
+            <button id="sendBtn" type="button" onclick="openSendConfirm()"
+                class="shrink-0 px-4 md:px-5 py-2.5 rounded-full text-xs font-black whitespace-nowrap transition">
+                <i class="fa-solid fa-paper-plane mr-1.5"></i>Kirim ke Piket
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL DETAIL / EDIT -->
+    <div id="detailModal" class="fixed inset-0 bg-dark-green/60 z-[60] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="p-5">
+                <div class="flex items-start justify-between gap-3 pb-4 border-b border-gray-100">
+                    <div>
+                        <span id="dLabel" class="text-[9px] uppercase tracking-wider font-black text-medium-green">Tinjau Jurnal</span>
+                        <h2 id="dMapel" class="text-lg font-black text-dark-green mt-1">-</h2>
+                        <p id="dJam" class="text-xs text-medium-green font-semibold">-</p>
+                    </div>
+                    <button type="button" onclick="closeDetail()" aria-label="Tutup" class="w-8 h-8 rounded-full bg-emerald-50 text-dark-green flex items-center justify-center hover:bg-mint-green transition shrink-0">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-3 mt-4">
+                    <!-- Guru (hanya lihat) -->
+                    <div class="p-3 rounded-xl bg-gray-50">
+                        <p class="text-[9px] text-gray-400 font-bold uppercase">Guru Pengajar</p>
+                        <p id="dGuru" class="text-xs font-bold text-dark-green mt-1">-</p>
+                    </div>
+
+                    <!-- Materi (bisa diedit) -->
+                    <div>
+                        <label for="dMateri" class="text-[10px] font-bold text-gray-500">Materi Pembelajaran</label>
+                        <textarea id="dMateri" rows="3" placeholder="Isi materi jika guru belum mengisi..."
+                            class="w-full mt-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-xs outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30 transition resize-none disabled:bg-gray-50 disabled:text-gray-500"></textarea>
+                        <p id="dError" class="hidden text-[10px] font-semibold text-red-600 mt-1">Materi belum diisi. Isi dulu sebelum menandai sudah dicek.</p>
+                    </div>
+
+                    <!-- Keterangan (hanya lihat) -->
+                    <div class="p-3 rounded-xl bg-gray-50">
+                        <p class="text-[9px] text-gray-400 font-bold uppercase">Keterangan / Aktivitas (dari guru)</p>
+                        <p id="dKeterangan" class="text-xs text-gray-600 leading-relaxed mt-1">-</p>
+                    </div>
+
+                    <!-- Kehadiran (bisa diedit) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <p class="text-[10px] font-bold text-gray-500">Kehadiran Siswa</p>
+                            <p id="dSummary" class="text-[10px] font-semibold text-medium-green">-</p>
+                        </div>
+                        <div id="dSiswa" class="rounded-xl border border-gray-100 divide-y divide-gray-100 overflow-hidden"></div>
+                    </div>
+                </div>
+
+                <p id="dLocked" class="hidden mt-4 text-[10px] md:text-[11px] text-gray-500 bg-gray-50 rounded-xl p-3">
+                    <i class="fa-solid fa-lock mr-1"></i>Jurnal ini sudah dikirim ke Guru Piket dan tidak bisa diedit lagi.
+                </p>
+
+                <div id="dFooter" class="flex gap-2 mt-5">
+                    <button type="button" onclick="closeDetail()"
+                        class="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 transition">
+                        Batal
+                    </button>
+                    <button type="button" onclick="simpanJurnal()"
+                        class="flex-[1.6] py-2.5 rounded-xl bg-dark-green hover:bg-medium-green text-white text-xs font-black transition">
+                        Simpan &amp; Tandai Sudah Dicek
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL KONFIRMASI KIRIM -->
+    <div id="sendModal" class="fixed inset-0 bg-dark-green/60 z-[60] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-5">
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-3">
+                <i class="fa-solid fa-paper-plane"></i>
+            </div>
+            <h3 class="text-base font-black text-dark-green">Kirim jurnal ke Guru Piket?</h3>
+            <p id="sendConfirmText" class="text-xs text-gray-500 mt-1.5 leading-relaxed">-</p>
+            <div class="flex gap-2 mt-5">
+                <button type="button" onclick="closeSendConfirm()"
+                    class="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-50 transition">
+                    Belum
+                </button>
+                <button type="button" onclick="kirimKePiket()"
+                    class="flex-1 py-2.5 rounded-xl bg-dark-green hover:bg-medium-green text-white text-xs font-black transition">
+                    Ya, Kirim
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] hidden">
+        <div class="bg-dark-green text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-2">
+            <i class="fa-solid fa-circle-check text-mint-green"></i>
+            <span id="toastText" class="text-xs font-bold">Berhasil.</span>
+        </div>
+    </div>
+
+    <!-- SCROLL HELPER -->
+    <div id="scrollHelper" class="md:hidden fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-1">
+        <button type="button" onclick="scrollToTop()" aria-label="Kembali ke atas"
+            class="w-7 h-7 rounded-full bg-white/95 border border-emerald-100 shadow-md text-medium-green flex items-center justify-center active:scale-90 transition">
+            <i class="fa-solid fa-chevron-up text-[9px]"></i>
+        </button>
+        <div class="relative w-1 h-28 bg-dark-green/10 rounded-full overflow-hidden">
+            <div id="scrollIndicator" class="absolute left-0 top-0 w-1 h-8 bg-medium-green rounded-full"></div>
+        </div>
+        <button type="button" onclick="scrollToBottom()" aria-label="Ke bagian bawah"
+            class="w-7 h-7 rounded-full bg-white/95 border border-emerald-100 shadow-md text-medium-green flex items-center justify-center active:scale-90 transition">
+            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+        </button>
+    </div>
+
     <script>
-        
+        /* ===== LIVE CLOCK ===== */
+        function updateLiveTime() {
+            const now = new Date();
+            const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            const dateEl = document.getElementById('live-date');
+            const clockEl = document.getElementById('live-clock');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', opsi);
+            if (clockEl) {
+                const jam = String(now.getHours()).padStart(2, '0');
+                const menit = String(now.getMinutes()).padStart(2, '0');
+                clockEl.textContent = `${jam}.${menit} WIB`;
+            }
+        }
+        updateLiveTime();
+        setInterval(updateLiveTime, 1000);
+
+        /* ===== SIDEBAR MOBILE ===== */
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
+        function openSidebar() { sidebar.classList.remove('-translate-x-full'); sidebarOverlay.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); }
+        function closeSidebar() { sidebar.classList.add('-translate-x-full'); sidebarOverlay.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); }
+        if (hamburgerBtn) hamburgerBtn.addEventListener('click', openSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+        if (sidebar) sidebar.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { if (window.innerWidth < 768) closeSidebar(); }));
+        window.addEventListener('resize', () => { if (window.innerWidth >= 768) { sidebarOverlay.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); } });
 
-        if (hamburgerBtn) {
-            hamburgerBtn.addEventListener('click', () => {
-                sidebar.classList.add('active');
-                sidebarOverlay.classList.add('active');
+        /* ===== SCROLL HELPER ===== */
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        function updateScrollIndicator() {
+            if (!scrollIndicator) return;
+            const scrollTop = window.scrollY || window.pageYOffset;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            if (maxScroll <= 0) { scrollIndicator.style.top = '0px'; return; }
+            const maxTop = 112 - 32;
+            const progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+            scrollIndicator.style.top = `${progress * maxTop}px`;
+        }
+        window.addEventListener('scroll', updateScrollIndicator, { passive: true });
+        window.addEventListener('resize', updateScrollIndicator);
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function scrollToBottom() { window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' }); }
+
+        /* ============================================================= */
+        /* DATA DUMMY (nanti diganti data dari database via Laravel)     */
+        /* status: 'belum' (belum dicek sekre) | 'ditinjau' (sudah dicek)*/
+        /*         | 'terkirim' (sudah dikirim ke guru piket)            */
+        /* absen : hanya siswa yang TIDAK hadir { nama: 'Sakit' }        */
+        /* ============================================================= */
+        const KELAS = 'XI DKV 2';
+        const DAFTAR_SISWA = [
+            'Ahmad Fauzan', 'Budi Santoso', 'Citra Ayu', 'Dewi Lestari', 'Eko Prasetyo',
+            'Fajar Ramadhan', 'Gita Permata', 'Hendra Wijaya', 'Indah Sari', 'Siti Nurhaliza'
+        ];
+        const OPSI_STATUS = ['Hadir', 'Sakit', 'Izin', 'Alpa'];
+
+        const jurnals = [
+            { id: 1, jam: 1, waktu: '07.00 - 07.40', mapel: 'Matematika', guru: 'Arvia Rienetasary, S.Pd.',
+              materi: 'Fungsi Kuadrat', keterangan: 'Penjelasan materi dan latihan soal.',
+              absen: { 'Ahmad Fauzan': 'Sakit' }, status: 'ditinjau' },
+            { id: 2, jam: 2, waktu: '07.40 - 08.20', mapel: 'Bahasa Indonesia', guru: 'Yani, S.Pd.',
+              materi: 'Teks Eksposisi', keterangan: 'Diskusi kelompok membahas struktur teks.',
+              absen: { 'Ahmad Fauzan': 'Sakit' }, status: 'ditinjau' },
+            { id: 3, jam: 3, waktu: '08.20 - 09.00', mapel: 'Pendidikan Pancasila', guru: 'Wiwik Yuniarsih, S.Pd.',
+              materi: 'Norma dan Keadilan', keterangan: 'Ceramah dan tanya jawab.',
+              absen: { 'Citra Ayu': 'Izin' }, status: 'belum' },
+            { id: 4, jam: 4, waktu: '09.00 - 09.40', mapel: 'Sejarah', guru: 'Ista Nofasari, S.Pd.',
+              materi: 'Perang Kemerdekaan', keterangan: 'Menonton video dan diskusi.',
+              absen: {}, status: 'belum' },
+            { id: 5, jam: 5, waktu: '09.40 - 10.20', mapel: 'Matematika', guru: 'Arvia Rienetasary, S.Pd.',
+              materi: '', keterangan: 'Latihan soal.',
+              absen: {}, status: 'belum' },
+            { id: 6, jam: 6, waktu: '10.20 - 11.00', mapel: 'Bahasa Jawa', guru: 'Yustin Febrini, S.Pd.',
+              materi: 'Aksara Jawa', keterangan: 'Latihan menulis aksara.',
+              absen: {}, status: 'belum' },
+        ];
+        // simpan kehadiran asli dari guru, supaya perubahan sekre bisa ditandai
+        jurnals.forEach(j => { j.asli = Object.assign({}, j.absen); });
+
+        let currentFilter = 'all';
+        let editingId = null;
+        let draftAbsen = {};
+        let sentAt = null;
+
+        /* ===== UTIL ===== */
+        function esc(s) {
+            return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+        function jumlahTidakHadir(absen) { return Object.keys(absen).length; }
+
+        /* ===== TAMPILAN BARIS ===== */
+        function tampilanStatus(j) {
+            if (j.status === 'terkirim') {
+                return { border: 'border-[#E5DCCE]', iconBg: 'bg-emerald-50 text-emerald-600', icon: 'fa-solid fa-paper-plane',
+                         badgeCls: 'text-emerald-700 bg-emerald-50', badge: 'Terkirim', aksi: 'Lihat' };
+            }
+            if (j.status === 'ditinjau') {
+                return { border: 'border-blue-200', iconBg: 'bg-blue-50 text-blue-600', icon: 'fa-solid fa-check',
+                         badgeCls: 'text-blue-700 bg-blue-50', badge: 'Sudah dicek', aksi: 'Edit' };
+            }
+            if (!j.materi.trim()) {
+                return { border: 'border-red-200', iconBg: 'bg-red-50 text-red-600', icon: 'fa-solid fa-triangle-exclamation',
+                         badgeCls: 'text-red-700 bg-red-50', badge: 'Belum diisi guru', aksi: 'Isi' };
+            }
+            return { border: 'border-amber-200', iconBg: 'bg-amber-50 text-amber-600', icon: 'fa-regular fa-clock',
+                     badgeCls: 'text-amber-700 bg-amber-50', badge: 'Belum dicek', aksi: 'Tinjau' };
+        }
+
+        function rowHtml(j) {
+            const t = tampilanStatus(j);
+            const materiAda = j.materi.trim() !== '';
+            const absenN = jumlahTidakHadir(j.absen);
+            const materiText = materiAda ? esc(j.materi) : 'Materi belum diisi';
+            const materiCls = materiAda ? 'text-gray-500' : 'text-red-500 font-semibold';
+            const absenText = absenN > 0 ? `${absenN} siswa tidak hadir` : 'Semua hadir';
+            return `
+            <div class="bg-white border-[1.5px] ${t.border} rounded-2xl p-4 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl ${t.iconBg} flex items-center justify-center shrink-0">
+                        <i class="${t.icon}"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs md:text-sm font-bold text-dark-green">Jam ke-${j.jam} &middot; ${esc(j.mapel)}</p>
+                        <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">${esc(j.guru)} &middot; ${j.waktu}</p>
+                        <p class="text-[10px] md:text-[11px] ${materiCls} mt-0.5 truncate">${materiText} &middot; ${absenText}</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <span class="hidden sm:inline-block text-[9px] md:text-[10px] font-bold ${t.badgeCls} px-2.5 py-1 rounded-full whitespace-nowrap">${t.badge}</span>
+                    <button type="button" onclick="openDetail(${j.id})"
+                        class="text-[10px] md:text-xs font-bold text-medium-green hover:text-dark-green whitespace-nowrap">${t.aksi}</button>
+                </div>
+            </div>`;
+        }
+
+        /* ===== RENDER DAFTAR + FILTER ===== */
+        const searchInput = document.getElementById('searchInput');
+        const listEl = document.getElementById('journalList');
+        const emptyState = document.getElementById('emptyState');
+
+        function cocokFilter(j) {
+            if (currentFilter === 'all') return true;
+            if (currentFilter === 'terkirim') return j.status === 'terkirim';
+            return j.status !== 'terkirim'; // 'belum' = belum dikirim
+        }
+
+        function renderList() {
+            const q = searchInput.value.trim().toLowerCase();
+            const hasil = jurnals.filter(j => cocokFilter(j) && (j.mapel + ' ' + j.guru).toLowerCase().includes(q));
+            listEl.innerHTML = hasil.map(rowHtml).join('');
+            emptyState.classList.toggle('hidden', hasil.length > 0);
+            renderCounts();
+            renderSendBar();
+        }
+
+        function renderCounts() {
+            const terkirim = jurnals.filter(j => j.status === 'terkirim').length;
+            document.getElementById('countAll').textContent = jurnals.length;
+            document.getElementById('countBelum').textContent = jurnals.length - terkirim;
+            document.getElementById('countTerkirim').textContent = terkirim;
+
+            document.querySelectorAll('.filter-card').forEach(card => {
+                const aktif = card.dataset.filter === currentFilter;
+                card.classList.toggle('ring-2', aktif);
+                card.classList.toggle('ring-medium-green', aktif);
+                card.setAttribute('aria-pressed', aktif ? 'true' : 'false');
             });
         }
 
-        if (sidebarOverlay) {
-            sidebarOverlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
+        document.querySelectorAll('.filter-card').forEach(card => {
+            card.addEventListener('click', () => {
+                currentFilter = card.dataset.filter;
+                renderList();
             });
-        }
+        });
+        searchInput.addEventListener('input', renderList);
 
-        
-        function updateLiveClock() {
-            const now = new Date();
-            const dateOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-            const dateIndo = now.toLocaleDateString('id-ID', dateOptions);
-            const jam = String(now.getHours()).padStart(2, '0');
-            const menit = String(now.getMinutes()).padStart(2, '0');
+        /* ===== BAR KIRIM ===== */
+        function renderSendBar() {
+            const total = jurnals.length;
+            const dicek = jurnals.filter(j => j.status === 'ditinjau' || j.status === 'terkirim').length;
+            const semuaTerkirim = jurnals.every(j => j.status === 'terkirim');
+            const siap = dicek === total;
 
-            const dateEl = document.getElementById('live-date');
-            const clockEl = document.getElementById('live-clock');
-            if (dateEl) dateEl.textContent = dateIndo;
-            if (clockEl) clockEl.textContent = `${jam}.${menit} WIB`;
-        }
-        updateLiveClock();
-        setInterval(updateLiveClock, 1000);
+            const title = document.getElementById('sendTitle');
+            const info = document.getElementById('sendInfo');
+            const btn = document.getElementById('sendBtn');
+            const progWrap = document.getElementById('sendProgressWrap');
+            const prog = document.getElementById('sendProgress');
 
-        
-        function toggleTag(tagElem, tagName) {
-            tagElem.classList.toggle('active');
-            const textarea = document.getElementById('keteranganAktivitas');
-            let text = textarea.value.trim();
+            if (semuaTerkirim) {
+                title.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1.5"></i>Jurnal ${KELAS} sudah dikirim`;
+                info.textContent = `Diteruskan ke Guru Piket pukul ${sentAt || '-'}`;
+                progWrap.classList.add('hidden');
+                btn.classList.add('hidden');
+                return;
+            }
 
-            if (tagElem.classList.contains('active')) {
-                if (text.length > 0 && !text.includes(tagName)) {
-                    textarea.value = text + ', ' + tagName;
-                } else if (!text.includes(tagName)) {
-                    textarea.value = tagName;
-                }
+            title.textContent = `Kirim Jurnal ${KELAS} ke Guru Piket`;
+            progWrap.classList.remove('hidden');
+            btn.classList.remove('hidden');
+            prog.style.width = `${(dicek / total) * 100}%`;
+
+            if (siap) {
+                info.textContent = `Semua ${total} jurnal sudah dicek. Siap dikirim.`;
+                btn.disabled = false;
+                btn.className = 'shrink-0 px-4 md:px-5 py-2.5 rounded-full text-xs font-black whitespace-nowrap transition bg-dark-green hover:bg-medium-green text-white';
             } else {
-                const regex = new RegExp(`(^|,\\s*)${tagName}`, 'g');
-                textarea.value = text.replace(regex, '').replace(/^,\s*/, '').trim();
+                info.textContent = `${dicek} dari ${total} jurnal sudah dicek. Cek ${total - dicek} lagi untuk bisa mengirim.`;
+                btn.disabled = true;
+                btn.className = 'shrink-0 px-4 md:px-5 py-2.5 rounded-full text-xs font-black whitespace-nowrap transition bg-gray-200 text-gray-400 cursor-not-allowed';
             }
         }
 
-        
-        function handleStatusChange() {
-            const status = document.getElementById('statusKehadiran').value;
-            
-            const sectionHadir = document.getElementById('sectionHadir');
-            const sectionTugas = document.getElementById('sectionTugas');
-            const sectionTanpaTugas = document.getElementById('sectionTanpaTugas');
-            const sectionAbsensiSiswa = document.getElementById('sectionAbsensiSiswa');
-            
-            const btnLiveFoto = document.getElementById('btnLiveFoto');
-            const textBtnSimpan = document.getElementById('textBtnSimpan');
+        /* ===== MODAL DETAIL / EDIT ===== */
+        function openDetail(id) {
+            const j = jurnals.find(x => x.id === id);
+            if (!j) return;
+            editingId = id;
+            draftAbsen = Object.assign({}, j.absen);
+            const locked = j.status === 'terkirim';
 
-            if (status === 'hadir') {
-                sectionHadir.classList.remove('d-none');
-                sectionAbsensiSiswa.classList.remove('d-none');
-                sectionTugas.classList.add('d-none');
-                sectionTanpaTugas.classList.add('d-none');
-                
-                btnLiveFoto.classList.remove('d-none');
-                textBtnSimpan.innerText = 'Simpan Jurnal';
+            document.getElementById('dLabel').textContent = locked ? 'Detail Jurnal' : 'Tinjau Jurnal';
+            document.getElementById('dMapel').textContent = j.mapel;
+            document.getElementById('dJam').textContent = `Jam ke-${j.jam} \u00B7 ${j.waktu}`;
+            document.getElementById('dGuru').textContent = j.guru;
+            document.getElementById('dKeterangan').textContent = j.keterangan || '-';
 
-            } else if (status === 'tidak_hadir_tugas') {
-                sectionHadir.classList.add('d-none');
-                sectionAbsensiSiswa.classList.remove('d-none');
-                sectionTugas.classList.remove('d-none');
-                sectionTanpaTugas.classList.add('d-none');
-                
-                btnLiveFoto.classList.add('d-none');
-                textBtnSimpan.innerText = 'Kirim Tugas ke Sekre';
+            const materi = document.getElementById('dMateri');
+            materi.value = j.materi;
+            materi.disabled = locked;
+            document.getElementById('dError').classList.add('hidden');
 
-            } else if (status === 'tidak_hadir_tanpa_tugas') {
-                sectionHadir.classList.add('d-none');
-                sectionAbsensiSiswa.classList.remove('d-none');
-                sectionTugas.classList.add('d-none');
-                sectionTanpaTugas.classList.remove('d-none');
-                
-                btnLiveFoto.classList.add('d-none');
-                textBtnSimpan.innerText = 'Lapor ke Guru Piket';
-            }
+            renderSiswa(locked);
+
+            document.getElementById('dLocked').classList.toggle('hidden', !locked);
+            document.getElementById('dFooter').classList.toggle('hidden', locked);
+
+            const modal = document.getElementById('detailModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
         }
 
-        
-        function updateAbsenCount() {
-            const rows = document.querySelectorAll('#tableBodyAbsen tr');
-            rows.forEach((row, i) => {
-                row.cells[0].textContent = i + 1;
+        function renderSiswa(locked) {
+            const j = jurnals.find(x => x.id === editingId);
+            const box = document.getElementById('dSiswa');
+            box.innerHTML = DAFTAR_SISWA.map((nama, i) => {
+                const st = draftAbsen[nama] || 'Hadir';
+                const asli = j.asli[nama] || 'Hadir';
+                const diubah = st !== asli;
+                const tint = st !== 'Hadir' ? 'bg-amber-50/70' : 'bg-white';
+                const opsi = OPSI_STATUS.map(o => `<option value="${o}" ${o === st ? 'selected' : ''}>${o}</option>`).join('');
+                return `
+                <div id="srow-${i}" class="flex items-center justify-between gap-2 px-3 py-2 ${tint}">
+                    <div class="min-w-0 flex items-center gap-2 flex-wrap">
+                        <span class="text-xs font-semibold text-dark-green">${esc(nama)}</span>
+                        <span id="sbadge-${i}" class="${diubah ? '' : 'hidden'} text-[9px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full" title="Guru mengisi: ${asli}">Diubah</span>
+                    </div>
+                    <select data-idx="${i}" data-nama="${esc(nama)}" ${locked ? 'disabled' : ''}
+                        class="siswa-select text-xs font-semibold rounded-lg border border-gray-200 bg-white px-2 py-1.5 outline-none focus:border-medium-green disabled:bg-gray-50 disabled:text-gray-500">
+                        ${opsi}
+                    </select>
+                </div>`;
+            }).join('');
+
+            box.querySelectorAll('.siswa-select').forEach(sel => {
+                sel.addEventListener('change', () => {
+                    const nama = sel.dataset.nama;
+                    const idx = sel.dataset.idx;
+                    const st = sel.value;
+                    if (st === 'Hadir') delete draftAbsen[nama]; else draftAbsen[nama] = st;
+
+                    const asli = j.asli[nama] || 'Hadir';
+                    document.getElementById(`sbadge-${idx}`).classList.toggle('hidden', st === asli);
+                    const row = document.getElementById(`srow-${idx}`);
+                    row.classList.toggle('bg-amber-50/70', st !== 'Hadir');
+                    row.classList.toggle('bg-white', st === 'Hadir');
+                    refreshSummary();
+                });
             });
-            document.getElementById('statAbsen').textContent = rows.length;
+            refreshSummary();
         }
 
-        function tambahSiswaAbsen() {
-            const input = document.getElementById('inputNamaSiswa');
-            const select = document.getElementById('selectStatusSiswa');
-            const nama = input.value.trim();
-            const status = select.value;
-
-            if (!nama) {
-                alert('Silakan ketik atau pilih nama siswa!');
-                input.focus();
-                return;
-            }
-
-            let badgeClass = 'badge-sakit';
-            if (status === 'Izin') badgeClass = 'badge-izin';
-            else if (status === 'Alpha') badgeClass = 'badge-alpha';
-            else if (status === 'Dispen') badgeClass = 'badge-dispen';
-
-            const tbody = document.getElementById('tableBodyAbsen');
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>1</td>
-                <td><b>${nama}</b></td>
-                <td><span class="${badgeClass}">${status}</span></td>
-                <td style="text-align: center;">
-                    <i class="fa-regular fa-trash-can" style="color: #9AAEA7; cursor: pointer;" onclick="hapusSiswa(this)" title="Hapus"></i>
-                </td>
-            `;
-            tbody.appendChild(tr);
-            updateAbsenCount();
-
-            input.value = '';
-            input.focus();
+        function refreshSummary() {
+            const n = jumlahTidakHadir(draftAbsen);
+            document.getElementById('dSummary').textContent = `${DAFTAR_SISWA.length - n} hadir \u00B7 ${n} tidak hadir`;
         }
 
-        function hapusSiswa(icon) {
-            icon.closest('tr').remove();
-            updateAbsenCount();
+        function closeDetail() {
+            const modal = document.getElementById('detailModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+            editingId = null;
         }
+        document.getElementById('detailModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeDetail(); });
 
-        
-        function handleFotoUpload(input) {
-            if (input.files && input.files[0]) {
-                const name = input.files[0].name;
-                const label = document.getElementById('labelLiveFoto');
-                label.textContent = name.length > 14 ? name.substring(0, 11) + '...' : name;
-                alert('Foto berhasil dipilih: ' + name);
-            }
-        }
-
-        // SIMPAN JURNAL
         function simpanJurnal() {
-            const status = document.getElementById('statusKehadiran').value;
-            const materi = document.getElementById('materiPembelajaran').value.trim();
-
-            if (status === 'hadir' && !materi) {
-                alert('Materi Pembelajaran wajib diisi!');
-                document.getElementById('materiPembelajaran').focus();
+            const j = jurnals.find(x => x.id === editingId);
+            if (!j) return;
+            const materi = document.getElementById('dMateri').value.trim();
+            if (!materi) {
+                document.getElementById('dError').classList.remove('hidden');
+                document.getElementById('dMateri').focus();
                 return;
             }
-
-            alert('Jurnal berhasil disimpan!');
-            window.location.href = "{{ url('/sekre/dashboard') }}";
+            j.materi = materi;
+            j.absen = Object.assign({}, draftAbsen);
+            j.status = 'ditinjau';
+            const jam = j.jam;
+            closeDetail();
+            renderList();
+            showToast(`Jurnal jam ke-${jam} ditandai sudah dicek.`);
         }
+
+        /* ===== KIRIM KE GURU PIKET (satu paket per kelas) ===== */
+        function openSendConfirm() {
+            if (!jurnals.every(j => j.status === 'ditinjau')) return;
+            const totalAbsen = jurnals.reduce((n, j) => n + jumlahTidakHadir(j.absen), 0);
+            document.getElementById('sendConfirmText').textContent =
+                `${jurnals.length} jurnal kelas ${KELAS} hari ini akan dikirim sebagai satu paket ke Guru Piket. Setelah dikirim, jurnal tidak bisa diedit lagi.`;
+            const m = document.getElementById('sendModal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+        function closeSendConfirm() {
+            const m = document.getElementById('sendModal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+        document.getElementById('sendModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeSendConfirm(); });
+
+        function kirimKePiket() {
+            jurnals.forEach(j => { j.status = 'terkirim'; });
+            const now = new Date();
+            sentAt = `${String(now.getHours()).padStart(2, '0')}.${String(now.getMinutes()).padStart(2, '0')}`;
+            closeSendConfirm();
+            renderList();
+            showToast('Jurnal kelas terkirim ke Guru Piket.');
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { closeDetail(); closeSendConfirm(); }
+        });
+
+        /* ===== TOAST ===== */
+        let toastTimer;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').textContent = message;
+            toast.classList.remove('hidden');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
+        /* ===== INIT ===== */
+        renderList();
+        updateScrollIndicator();
     </script>
 </body>
 </html>
