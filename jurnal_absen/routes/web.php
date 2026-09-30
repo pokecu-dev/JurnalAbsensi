@@ -9,6 +9,7 @@ use App\Models\Jadwal;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'Check'])->name('/');
+Route::resource('mapels', MapelController::class);
 
 // Guest Routes (Login)
 Route::get('/login', [LoginController::class, 'ShowLoginForm'])->middleware('guest')->name('login');
