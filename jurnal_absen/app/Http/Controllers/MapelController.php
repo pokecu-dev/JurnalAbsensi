@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mapel;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Validation\Rule; // <-- Tambahkan ini untuk aturan unique ignore
 
 class MapelController extends Controller
 {
@@ -17,7 +18,6 @@ class MapelController extends Controller
 
         $mapels = Mapel::when($search, function ($query, $search) {
             return $query->where('name', 'like', "%{$search}%")
-                         // Prioritaskan nama mapel yang DIAWALI kata pencarian
                          ->orderByRaw("CASE 
                              WHEN name LIKE ? THEN 1 
                              ELSE 2 
@@ -25,7 +25,7 @@ class MapelController extends Controller
         })
         ->latest()
         ->paginate(10)
-        ->withQueryString(); // Menjaga parameter pencarian tetap ada saat berpindah halaman pagination
+        ->withQueryString();
 
         return view('admin.data_mapel', compact('mapels'));
     }
@@ -39,14 +39,15 @@ class MapelController extends Controller
     }
 
     /**
-     * Simpan mata pelajaran baru langsung dari halaman mapel
+     * Simpan mata pelajaran baru
      */
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:mapels,name',
         ], [
             'name.required' => 'Nama mata pelajaran wajib diisi.',
+            'name.unique'   => 'Nama mata pelajaran tersebut sudah ada.',
         ]);
 
         Mapel::create([
@@ -58,15 +59,48 @@ class MapelController extends Controller
     }
 
     /**
-     * Hapus mata pelajaran beserta jadwal terkait secara otomatis
+     * Jika halaman /edit diakses langsung via URL, redirect balik ke index
+     */
+    public function edit(Mapel $data_mapel)
+    {
+        return redirect()->route('admin.data_mapel.index');
+    }
+
+    /**
+     * Perbarui data mata pelajaran
+     */
+    public function update(Request $request, Mapel $data_mapel)
+    {
+        $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('mapels', 'name')->ignore($data_mapel->id), // Mengecek keunikan nama kecuali milik ID ini
+            ],
+        ], [
+            'name.required' => 'Nama mata pelajaran wajib diisi.',
+            'name.unique'   => 'Nama mata pelajaran tersebut sudah ada.',
+        ]);
+
+        try {
+            $data_mapel->update([
+                'name' => $request->name,
+            ]);
+
+            return redirect()->route('admin.data_mapel.index')->with('success', 'Mata pelajaran berhasil diperbarui!');
+        } catch (QueryException $e) {
+            return redirect()->route('admin.data_mapel.index')->with('error', 'Gagal memperbarui data mata pelajaran.');
+        }
+    }
+
+    /**
+     * Hapus mata pelajaran beserta jadwal terkait
      */
     public function destroy(Mapel $data_mapel)
     {
         try {
-            // 1. Hapus semua jadwal yang menggunakan mapel ini terlebih dahulu
             $data_mapel->jadwals()->delete();
-
-            // 2. Hapus data mapelnya
             $data_mapel->delete();
 
             return redirect()->route('admin.data_mapel.index')->with('success', 'Mata pelajaran dan jadwal terkait berhasil dihapus!');

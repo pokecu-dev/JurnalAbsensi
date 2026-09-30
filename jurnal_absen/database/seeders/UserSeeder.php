@@ -36,6 +36,14 @@ class UserSeeder extends Seeder
                     'email' => 'sekre@ex.com',
                     'password' => Hash::make('password'),
                     'role' => 'sekre'
+                ], [
+                    'nip' => '111111111111118112',
+                    // 'nuptk' => '1111111111111112',
+                    'phone' => '+62 812-3580-7937',
+                    'name' => 'adin',
+                    'email' => 'sekre1@ex.com',
+                    'password' => Hash::make('password'),
+                    'role' => 'sekre'
                 ],
                 [
                     'nip' => '111111111111111113',
@@ -55,6 +63,15 @@ class UserSeeder extends Seeder
                     'password' => Hash::make('password'),
                     'role' => 'piket'
                 ],
+                [
+                    'nip' => '111111111111111115',
+                    // 'nuptk' => '1111111111111115',
+                    'phone' => '+62 811-1111-1115',
+                    'name' => 'Admin Jadwal',
+                    'email' => 'jadwal@ex.com',
+                    'password' => Hash::make('password'),
+                    'role' => 'admin'
+                ]
                 
             ]
 
