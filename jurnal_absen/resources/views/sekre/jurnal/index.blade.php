@@ -70,7 +70,7 @@
                                 <span class="name">{{ $jurnal->jadwal?->teacher?->name ?? '-' }}</span>
                             </td>
                             <td>
-                                <span class="name">{{ $jurnal->jadwal?->kelas?->name ?? '-' }}</span>
+                                <span class="name">{{ $jurnal->jadwal?->classes?->name ?? '-' }}</span>
                             </td>
                             <td>
                                 <span class="name">{{ $jurnal->jadwal?->mapel?->name ?? '-' }}</span>

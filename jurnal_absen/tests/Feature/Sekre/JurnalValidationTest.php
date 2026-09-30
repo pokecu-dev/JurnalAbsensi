@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\Absensi;
+use App\Models\DetailJurnal;
 use App\Models\Jadwal;
 use App\Models\Jurnal;
 use App\Models\Kelas;
 use App\Models\Mapel;
+use App\Models\Siswa;
 use App\Models\User;
 
 function makeSekreJurnal(array $attributes = []): array
@@ -25,7 +26,12 @@ function makeSekreJurnal(array $attributes = []): array
 
     $jurnal = Jurnal::create(array_merge([
         'id_jadwal' => $jadwal->id,
-        'keterangan' => 'hadir',
+        'teacher_id' => $guru->id,
+        'class_id' => $kelas->id,
+        'mapel_id' => $mapel->id,
+        'start_time' => 1,
+        'end_time' => 2,
+        'guru' => 'hadir',
         'tgl' => now()->toDateString(),
         'materi' => 'Fungsi Linear',
         'catatan' => 'Penjelasan, Latihan Soal',
@@ -43,7 +49,7 @@ it('role selain sekre tidak dapat mengakses validasi jurnal', function () {
     $guru = User::factory()->guru()->create();
 
     $this->actingAs($guru)
-        ->get(route('sekre.jurnal.index'))
+        ->get(route('sekre.status-validasi'))
         ->assertForbidden();
 });
 
@@ -51,7 +57,7 @@ it('sekre dapat melihat daftar jurnal yang menunggu validasi', function () {
     [$sekre] = makeSekreJurnal();
 
     $this->actingAs($sekre)
-        ->get(route('sekre.jurnal.index'))
+        ->get(route('sekre.status-validasi'))
         ->assertOk()
         ->assertSee('Matematika')
         ->assertSee('Menunggu')
@@ -59,12 +65,17 @@ it('sekre dapat melihat daftar jurnal yang menunggu validasi', function () {
 });
 
 it('sekre dapat membuka detail jurnal beserta absensi siswa', function () {
-    [$sekre,,, $jurnal] = makeSekreJurnal();
+    [$sekre,, $jadwal, $jurnal] = makeSekreJurnal();
 
-    Absensi::create([
-        'id_jurnal' => $jurnal->id,
-        'nama_siswa' => 'Roy Kiyoshi',
-        'keterangan' => 'sakit',
+    $siswa = Siswa::create([
+        'name' => 'Roy Kiyoshi',
+        'class_id' => $jadwal->class_id,
+    ]);
+
+    DetailJurnal::create([
+        'jurnal_id' => $jurnal->id,
+        'siswa_id' => $siswa->id,
+        'status' => 'sakit',
     ]);
 
     $this->actingAs($sekre)
@@ -80,7 +91,7 @@ it('sekre dapat menyetujui jurnal pending', function () {
 
     $this->actingAs($sekre)
         ->post(route('sekre.jurnal.approve', $jurnal))
-        ->assertRedirect(route('sekre.jurnal.index'));
+        ->assertRedirect(route('sekre.status-validasi'));
 
     expect($jurnal->fresh()->status)->toBe('approved');
 });

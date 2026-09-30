@@ -9,11 +9,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement("
-            ALTER TABLE detail_jurnals
-            MODIFY status ENUM('hadir', 'dispen', 'izin', 'sakit', 'alpha')
-            NOT NULL
-        ");
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("
+                ALTER TABLE detail_jurnals
+                MODIFY status ENUM(
+                    'hadir',
+                    'dispen',
+                    'izin',
+                    'sakit',
+                    'alpha'
+                )
+                NOT NULL
+            ");
+        }
 
         Schema::table('detail_jurnals', function (Blueprint $table) {
             $table->unique(
@@ -26,13 +34,22 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('detail_jurnals', function (Blueprint $table) {
-            $table->dropUnique('detail_jurnals_jurnal_siswa_unique');
+            $table->dropUnique(
+                'detail_jurnals_jurnal_siswa_unique'
+            );
         });
 
-        DB::statement("
-            ALTER TABLE detail_jurnals
-            MODIFY status ENUM('dispen', 'izin', 'sakit', 'alpha')
-            NOT NULL
-        ");
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("
+                ALTER TABLE detail_jurnals
+                MODIFY status ENUM(
+                    'dispen',
+                    'izin',
+                    'sakit',
+                    'alpha'
+                )
+                NOT NULL
+            ");
+        }
     }
 };

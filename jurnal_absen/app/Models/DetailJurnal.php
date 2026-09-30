@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class DetailJurnal extends Model
 {
     protected $fillable = [
@@ -15,7 +14,13 @@ class DetailJurnal extends Model
         'foto',
     ];
 
-    public function jurnal() {
+    public function jurnal()
+    {
         return $this->belongsTo(Jurnal::class, 'jurnal_id');
+    }
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'siswa_id');
     }
 }

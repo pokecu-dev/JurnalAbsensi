@@ -14,7 +14,7 @@ class CheckRole
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role ): Response
+    public function handle(Request $request, Closure $next, string $role): Response
     {
 
         // $uri = $request->route() ? $request->route()->uri : null;
@@ -25,8 +25,7 @@ class CheckRole
         $user = $request->user();
 
         if (! $user) {
-            return redirect('/');
-            // abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+            return redirect()->route('login');
         }
 
         $allowedRoles = explode(',', $role);
@@ -39,8 +38,7 @@ class CheckRole
         }
 
         if (! in_array($user->role, $allowedRoles)) {
-            return redirect('/');
-            // abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+            abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
         return $next($request);
