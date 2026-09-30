@@ -16,6 +16,18 @@ class JadwalSeeder extends Seeder
     {
         User::factory()->count(5)->guru()->create();
 
+
+        DB::table('jadwals')->insert([
+                    'teacher_id' => 3,
+                    'class_id' => 8,
+                    'mapel_id' => 1,
+                    'day' => 'jumat',
+                    'start_time' => 3,
+                    'end_time' => 13,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
         $teacherIds = DB::table('users')->where('role', 'guru')->pluck('id')->toArray();
         $classIds = DB::table('classes')->pluck('id')->toArray();
         $mapelIds = DB::table('mapels')->pluck('id')->toArray();
