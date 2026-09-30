@@ -118,13 +118,6 @@
                             Data Kelas
                         </a>
 
-                        <a href="{{ url('/admin/data_mapel') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-xl
-                                  text-gray-300 hover:bg-white/5 hover:text-white transition">
-                            <i class="fa-solid fa-book-open w-4 text-center"></i>
-                            Mata Pelajaran
-                        </a>
-
                         <a href="{{ url('/admin/jadwal') }}"
                            class="flex items-center gap-3 px-3 py-2 rounded-xl
                                   text-gray-300 hover:bg-white/5 hover:text-white transition">
