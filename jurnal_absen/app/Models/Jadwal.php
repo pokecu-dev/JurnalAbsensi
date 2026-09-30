@@ -3,10 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\JamPelajaran;
 
 class Jadwal extends Model
 {
+    protected $fillable = [
+        'teacher_id',
+        'class_id',
+        'mapel_id',
+        'day',
+        'start_time',
+        'end_time',
+    ];
+
     private function getKelompokHari()
     {
         return strtolower($this->day) === 'jumat' ? 'jumat' : 'senin-kamis';
@@ -30,17 +38,17 @@ class Jadwal extends Model
         return $jam ? date('H:i', strtotime($jam->waktu_selesai)) : null;
     }
 
-    public static function GetJadwalBy($teacherId = null, $hour = null,array $with = [])
+    public static function GetJadwalBy($teacherId = null, $hour = null, array $with = [])
     {
         $now = now();
         $today = strtolower(Jurnal::day($now->translatedFormat('l')));
         $time = $now->format('H:i:s');
 
-        $query = static::with($with)->where('day',$today)->when($teacherId, function ($q) use ($teacherId) {
-            $q->where('teacher_id',$teacherId);
+        $query = static::with($with)->where('day', $today)->when($teacherId, function ($q) use ($teacherId) {
+            $q->where('teacher_id', $teacherId);
         });
 
-        if (!$hour) {
+        if (! $hour) {
             return $query->get();
         }
 
@@ -48,7 +56,7 @@ class Jadwal extends Model
 
         $activeHours = JamPelajaran::where('hari', $day)->where('waktu_mulai', '<=', $time)->where('waktu_selesai', '>=', $time)->first();
 
-        if(!$activeHours){
+        if (! $activeHours) {
             return null;
         }
 
@@ -57,17 +65,23 @@ class Jadwal extends Model
             ->first();
     }
 
-    public function jurnal() {
-        return $this->hasMany(Jurnal::class,'id_jadwal');
+    public function jurnal()
+    {
+        return $this->hasMany(Jurnal::class, 'id_jadwal');
     }
 
-    public function teacher() {
+    public function teacher()
+    {
         return $this->belongsTo(User::class, 'teacher_id');
     }
-    public function classes() {
-        return $this->belongsTo(Classes::class,'class_id');
+
+    public function classes()
+    {
+        return $this->belongsTo(Classes::class, 'class_id');
     }
-    public function mapel() {
-        return $this->belongsTo(Mapel::class,'mapel_id');
+
+    public function mapel()
+    {
+        return $this->belongsTo(Mapel::class, 'mapel_id');
     }
 }
