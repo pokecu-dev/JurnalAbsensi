@@ -28,41 +28,131 @@
             }
         }
     </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        #scrollIndicator {
+            transition: top 0.15s ease-out;
+        }
+    </style>
 </head>
 
-<body class="bg-bg-cream text-dark-green font-sans flex min-h-screen">
+
+<body class="bg-bg-cream text-dark-green font-sans
+             min-h-screen overflow-x-hidden overscroll-none">
+
+
+    <!-- ===================================================== -->
+    <!-- MOBILE HEADER -->
+    <!-- ===================================================== -->
+
+    <div class="md:hidden
+                bg-dark-green text-white
+                p-4
+                flex items-center justify-between
+                sticky top-0 z-40
+                shadow-sm">
+
+        <div class="flex items-center gap-2">
+
+            <img src="{{ asset('image/logo.png') }}"
+                 alt="Logo"
+                 class="w-8 h-8 object-contain">
+
+            <span class="font-bold text-sm tracking-wide">
+                Jurnal Absensi
+            </span>
+
+        </div>
+
+
+        <button id="hamburgerBtn"
+                type="button"
+                class="w-9 h-9
+                       rounded-lg
+                       flex items-center justify-center
+                       hover:bg-white/10
+                       transition
+                       focus:outline-none">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ===================================================== -->
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <!-- ===================================================== -->
+
+    <div id="sidebarOverlay"
+         class="fixed inset-0
+                bg-black/50
+                z-40
+                hidden
+                md:hidden">
+    </div>
+
 
 
     <!-- ===================================================== -->
     <!-- SIDEBAR -->
     <!-- ===================================================== -->
 
-    <aside class="hidden md:flex md:w-56
+    <aside id="sidebar"
+           class="fixed inset-y-0 left-0
+                  w-60
                   bg-dark-green text-white
-                  flex-col justify-between
-                  p-5 shrink-0
-                  h-screen sticky top-0">
+                  p-6
+                  flex flex-col justify-between
+                  z-50
+                  -translate-x-full
+                  md:translate-x-0
+                  transition-transform duration-300">
+
+
+        <!-- ================================================= -->
+        <!-- SIDEBAR TOP -->
+        <!-- ================================================= -->
 
         <div>
 
+
             <!-- LOGO -->
-            <div class="flex flex-col items-center justify-center
-                        gap-1.5 mb-6 text-center">
+
+            <div class="flex flex-col
+                        items-center
+                        gap-2
+                        mb-10
+                        text-center">
 
                 <img src="{{ asset('image/logo.png') }}"
                      alt="Logo"
-                     class="w-12 h-auto object-contain">
+                     class="w-16 h-auto">
 
-                <span class="text-sm font-bold tracking-wide">
+                <span class="font-bold text-sm tracking-wide">
                     Jurnal Absensi
                 </span>
 
             </div>
 
 
-            <!-- NAVIGASI -->
-            <nav class="flex flex-col gap-4
-                        text-xs font-semibold">
+
+            <!-- ================================================= -->
+            <!-- NAVIGATION -->
+            <!-- ================================================= -->
+
+            <nav class="flex flex-col gap-5
+                        font-semibold text-xs">
 
 
                 <!-- ========================= -->
@@ -71,67 +161,74 @@
 
                 <div>
 
-                    <div class="text-[10px] uppercase
+                    <div class="text-[10px]
+                                uppercase
                                 font-extrabold
                                 text-gray-400
                                 tracking-wider
-                                mb-1.5 px-2">
+                                mb-2
+                                px-2">
 
                         Utama
 
                     </div>
 
 
-                    <div class="space-y-0.5">
+                    <div class="space-y-1">
 
-                        <!-- DASHBOARD ACTIVE -->
+
+                        <!-- DASHBOARD -->
+
                         <a href="{{ url('/admin/dashboard') }}"
                            class="flex items-center gap-3
-                                  px-3 py-2 rounded-xl
+                                  px-4 py-3
                                   bg-white/10
                                   text-mint-green
-                                  font-bold
-                                  transition-all duration-200
+                                  rounded-xl
+                                  transition
                                   active:scale-[0.98]">
 
-                            <i class="fa-solid fa-house
-                                      w-4 text-center"></i>
+                            <i class="fa-solid fa-house w-4 text-center"></i>
 
                             Dashboard
 
                         </a>
 
 
+
                         <!-- MONITORING JURNAL -->
+
                         <a href="{{ url('/admin/data_jurnal') }}"
                            class="flex items-center gap-3
-                                  px-3 py-2 rounded-xl
+                                  px-4 py-3
                                   text-gray-300
-                                  hover:bg-white/5
-                                  hover:text-white
-                                  transition-all duration-200
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  rounded-xl
+                                  transition
                                   active:scale-[0.98]">
 
-                            <i class="fa-solid fa-book-bookmark
-                                      w-4 text-center"></i>
+                            <i class="fa-solid fa-book-bookmark w-4 text-center"></i>
 
                             Monitoring Jurnal
 
                         </a>
 
 
+
                         <!-- DISPENSASI -->
+
                         <a href="{{ url('/admin/data_dispensasi') }}"
                            class="flex items-center gap-3
-                                  px-3 py-2 rounded-xl
+                                  px-4 py-3
                                   text-gray-300
-                                  hover:bg-white/5
-                                  hover:text-white
-                                  transition-all duration-200
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  rounded-xl
+                                  transition
                                   active:scale-[0.98]">
 
-                            <i class="fa-solid fa-file-signature
-                                      w-4 text-center"></i>
+                            <i class="fa-solid fa-file-signature w-4 text-center"></i>
 
                             Dispensasi
 
@@ -142,109 +239,102 @@
                 </div>
 
 
+
                 <!-- ========================= -->
                 <!-- DATA MASTER -->
                 <!-- ========================= -->
 
                 <div>
 
-                    <div class="text-[10px] uppercase
+                    <div class="text-[10px]
+                                uppercase
                                 font-extrabold
                                 text-gray-400
                                 tracking-wider
-                                mb-1.5 px-2">
+                                mb-2
+                                px-2">
 
                         Data Master
 
                     </div>
 
 
-                    <div class="space-y-0.5">
+                    <div class="space-y-1">
+
 
                         <!-- DATA GURU -->
+
                         <a href="{{ url('/admin/data_guru') }}"
                            class="flex items-center gap-3
-                                  px-3 py-2 rounded-xl
+                                  px-4 py-3
                                   text-gray-300
-                                  hover:bg-white/5
-                                  hover:text-white
-                                  transition-all duration-200
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  rounded-xl
+                                  transition
                                   active:scale-[0.98]">
 
-                            <i class="fa-solid fa-chalkboard-user
-                                      w-4 text-center"></i>
+                            <i class="fa-solid fa-chalkboard-user w-4 text-center"></i>
 
                             Data Guru
 
                         </a>
 
 
+
                         <!-- DATA SISWA -->
+
                         <a href="{{ url('/admin/data_siswa') }}"
                            class="flex items-center gap-3
-                                  px-3 py-2 rounded-xl
+                                  px-4 py-3
                                   text-gray-300
-                                  hover:bg-white/5
-                                  hover:text-white
-                                  transition-all duration-200
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  rounded-xl
+                                  transition
                                   active:scale-[0.98]">
 
-                            <i class="fa-solid fa-user-graduate
-                                      w-4 text-center"></i>
+                            <i class="fa-solid fa-user-graduate w-4 text-center"></i>
 
                             Data Siswa
 
                         </a>
 
 
+
                         <!-- DATA KELAS -->
+
                         <a href="{{ url('/admin/data_kelas') }}"
                            class="flex items-center gap-3
-                                  px-3 py-2 rounded-xl
+                                  px-4 py-3
                                   text-gray-300
-                                  hover:bg-white/5
-                                  hover:text-white
-                                  transition-all duration-200
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  rounded-xl
+                                  transition
                                   active:scale-[0.98]">
 
-                            <i class="fa-solid fa-school
-                                      w-4 text-center"></i>
+                            <i class="fa-solid fa-school w-4 text-center"></i>
 
                             Data Kelas
 
                         </a>
 
 
-                        <!-- MATA PELAJARAN -->
-                        <a href="{{ url('/admin/data_mapel') }}"
-                           class="flex items-center gap-3
-                                  px-3 py-2 rounded-xl
-                                  text-gray-300
-                                  hover:bg-white/5
-                                  hover:text-white
-                                  transition-all duration-200
-                                  active:scale-[0.98]">
-
-                            <i class="fa-solid fa-book-open
-                                      w-4 text-center"></i>
-
-                            Mata Pelajaran
-
-                        </a>
-
 
                         <!-- JADWAL -->
+
                         <a href="{{ url('/admin/jadwal') }}"
                            class="flex items-center gap-3
-                                  px-3 py-2 rounded-xl
+                                  px-4 py-3
                                   text-gray-300
-                                  hover:bg-white/5
-                                  hover:text-white
-                                  transition-all duration-200
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  rounded-xl
+                                  transition
                                   active:scale-[0.98]">
 
-                            <i class="fa-solid fa-calendar-days
-                                      w-4 text-center"></i>
+                            <i class="fa-solid fa-calendar-days w-4 text-center"></i>
 
                             Jadwal
 
@@ -259,6 +349,7 @@
         </div>
 
 
+
         <!-- ================================================= -->
         <!-- FOOTER SIDEBAR -->
         <!-- ================================================= -->
@@ -269,24 +360,39 @@
                     text-xs">
 
 
-           <a href="{{ url('/admin/akun') }}"
-                class="flex items-center gap-2 px-2 py-2 rounded-lg
-                        hover:bg-white/10
-                        active:scale-[0.98]
-                        transition-all duration-200">
-                    <i class="fa-solid fa-user-circle w-4"></i>
-                    <span>Akun Admin</span>
+            <!-- AKUN ADMIN -->
+
+            <a href="{{ url('/admin/akun') }}"
+               class="flex items-center gap-2
+                      px-2 py-2
+                      rounded-lg
+                      hover:bg-white/10
+                      active:scale-[0.98]
+                      transition-all duration-200">
+
+                <i class="fa-solid fa-user-circle w-4"></i>
+
+                <span>Akun Admin</span>
+
             </a>
 
 
+
             <!-- LOGOUT -->
-           <a href="{{ route('logout') }}"
-            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
-                    hover:bg-white/10
-                    active:scale-[0.98]
-                    transition-all duration-200">
+
+            <a href="{{ route('logout') }}"
+               class="w-full
+                      flex items-center gap-2
+                      px-2 py-2
+                      rounded-lg
+                      hover:bg-white/10
+                      active:scale-[0.98]
+                      transition-all duration-200">
+
                 <i class="fa-solid fa-right-from-bracket w-4"></i>
+
                 <span>Logout</span>
+
             </a>
 
         </div>
@@ -299,34 +405,67 @@
     <!-- MAIN CONTENT -->
     <!-- ===================================================== -->
 
-    <main class="flex-1 p-4 md:p-6 overflow-y-auto">
+    <main class="min-w-0
+                 p-4 pb-10
+                 md:p-8
+                 md:ml-60
+                 max-w-full
+                 md:max-w-[calc(100%-15rem)]
+                 space-y-4 md:space-y-6">
 
 
         <!-- ================================================= -->
         <!-- HEADER -->
         <!-- ================================================= -->
 
-        <header class="mb-5">
+        <header class="flex items-center justify-between gap-3">
 
-            <div class="flex items-center justify-between gap-4">
+            <div class="min-w-0">
 
-                <div>
+                <h1 class="text-lg sm:text-xl md:text-2xl
+                           font-black
+                           text-dark-green
+                           tracking-tight">
 
-                    <h1 class="text-xl md:text-2xl
-                               font-extrabold
-                               text-dark-green">
+                    Dashboard Admin
 
-                        Dashboard Admin
+                </h1>
 
-                    </h1>
 
-                    <p class="text-xs
-                              text-medium-green
-                              font-medium mt-1">
+                <p class="text-[11px] sm:text-xs
+                          text-medium-green
+                          font-semibold
+                          mt-1">
 
-                        SMK Negeri 1 Boyolangu
+                    SMK Negeri 1 Boyolangu
 
-                    </p>
+                </p>
+
+            </div>
+
+
+            <!-- JAM -->
+
+            <div class="text-right leading-tight shrink-0">
+
+                <div id="live-date"
+                     class="text-[9px] sm:text-[10px] md:text-xs
+                            font-semibold
+                            text-medium-green
+                            whitespace-nowrap">
+
+                    {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+
+                </div>
+
+
+                <div id="live-clock"
+                     class="text-[10px] sm:text-xs
+                            font-extrabold
+                            text-dark-green
+                            mt-0.5">
+
+                    {{ now()->format('H.i') }} WIB
 
                 </div>
 
@@ -337,20 +476,20 @@
 
 
         <!-- ================================================= -->
-        <!-- SUMMARY CARDS -->
+        <!-- 3 SUMMARY CARDS -->
         <!-- ================================================= -->
 
-        <div class="grid grid-cols-2 lg:grid-cols-4
-                    gap-4 mb-6">
+        <section class="grid grid-cols-3
+                        gap-2.5 sm:gap-3 md:gap-4">
 
 
-            <!-- ===================== -->
-            <!-- JURNAL -->
-            <!-- ===================== -->
+            <!-- CARD JURNAL -->
 
-            <a href="{{ url('/admin/monitoring_jurnal') }}"
-               class="group bg-white
-                      rounded-2xl p-5
+            <a href="{{ url('/admin/data_jurnal') }}"
+               class="group
+                      bg-white
+                      rounded-2xl
+                      p-3.5 sm:p-4 md:p-5
                       shadow-sm
                       border border-gray-100
                       hover:shadow-md
@@ -358,57 +497,81 @@
                       transition-all duration-200
                       active:scale-[0.98]">
 
-                <div class="flex items-center
-                            justify-between mb-4">
 
-                    <div class="w-11 h-11
+                <div class="flex items-center
+                            justify-between
+                            mb-3 md:mb-4">
+
+                    <div class="w-10 h-10
+                                md:w-11 md:h-11
                                 rounded-xl
                                 bg-green-100
                                 flex items-center
                                 justify-center
-                                transition-all duration-200
-                                group-hover:scale-105">
+                                shrink-0
+                                group-hover:scale-105
+                                transition">
 
                         <i class="fa-solid fa-book-open
                                   text-[#428475]
-                                  text-lg"></i>
+                                  text-base md:text-lg">
+                        </i>
 
                     </div>
 
+
                     <i class="fa-solid fa-arrow-right
                               text-gray-300
+                              text-sm
+                              md:text-base
                               group-hover:text-medium-green
-                              transition-colors duration-200"></i>
+                              transition">
+                    </i>
 
                 </div>
 
 
-                <p class="text-sm text-gray-500">
+                <p class="text-xs
+                          md:text-sm
+                          text-gray-500">
+
                     Jurnal
+
                 </p>
 
-                <h3 class="text-2xl font-bold
-                           text-[#1A312C] mt-1">
+
+                <h3 class="text-xl
+                           md:text-2xl
+                           font-black
+                           text-dark-green
+                           mt-1">
 
                     -
 
                 </h3>
 
-                <p class="text-xs text-gray-400 mt-1">
+
+                <p class="text-[10px]
+                          md:text-xs
+                          text-gray-400
+                          mt-0.5 md:mt-1
+                          whitespace-nowrap">
+
                     Data jurnal
+
                 </p>
 
             </a>
 
 
 
-            <!-- ===================== -->
-            <!-- GURU -->
-            <!-- ===================== -->
+            <!-- CARD GURU -->
 
             <a href="{{ url('/admin/data_guru') }}"
-               class="group bg-white
-                      rounded-2xl p-5
+               class="group
+                      bg-white
+                      rounded-2xl
+                      p-3.5 sm:p-4 md:p-5
                       shadow-sm
                       border border-gray-100
                       hover:shadow-md
@@ -416,57 +579,81 @@
                       transition-all duration-200
                       active:scale-[0.98]">
 
-                <div class="flex items-center
-                            justify-between mb-4">
 
-                    <div class="w-11 h-11
+                <div class="flex items-center
+                            justify-between
+                            mb-3 md:mb-4">
+
+                    <div class="w-10 h-10
+                                md:w-11 md:h-11
                                 rounded-xl
                                 bg-blue-100
                                 flex items-center
                                 justify-center
-                                transition-all duration-200
-                                group-hover:scale-105">
+                                shrink-0
+                                group-hover:scale-105
+                                transition">
 
                         <i class="fa-solid fa-chalkboard-teacher
                                   text-blue-600
-                                  text-lg"></i>
+                                  text-base md:text-lg">
+                        </i>
 
                     </div>
 
+
                     <i class="fa-solid fa-arrow-right
                               text-gray-300
+                              text-sm
+                              md:text-base
                               group-hover:text-medium-green
-                              transition-colors duration-200"></i>
+                              transition">
+                    </i>
 
                 </div>
 
 
-                <p class="text-sm text-gray-500">
+                <p class="text-xs
+                          md:text-sm
+                          text-gray-500">
+
                     Guru
+
                 </p>
 
-                <h3 class="text-2xl font-bold
-                           text-[#1A312C] mt-1">
+
+                <h3 class="text-xl
+                           md:text-2xl
+                           font-black
+                           text-dark-green
+                           mt-1">
 
                     -
 
                 </h3>
 
-                <p class="text-xs text-gray-400 mt-1">
+
+                <p class="text-[10px]
+                          md:text-xs
+                          text-gray-400
+                          mt-0.5 md:mt-1
+                          whitespace-nowrap">
+
                     Data guru
+
                 </p>
 
             </a>
 
 
 
-            <!-- ===================== -->
-            <!-- SISWA -->
-            <!-- ===================== -->
+            <!-- CARD SISWA -->
 
             <a href="{{ url('/admin/data_siswa') }}"
-               class="group bg-white
-                      rounded-2xl p-5
+               class="group
+                      bg-white
+                      rounded-2xl
+                      p-3.5 sm:p-4 md:p-5
                       shadow-sm
                       border border-gray-100
                       hover:shadow-md
@@ -474,288 +661,71 @@
                       transition-all duration-200
                       active:scale-[0.98]">
 
-                <div class="flex items-center
-                            justify-between mb-4">
 
-                    <div class="w-11 h-11
+                <div class="flex items-center
+                            justify-between
+                            mb-3 md:mb-4">
+
+                    <div class="w-10 h-10
+                                md:w-11 md:h-11
                                 rounded-xl
                                 bg-purple-100
                                 flex items-center
                                 justify-center
-                                transition-all duration-200
-                                group-hover:scale-105">
+                                shrink-0
+                                group-hover:scale-105
+                                transition">
 
                         <i class="fa-solid fa-user-graduate
                                   text-purple-600
-                                  text-lg"></i>
+                                  text-base md:text-lg">
+                        </i>
 
                     </div>
 
+
                     <i class="fa-solid fa-arrow-right
                               text-gray-300
+                              text-sm
+                              md:text-base
                               group-hover:text-medium-green
-                              transition-colors duration-200"></i>
+                              transition">
+                    </i>
 
                 </div>
 
 
-                <p class="text-sm text-gray-500">
+                <p class="text-xs
+                          md:text-sm
+                          text-gray-500">
+
                     Siswa
+
                 </p>
 
-                <h3 class="text-2xl font-bold
-                           text-[#1A312C] mt-1">
+
+                <h3 class="text-xl
+                           md:text-2xl
+                           font-black
+                           text-dark-green
+                           mt-1">
 
                     -
 
                 </h3>
 
-                <p class="text-xs text-gray-400 mt-1">
+
+                <p class="text-[10px]
+                          md:text-xs
+                          text-gray-400
+                          mt-0.5 md:mt-1
+                          whitespace-nowrap">
+
                     Data siswa
+
                 </p>
 
             </a>
-
-
-
-            <!-- ===================== -->
-            <!-- DISPENSASI -->
-            <!-- ===================== -->
-
-            <a href="{{ url('/admin/data_dispensasi') }}"
-               class="group bg-white
-                      rounded-2xl p-5
-                      shadow-sm
-                      border border-gray-100
-                      hover:shadow-md
-                      hover:-translate-y-1
-                      transition-all duration-200
-                      active:scale-[0.98]">
-
-                <div class="flex items-center
-                            justify-between mb-4">
-
-                    <div class="w-11 h-11
-                                rounded-xl
-                                bg-amber-100
-                                flex items-center
-                                justify-center
-                                transition-all duration-200
-                                group-hover:scale-105">
-
-                        <i class="fa-solid fa-file-signature
-                                  text-amber-600
-                                  text-lg"></i>
-
-                    </div>
-
-                    <i class="fa-solid fa-arrow-right
-                              text-gray-300
-                              group-hover:text-medium-green
-                              transition-colors duration-200"></i>
-
-                </div>
-
-
-                <p class="text-sm text-gray-500">
-                    Dispensasi
-                </p>
-
-                <h3 class="text-2xl font-bold
-                           text-[#1A312C] mt-1">
-
-                    -
-
-                </h3>
-
-                <p class="text-xs text-gray-400 mt-1">
-                    Data dispensasi
-                </p>
-
-            </a>
-
-        </div>
-
-
-
-        <!-- ================================================= -->
-        <!-- RIWAYAT JURNAL HARI INI -->
-        <!-- ================================================= -->
-
-        <section class="bg-white
-                        p-4 md:p-5
-                        rounded-2xl
-                        shadow-sm
-                        mb-6">
-
-
-            <!-- HEADER SECTION -->
-            <div class="flex justify-between
-                        items-center
-                        mb-4">
-
-                <div>
-
-                    <h2 class="text-sm md:text-base
-                               font-extrabold
-                               text-dark-green">
-
-                        Riwayat Jurnal Hari Ini
-
-                    </h2>
-
-                    <p class="text-xs text-gray-400 mt-1">
-
-                        Jurnal yang telah diisi guru hari ini
-
-                    </p>
-
-                </div>
-
-
-                <a href="{{ url('/admin/data_jurnal') }}"
-                   class="text-xs font-bold
-                          text-medium-green
-                          hover:underline">
-
-                    Lihat semua →
-
-                </a>
-
-            </div>
-
-
-            <!-- TABLE -->
-            <div class="overflow-x-auto">
-
-                <table class="w-full text-left text-xs">
-
-                    <thead>
-
-                        <tr class="text-gray-400
-                                   border-b border-gray-100
-                                   text-[10px]
-                                   uppercase
-                                   tracking-wider">
-
-                            <th class="pb-2 font-bold">
-                                Guru
-                            </th>
-
-                            <th class="pb-2 font-bold">
-                                Kelas
-                            </th>
-
-                            <th class="pb-2 font-bold">
-                                Mata Pelajaran
-                            </th>
-
-                            <th class="pb-2 font-bold text-right">
-                                Status
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody class="divide-y divide-gray-50">
-
-
-                        <!-- JURNAL 1 -->
-                        <tr class="hover:bg-gray-50
-                                   transition-colors duration-150">
-
-                            <td class="py-3
-                                       font-bold
-                                       text-dark-green">
-
-                                Sulistyowati, S.Pd.
-
-                            </td>
-
-
-                            <td class="py-3 text-gray-500">
-
-                                XI RPL 2
-
-                            </td>
-
-
-                            <td class="py-3 text-gray-600">
-
-                                Matematika Terapan
-
-                            </td>
-
-
-                            <td class="py-3 text-right">
-
-                                <span class="bg-emerald-50
-                                             text-emerald-700
-                                             font-bold
-                                             px-2.5 py-1
-                                             rounded-md
-                                             text-[10px]">
-
-                                    Terisi
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-
-                        <!-- JURNAL 2 -->
-                        <tr class="hover:bg-gray-50
-                                   transition-colors duration-150">
-
-                            <td class="py-3
-                                       font-bold
-                                       text-dark-green">
-
-                                Bambang S., M.Pd.
-
-                            </td>
-
-
-                            <td class="py-3 text-gray-500">
-
-                                XI TKJ 3
-
-                            </td>
-
-
-                            <td class="py-3 text-gray-600">
-
-                                PJOK / Olahraga
-
-                            </td>
-
-
-                            <td class="py-3 text-right">
-
-                                <span class="bg-emerald-50
-                                             text-emerald-700
-                                             font-bold
-                                             px-2.5 py-1
-                                             rounded-md
-                                             text-[10px]">
-
-                                    Terisi
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
 
         </section>
 
@@ -768,15 +738,16 @@
         <section class="bg-white
                         p-4 md:p-5
                         rounded-2xl
-                        shadow-sm">
+                        shadow-sm
+                        border border-gray-100">
 
 
-            <!-- HEADER SECTION -->
-            <div class="flex justify-between
-                        items-center
+            <div class="flex items-start
+                        justify-between
+                        gap-3
                         mb-4">
 
-                <div>
+                <div class="min-w-0">
 
                     <h2 class="text-sm md:text-base
                                font-extrabold
@@ -786,7 +757,10 @@
 
                     </h2>
 
-                    <p class="text-xs text-gray-400 mt-1">
+
+                    <p class="text-[10px] md:text-xs
+                              text-gray-400
+                              mt-1">
 
                         Data siswa yang mengajukan dispensasi
 
@@ -796,9 +770,11 @@
 
 
                 <a href="{{ url('/admin/data_dispensasi') }}"
-                   class="text-xs font-bold
+                   class="text-[10px] md:text-xs
+                          font-bold
                           text-medium-green
-                          hover:underline">
+                          hover:text-dark-green
+                          whitespace-nowrap">
 
                     Lihat semua →
 
@@ -808,11 +784,11 @@
 
 
 
-            <!-- LIST DISPENSASI -->
             <div class="space-y-3">
 
 
                 <!-- DISPENSASI 1 -->
+
                 <div class="flex flex-col
                             sm:flex-row
                             sm:items-center
@@ -822,11 +798,11 @@
                             rounded-xl
                             bg-gray-50
                             hover:bg-gray-100
-                            transition-colors duration-150">
+                            transition">
 
-                    <div>
+                    <div class="min-w-0">
 
-                        <p class="text-sm
+                        <p class="text-xs sm:text-sm
                                   font-bold
                                   text-dark-green">
 
@@ -835,7 +811,7 @@
                         </p>
 
 
-                        <p class="text-xs
+                        <p class="text-[10px] sm:text-xs
                                   text-gray-500
                                   mt-1">
 
@@ -844,7 +820,7 @@
                         </p>
 
 
-                        <p class="text-xs
+                        <p class="text-[10px] sm:text-xs
                                   text-gray-600
                                   mt-1">
 
@@ -862,7 +838,7 @@
                                  font-bold
                                  px-2.5 py-1
                                  rounded-md
-                                 text-[10px]">
+                                 text-[9px] sm:text-[10px]">
 
                         Menunggu
 
@@ -873,6 +849,7 @@
 
 
                 <!-- DISPENSASI 2 -->
+
                 <div class="flex flex-col
                             sm:flex-row
                             sm:items-center
@@ -882,11 +859,11 @@
                             rounded-xl
                             bg-gray-50
                             hover:bg-gray-100
-                            transition-colors duration-150">
+                            transition">
 
-                    <div>
+                    <div class="min-w-0">
 
-                        <p class="text-sm
+                        <p class="text-xs sm:text-sm
                                   font-bold
                                   text-dark-green">
 
@@ -895,7 +872,7 @@
                         </p>
 
 
-                        <p class="text-xs
+                        <p class="text-[10px] sm:text-xs
                                   text-gray-500
                                   mt-1">
 
@@ -904,12 +881,11 @@
                         </p>
 
 
-                        <p class="text-xs
+                        <p class="text-[10px] sm:text-xs
                                   text-gray-600
                                   mt-1">
 
-                            Kebutuhan:
-                            Keperluan keluarga
+                            Kebutuhan: Keperluan keluarga
 
                         </p>
 
@@ -923,13 +899,366 @@
                                  font-bold
                                  px-2.5 py-1
                                  rounded-md
-                                 text-[10px]">
+                                 text-[9px] sm:text-[10px]">
 
                         Menunggu
 
                     </span>
 
                 </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- RIWAYAT JURNAL HARI INI -->
+        <!-- ================================================= -->
+
+        <section class="bg-white
+                        p-4 md:p-5
+                        rounded-2xl
+                        shadow-sm
+                        border border-gray-100">
+
+
+            <div class="flex items-start
+                        justify-between
+                        gap-3
+                        mb-4">
+
+                <div class="min-w-0">
+
+                    <h2 class="text-sm md:text-base
+                               font-extrabold
+                               text-dark-green">
+
+                        Riwayat Jurnal Hari Ini
+
+                    </h2>
+
+
+                    <p class="text-[10px] md:text-xs
+                              text-gray-400
+                              mt-1">
+
+                        Jurnal yang telah diisi guru hari ini
+
+                    </p>
+
+                </div>
+
+
+                <a href="{{ url('/admin/data_jurnal') }}"
+                   class="text-[10px] md:text-xs
+                          font-bold
+                          text-medium-green
+                          hover:text-dark-green
+                          whitespace-nowrap">
+
+                    Lihat semua →
+
+                </a>
+
+            </div>
+
+
+
+            <!-- MOBILE JOURNAL LIST -->
+
+            <div class="space-y-2.5 md:hidden">
+
+
+                <!-- ITEM 1 -->
+
+                <div class="p-3
+                            rounded-xl
+                            border border-gray-100
+                            bg-gray-50">
+
+                    <div class="flex items-start
+                                justify-between
+                                gap-3">
+
+                        <div class="min-w-0">
+
+                            <p class="text-xs
+                                      font-extrabold
+                                      text-dark-green
+                                      truncate">
+
+                                Sulistyowati, S.Pd.
+
+                            </p>
+
+
+                            <p class="text-[10px]
+                                      text-medium-green
+                                      font-semibold
+                                      mt-1">
+
+                                XI RPL 2
+
+                            </p>
+
+
+                            <p class="text-[10px]
+                                      text-gray-500
+                                      mt-1
+                                      truncate">
+
+                                Matematika Terapan
+
+                            </p>
+
+                        </div>
+
+
+                        <span class="shrink-0
+                                     bg-emerald-50
+                                     text-emerald-700
+                                     font-bold
+                                     px-2 py-1
+                                     rounded-md
+                                     text-[9px]">
+
+                            Terisi
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ITEM 2 -->
+
+                <div class="p-3
+                            rounded-xl
+                            border border-gray-100
+                            bg-gray-50">
+
+                    <div class="flex items-start
+                                justify-between
+                                gap-3">
+
+                        <div class="min-w-0">
+
+                            <p class="text-xs
+                                      font-extrabold
+                                      text-dark-green
+                                      truncate">
+
+                                Bambang S., M.Pd.
+
+                            </p>
+
+
+                            <p class="text-[10px]
+                                      text-medium-green
+                                      font-semibold
+                                      mt-1">
+
+                                XI TKJ 3
+
+                            </p>
+
+
+                            <p class="text-[10px]
+                                      text-gray-500
+                                      mt-1
+                                      truncate">
+
+                                PJOK / Olahraga
+
+                            </p>
+
+                        </div>
+
+
+                        <span class="shrink-0
+                                     bg-emerald-50
+                                     text-emerald-700
+                                     font-bold
+                                     px-2 py-1
+                                     rounded-md
+                                     text-[9px]">
+
+                            Terisi
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- DESKTOP TABLE -->
+
+            <div class="hidden md:block
+                        overflow-x-auto
+                        border border-gray-100
+                        rounded-xl">
+
+
+                <table class="w-full
+                              text-left
+                              text-xs">
+
+
+                    <thead>
+
+                        <tr class="text-gray-400
+                                   border-b border-gray-100
+                                   bg-gray-50/50
+                                   text-[10px]
+                                   uppercase
+                                   tracking-wider">
+
+
+                            <th class="p-3 font-bold">
+                                Guru
+                            </th>
+
+
+                            <th class="p-3 font-bold">
+                                Kelas
+                            </th>
+
+
+                            <th class="p-3 font-bold">
+                                Mata Pelajaran
+                            </th>
+
+
+                            <th class="p-3
+                                       font-bold
+                                       text-right">
+
+                                Status
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody class="divide-y divide-gray-100">
+
+
+                        <!-- JOURNAL 1 -->
+
+                        <tr class="hover:bg-gray-50
+                                   transition">
+
+
+                            <td class="p-3
+                                       font-bold
+                                       text-dark-green">
+
+                                Sulistyowati, S.Pd.
+
+                            </td>
+
+
+                            <td class="p-3
+                                       text-gray-500">
+
+                                XI RPL 2
+
+                            </td>
+
+
+                            <td class="p-3
+                                       text-gray-600">
+
+                                Matematika Terapan
+
+                            </td>
+
+
+                            <td class="p-3
+                                       text-right">
+
+                                <span class="bg-emerald-50
+                                             text-emerald-700
+                                             font-bold
+                                             px-2.5 py-1
+                                             rounded-md
+                                             text-[10px]">
+
+                                    Terisi
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- JOURNAL 2 -->
+
+                        <tr class="hover:bg-gray-50
+                                   transition">
+
+
+                            <td class="p-3
+                                       font-bold
+                                       text-dark-green">
+
+                                Bambang S., M.Pd.
+
+                            </td>
+
+
+                            <td class="p-3
+                                       text-gray-500">
+
+                                XI TKJ 3
+
+                            </td>
+
+
+                            <td class="p-3
+                                       text-gray-600">
+
+                                PJOK / Olahraga
+
+                            </td>
+
+
+                            <td class="p-3
+                                       text-right">
+
+                                <span class="bg-emerald-50
+                                             text-emerald-700
+                                             font-bold
+                                             px-2.5 py-1
+                                             rounded-md
+                                             text-[10px]">
+
+                                    Terisi
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -938,6 +1267,364 @@
 
     </main>
 
-</body>
 
+
+    <div
+    id="scrollHelper"
+    class="md:hidden fixed right-2 sm:right-3 top-1/2
+           -translate-y-1/2 z-30
+           flex flex-col items-center gap-1">
+
+    <!-- SCROLL KE ATAS -->
+
+    <button
+        type="button"
+        onclick="scrollToTop()"
+        aria-label="Kembali ke atas"
+        class="w-7 h-7 rounded-full
+               bg-white/95
+               border border-emerald-100
+               shadow-md
+               text-medium-green
+               flex items-center justify-center
+               active:scale-90
+               transition">
+
+        <i class="fa-solid fa-chevron-up text-[9px]"></i>
+
+    </button>
+
+
+    <!-- SCROLL INDICATOR -->
+
+    <div
+        class="relative
+               w-1
+               h-28
+               bg-dark-green/10
+               rounded-full
+               overflow-hidden">
+
+        <div
+            id="scrollIndicator"
+            class="absolute left-0 top-0
+                   w-1 h-8
+                   bg-medium-green
+                   rounded-full">
+        </div>
+
+    </div>
+
+
+    <!-- SCROLL KE BAWAH -->
+
+    <button
+        type="button"
+        onclick="scrollToBottom()"
+        aria-label="Ke bagian bawah"
+        class="w-7 h-7 rounded-full
+               bg-white/95
+               border border-emerald-100
+               shadow-md
+               text-medium-green
+               flex items-center justify-center
+               active:scale-90
+               transition">
+
+        <i class="fa-solid fa-chevron-down text-[9px]"></i>
+
+    </button>
+
+</div>
+
+
+
+    <!-- ===================================================== -->
+    <!-- SCRIPT MOBILE SIDEBAR + SCROLL HELPER -->
+    <!-- ===================================================== -->
+
+    <script>
+
+        /* =====================================================
+           MOBILE SIDEBAR
+        ====================================================== */
+
+        const hamburgerBtn =
+            document.getElementById('hamburgerBtn');
+
+        const sidebar =
+            document.getElementById('sidebar');
+
+        const sidebarOverlay =
+            document.getElementById('sidebarOverlay');
+
+
+        function openSidebar() {
+
+            sidebar.classList.remove('-translate-x-full');
+
+            sidebarOverlay.classList.remove('hidden');
+
+            document.body.classList.add('overflow-hidden');
+
+        }
+
+
+        function closeSidebar() {
+
+            sidebar.classList.add('-translate-x-full');
+
+            sidebarOverlay.classList.add('hidden');
+
+            document.body.classList.remove('overflow-hidden');
+
+        }
+
+
+        if (hamburgerBtn) {
+
+            hamburgerBtn.addEventListener(
+                'click',
+                openSidebar
+            );
+
+        }
+
+
+        if (sidebarOverlay) {
+
+            sidebarOverlay.addEventListener(
+                'click',
+                closeSidebar
+            );
+
+        }
+
+
+        if (sidebar) {
+
+            sidebar.querySelectorAll('a').forEach(link => {
+
+                link.addEventListener('click', () => {
+
+                    if (window.innerWidth < 768) {
+
+                        closeSidebar();
+
+                    }
+
+                });
+
+            });
+
+        }
+
+
+        /*
+         * Kalau layar berubah dari mobile
+         * ke desktop, reset sidebar.
+         */
+
+        window.addEventListener('resize', () => {
+
+            if (window.innerWidth >= 768) {
+
+                sidebarOverlay.classList.add('hidden');
+
+                document.body.classList.remove('overflow-hidden');
+
+            }
+
+        });
+
+
+
+        /* =====================================================
+           JAM LIVE (HEADER)
+           SAMA SEPERTI HALAMAN GURU PIKET
+        ====================================================== */
+
+        function updateLiveTime() {
+
+            const now = new Date();
+
+            const dateEl = document.getElementById('live-date');
+            const clockEl = document.getElementById('live-clock');
+
+
+            if (dateEl) {
+
+                dateEl.textContent = now.toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+
+            }
+
+
+            if (clockEl) {
+
+                const jam = String(now.getHours()).padStart(2, '0');
+                const menit = String(now.getMinutes()).padStart(2, '0');
+
+                clockEl.textContent = `${jam}.${menit} WIB`;
+
+            }
+
+        }
+
+
+        updateLiveTime();
+
+        setInterval(updateLiveTime, 1000);
+
+
+
+        /* =====================================================
+           MOBILE SCROLL HELPER
+        ====================================================== */
+
+        const scrollIndicator =
+            document.getElementById('scrollIndicator');
+
+
+        function updateScrollIndicator() {
+
+            if (!scrollIndicator) return;
+
+
+            const scrollTop =
+                window.scrollY || window.pageYOffset;
+
+
+            const documentHeight =
+                document.documentElement.scrollHeight;
+
+
+            const windowHeight =
+                window.innerHeight;
+
+
+            const maxScroll =
+                documentHeight - windowHeight;
+
+
+            /*
+             * Kalau halaman tidak cukup panjang
+             * untuk di-scroll.
+             */
+
+            if (maxScroll <= 0) {
+
+                scrollIndicator.style.top = '0px';
+
+                return;
+
+            }
+
+
+            /*
+             * Tinggi track:
+             * h-28 = 112px
+             *
+             * Tinggi indicator:
+             * h-8 = 32px
+             */
+
+            const trackHeight = 112;
+
+            const indicatorHeight = 32;
+
+
+            const maxTop =
+                trackHeight - indicatorHeight;
+
+
+            /*
+             * Hitung posisi scroll
+             * 0 = paling atas
+             * 1 = paling bawah
+             */
+
+            const progress =
+                Math.min(
+                    1,
+                    Math.max(
+                        0,
+                        scrollTop / maxScroll
+                    )
+                );
+
+
+            const indicatorTop =
+                progress * maxTop;
+
+
+            scrollIndicator.style.top =
+                `${indicatorTop}px`;
+
+        }
+
+
+        /*
+         * Update indikator ketika halaman di-scroll.
+         */
+
+        window.addEventListener(
+            'scroll',
+            updateScrollIndicator,
+            { passive: true }
+        );
+
+
+        /*
+         * Update ketika ukuran layar berubah.
+         */
+
+        window.addEventListener(
+            'resize',
+            updateScrollIndicator
+        );
+
+
+        /*
+         * Tombol kembali ke atas.
+         */
+
+        function scrollToTop() {
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: 'smooth'
+
+            });
+
+        }
+
+
+        /*
+         * Tombol langsung ke bagian paling bawah.
+         */
+
+        function scrollToBottom() {
+
+            window.scrollTo({
+
+                top:
+                    document.documentElement.scrollHeight,
+
+                behavior: 'smooth'
+
+            });
+
+        }
+        updateScrollIndicator();
+
+    </script>
+
+</body>
 </html>
