@@ -8,25 +8,27 @@
 
     <style>
         :root {
-            --primary-light: #A7E4CA; 
-            --primary-main: #7ED0AC;   
-            --background-dark: #162C25; 
-            --input-bg: #FEFCE8;      
+            --primary-light: #A7E4CA;
+            --primary-main: #7ED0AC;
+            --background-dark: #162C25;
+            --input-bg: #FEFCE8;
             --text-dark: #000000;
             --text-light: #FFFFFF;
             --text-muted: #94A3B8;
             --circle-gradient: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-main) 100%);
         }
 
-        * {
+        #desktop-version * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        #desktop-version *:not(i) {
             font-family: 'Segoe UI', Arial, sans-serif;
         }
 
-        html,
-        body {
+        #desktop-version {
             width: 100%;
             min-height: 100%;
             background: var(--background-dark);
@@ -37,7 +39,7 @@
            CONTAINER UTAMA
         ========================= */
 
-        .login-container {
+        #desktop-version .login-container {
             width: 100%;
             min-height: 100vh;
             display: flex;
@@ -51,7 +53,7 @@
            WELCOME SECTION
         ========================= */
 
-        .welcome-section {
+        #desktop-version .welcome-section {
             width: 50%;
             min-height: 100vh;
             position: relative;
@@ -63,7 +65,7 @@
             padding-top: 10%;
         }
 
-        .welcome-section::before {
+        #desktop-version .welcome-section::before {
             content: "";
             position: absolute;
             width: 125%;
@@ -75,43 +77,43 @@
             z-index: 1;
         }
 
-        .welcome-content {
+        #desktop-version .welcome-content {
             position: relative;
             z-index: 3;
             max-width: 420px;
         }
 
-        .welcome-content h1 {
+        #desktop-version .welcome-content h1 {
             font-size: 52px;
             font-weight: 700;
             margin-bottom: 25px;
-            color:var(--text-dark);
+            color: var(--text-dark);
         }
 
-        .welcome-content p {
+        #desktop-version .welcome-content p {
             font-size: 13px;
             line-height: 1.7;
-            color:var(--text-dark);
+            color: var(--text-dark);
             font-weight: 500;
         }
 
         /* BULATAN KECIL */
 
-        .circle {
+        #desktop-version .circle {
             position: absolute;
             border-radius: 50%;
             background: var(--circle-gradient);
             z-index: 4;
         }
 
-        .circle-one {
+        #desktop-version .circle-one {
             width: 180px;
             height: 180px;
             bottom: -30px;
             left: -20px;
         }
 
-        .circle-two {
+        #desktop-version .circle-two {
             width: 100px;
             height: 100px;
             bottom: 40px;
@@ -121,7 +123,7 @@
 
         /* BULATAN KANAN BAWAH */
 
-        .bg-circle-bottom-right {
+        #desktop-version .bg-circle-bottom-right {
             position: absolute;
             width: 200px;
             height: 200px;
@@ -137,7 +139,7 @@
            LOGIN SECTION
         ========================= */
 
-        .login-section {
+        #desktop-version .login-section {
             width: 50%;
             min-height: 100vh;
             background: var(--background-dark);
@@ -150,14 +152,14 @@
             z-index: 2;
         }
 
-        .login-section h2 {
+        #desktop-version .login-section h2 {
             font-size: 52px;
             font-weight: 700;
             margin-bottom: 12px;
             letter-spacing: 0.5px;
         }
 
-        .login-description {
+        #desktop-version .login-description {
             font-size: 12px;
             color: #D0D5D3;
             margin-bottom: 40px;
@@ -165,19 +167,19 @@
             max-width: 380px;
         }
 
-        .error-message {
+        #desktop-version .error-message {
             margin-bottom: 16px;
             color: #ffb4b4;
             font-size: 14px;
         }
 
-        .input-group {
+        #desktop-version .input-group {
             margin-bottom: 22px;
             position: relative;
             max-width: 420px;
         }
 
-        .input-group i.input-icon {
+        #desktop-version .input-group i.input-icon {
             position: absolute;
             left: 16px;
             top: 50%;
@@ -187,7 +189,7 @@
             pointer-events: none;
         }
 
-        .input-group i.eye-icon {
+        #desktop-version .input-group i.eye-icon {
             position: absolute;
             right: 16px;
             top: 50%;
@@ -198,7 +200,7 @@
             padding: 8px;
         }
 
-        .input-group input {
+        #desktop-version .input-group input {
             width: 100%;
             height: 50px;
             border: none;
@@ -212,12 +214,12 @@
             letter-spacing: 1px;
         }
 
-        .input-group input::placeholder {
+        #desktop-version .input-group input::placeholder {
             color: #BAC7C3;
             font-weight: 600;
         }
 
-        .input-group input:focus {
+        #desktop-version .input-group input:focus {
             outline: 2px solid rgba(137, 215, 183, 0.7);
             background: rgba(255, 255, 255, 0.18);
         }
@@ -226,7 +228,7 @@
            TOMBOL LOGIN
         ========================= */
 
-        .login-button {
+        #desktop-version .login-button {
             margin-top: 30px;
             margin-left: auto;
             display: block;
@@ -244,291 +246,225 @@
             transition: all 0.2s ease;
         }
 
-        .login-button:hover {
+        #desktop-version .login-button:hover {
             background: var(--circle-gradient);
             color: #ffffff;
             transform: translateY(-1px);
         }
-        
-
-        /* =================================================
-           HP
-        ================================================= */
 
         @media (max-width: 600px) {
-
-            .login-container {
-                flex-direction: column;
-                justify-content: flex-start;
-                overflow-x: hidden;
-            }
-
-            /* WELCOME DI ATAS — bentuk DOME penuh */
-
-            .welcome-section {
-                width: 100%;
-                min-height: 300px;
-                padding: 64px 32px 90px;
-                background: var(--circle-gradient);
-                border-radius: 0 0 46px 46px;
-                position: relative;
-                z-index: 1;
-                overflow: visible;
-            }
-
-            /* pseudo-circle lama tidak dipakai lagi di mobile, digantikan
-               background langsung pada .welcome-section */
-            .welcome-section::before {
-                content: none;
-            }
-
-            .welcome-content {
-                max-width: 100%;
-            }
-
-            .welcome-content h1 {
-                font-size: 32px;
-                margin-bottom: 12px;
-            }
-
-            .welcome-content p {
-                font-size: 13px;
-                line-height: 1.5;
-                max-width: 90%;
-            }
-
-            /* BULATAN DEKORASI — nyembul di belakang lengkungan dome */
-
-            .circle {
-                z-index: -1;
-            }
-
-            .circle-one {
-                width: 120px;
-                height: 120px;
-                bottom: -60px;
-                left: 6%;
-                transform: none;
-            }
-
-            .circle-two {
-                width: 68px;
-                height: 68px;
-                bottom: -32px;
-                left: 40%;
-                transform: none;
-            }
-
-            .bg-circle-bottom-right {
-                width: 140px;
-                height: 140px;
-                bottom: -30px;
-                right: -30px;
-            }
-
-            /* LOGIN */
-
-            .login-section {
-                width: 100%;
-                min-height: auto;
-                flex: 1;
-                padding: 28px 28px 44px;
-                justify-content: flex-start;
-                z-index: 2;
-            }
-
-            .login-section h2 {
-                font-size: 30px;
-                margin-bottom: 6px;
-            }
-
-            .login-description {
-                font-size: 13px;
-                margin-bottom: 26px;
-                color: #8E9F98;
-            }
-
-            form {
-                width: 100%;
-            }
-
-            .input-group {
-                max-width: 100%;
-                margin-bottom: 18px;
-            }
-
-            .input-group input {
-                width: 100%;
-                height: 54px;
-                border-radius: 18px;
-                background: var(--input-bg);
-                color: var(--text-dark);
-                font-weight: 600;
-            }
-
-            .input-group input::placeholder {
-                color: #A9A98C;
-            }
-
-            .input-group i.input-icon,
-            .input-group i.eye-icon {
-                color: #4A4A3A;
-            }
-
-            /* TOMBOL FULL WIDTH, LEBIH BULAT (PILL) */
-
-            .login-button {
-                width: 100%;
-                height: 54px;
-                margin-top: 14px;
-                margin-left: 0;
-                border-radius: 20px;
-                background: var(--primary-main);
-            }
-
-            .login-button:hover {
-                background: var(--circle-gradient);
-            }
+            #desktop-version { display: none !important; }
         }
-
-        /* =================================================
-           HP KECIL (<380px)
-        ================================================= */
-
-        @media (max-width: 380px) {
-
-            .welcome-section {
-                min-height: 250px;
-                padding: 48px 22px 80px;
-                border-radius: 0 0 50% 50% / 0 0 44px 44px;
-            }
-
-            .welcome-content h1 {
-                font-size: 26px;
-            }
-
-            .welcome-content p {
-                font-size: 11px;
-            }
-
-            .login-section {
-                padding: 20px 20px 32px;
-            }
-
-            .login-section h2 {
-                font-size: 26px;
-            }
-
-            .circle-one {
-                width: 70px;
-                height: 70px;
-                bottom: -24px;
-            }
-
-            .circle-two {
-                width: 42px;
-                height: 42px;
-                bottom: -12px;
-            }
+        @media (min-width: 601px) {
+            #mobile-version { display: none !important; }
         }
-
     </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
 
-    <div class="login-container">
+    <div id="desktop-version">
 
-        <!-- BAGIAN WELCOME -->
-        <section class="welcome-section">
+        <div class="login-container">
 
-            <div class="welcome-content">
-                <h1>Welcome!</h1>
+            <!-- BAGIAN WELCOME -->
+            <section class="welcome-section">
 
-                <p>
+                <div class="welcome-content">
+                    <h1>Welcome!</h1>
+
+                    <p>
+                        Selamat Datang di Aplikasi Jurnal Absensi.
+                        Silakan masuk untuk melanjutkan ke halaman utama aplikasi.
+                    </p>
+                </div>
+
+                <div class="circle circle-one"></div>
+                <div class="circle circle-two"></div>
+
+            </section>
+
+
+            <!-- BAGIAN LOGIN -->
+            <section class="login-section">
+
+                <h2>Login</h2>
+
+                <p class="login-description">
+                    Silakan masuk dengan akun Anda untuk melanjutkan.
+                </p>
+
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+
+                    @if ($errors->has('email'))
+                        <p class="error-message" role="alert">
+                            {{ $errors->first('email') }}
+                        </p>
+                    @endif
+
+                    <!-- INPUT EMAIL -->
+                    <div class="input-group">
+
+                        <i class="fa-regular fa-envelope input-icon"></i>
+
+                        <input
+                            type="email"
+                            name="email"
+                            required
+                            placeholder="Masukkan Email"
+                        >
+
+                    </div>
+
+
+                    <!-- INPUT PASSWORD -->
+                    <div class="input-group">
+
+                        <i class="fa-solid fa-lock input-icon"></i>
+
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            placeholder="Masukkan Password"
+                            id="password-input"
+                        >
+
+                        <i
+                            class="fa-regular fa-eye-slash eye-icon"
+                            id="toggle-password"
+                        ></i>
+
+                    </div>
+
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" class="login-button">
+                        LOGIN
+                    </button>
+
+                </form>
+
+            </section>
+
+        </div>
+
+
+        <!-- BULATAN HIJAU JUMBO -->
+        <div class="bg-circle-bottom-right"></div>
+
+    </div>
+
+
+    <!-- ================
+         MOBILE VERSION 
+    ===================== -->
+    <div id="mobile-version" class="relative min-h-screen max-w-md mx-auto bg-[#162C25] flex flex-col overflow-hidden">
+
+        <!-- WELCOME / DOME SECTION -->
+        <section class="relative px-8 pt-16 pb-28 z-10 overflow-visible">
+
+            <!-- Lingkaran besar (digeser ke kiri) -->
+            <div class="absolute w-[560px] h-[560px] -top-[260px] -left-[90px]
+                        rounded-full bg-gradient-to-br from-[#A7E4CA] to-[#7ED0AC] z-0"></div>
+
+            <div class="relative z-10 max-w-[85%]">
+                <h1 class="text-black font-bold text-4xl mb-3">Welcome!</h1>
+                <p class="text-black/80 text-sm leading-relaxed font-medium">
                     Selamat Datang di Aplikasi Jurnal Absensi.
                     Silakan masuk untuk melanjutkan ke halaman utama aplikasi.
                 </p>
             </div>
 
-            <div class="circle circle-one"></div>
-            <div class="circle circle-two"></div>
-
+            <!-- Bulatan dekorasi yang nyembul di bawah dome -->
+            <div class="absolute -bottom-6 left-[4%] w-[120px] h-[120px] rounded-full
+                        bg-gradient-to-br from-[#A7E4CA] to-[#7ED0AC] z-0"></div>
+            <div class="absolute -bottom-3 left-[24%] w-[68px] h-[68px] rounded-full
+                        bg-gradient-to-br from-[#A7E4CA] to-[#7ED0AC] z-0"></div>
         </section>
 
+        <!-- LOGIN SECTION -->
+        <section class="relative flex-1 flex flex-col justify-start px-7 pt-12 pb-16 z-20">
 
-        <!-- BAGIAN LOGIN -->
-        <section class="login-section">
-
-            <h2>Login</h2>
-
-            <p class="login-description">
+            <h2 class="text-white font-bold text-3xl mb-2 tracking-wide">Login</h2>
+            <p class="text-[#8E9F98] text-[13px] mb-8 leading-snug">
                 Silakan masuk dengan akun Anda untuk melanjutkan.
             </p>
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" class="w-full">
                 @csrf
 
                 @if ($errors->has('email'))
-                    <p class="error-message" role="alert">
+                    <p class="text-red-300 text-sm mb-4" role="alert">
                         {{ $errors->first('email') }}
                     </p>
                 @endif
 
-                <!-- INPUT EMAIL -->
-                <div class="input-group">
+                <div class="space-y-5">
+                    <!-- INPUT EMAIL -->
+                    <div class="relative">
+                        <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2
+                                  text-[#4A4A3A]/70 text-lg pointer-events-none"></i>
+                        <input
+                            type="email"
+                            name="email"
+                            required
+                            placeholder="Masukkan Email"
+                            class="w-full h-[54px] rounded-[18px] pl-12 pr-4
+                                   bg-[#FEFCE8] text-[#1a1a1a] font-semibold text-sm
+                                   placeholder:text-[#A9A98C] placeholder:font-semibold
+                                   outline-none focus:ring-2 focus:ring-[#89D7B7]/70 transition"
+                        >
+                    </div>
 
-                    <i class="fa-regular fa-envelope input-icon"></i>
-
-                    <input
-                        type="email"
-                        name="email"
-                        required
-                        placeholder="Masukkan Email"
-                    >
-
+                    <!-- INPUT PASSWORD -->
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2
+                                  text-[#4A4A3A]/70 text-lg pointer-events-none"></i>
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            placeholder="Masukkan Password"
+                            id="password-input-mobile"
+                            class="w-full h-[54px] rounded-[18px] pl-12 pr-12
+                                   bg-[#FEFCE8] text-[#1a1a1a] font-semibold text-sm
+                                   placeholder:text-[#A9A98C] placeholder:font-semibold
+                                   outline-none focus:ring-2 focus:ring-[#89D7B7]/70 transition"
+                        >
+                        <i
+                            id="toggle-password-mobile"
+                            class="fa-regular fa-eye-slash absolute right-4 top-1/2 -translate-y-1/2
+                                   text-[#4A4A3A]/70 text-base cursor-pointer p-2"
+                        ></i>
+                    </div>
                 </div>
 
-
-                <!-- INPUT PASSWORD -->
-                <div class="input-group">
-
-                    <i class="fa-solid fa-lock input-icon"></i>
-
-                    <input
-                        type="password"
-                        name="password"
-                        required
-                        placeholder="Masukkan Password"
-                        id="password-input"
-                    >
-
-                    <i
-                        class="fa-regular fa-eye-slash eye-icon"
-                        id="toggle-password"
-                    ></i>
-
-                </div>
-
-
-                <!-- SUBMIT BUTTON -->
-                <button type="submit" class="login-button">
+                <!-- SUBMIT -->
+                <button
+                    type="submit"
+                    class="w-full h-[54px] mt-8 rounded-[20px] bg-[#7ED0AC]
+                           text-[#18332B] font-bold text-base tracking-wide
+                           shadow-lg shadow-black/20 transition-all duration-200
+                           hover:bg-gradient-to-br hover:from-[#A7E4CA] hover:to-[#7ED0AC]
+                           hover:text-white hover:-translate-y-0.5"
+                >
                     LOGIN
                 </button>
-
             </form>
-
         </section>
 
+        <!-- BULATAN HIJAU JUMBO KANAN BAWAH -->
+        <div class="absolute -bottom-8 -right-8 w-[140px] h-[140px] rounded-full
+                    bg-gradient-to-br from-[#A7E4CA] to-[#7ED0AC] pointer-events-none z-0"></div>
     </div>
 
 
-    <!-- BULATAN HIJAU JUMBO -->
-    <div class="bg-circle-bottom-right"></div>
-
-
     <script>
-
+        // Toggle password — DESKTOP (kode asli kamu)
         const togglePassword =
             document.querySelector('#toggle-password');
 
@@ -549,6 +485,16 @@
 
         });
 
+        // Toggle password — MOBILE (versi Tailwind)
+        const togglePasswordMobile = document.querySelector('#toggle-password-mobile');
+        const passwordInputMobile = document.querySelector('#password-input-mobile');
+
+        togglePasswordMobile.addEventListener('click', function () {
+            const type = passwordInputMobile.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInputMobile.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
     </script>
 
 </body>
