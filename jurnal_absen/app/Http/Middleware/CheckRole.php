@@ -39,7 +39,7 @@ class CheckRole
         }
 
         if (! in_array($user->role, $allowedRoles)) {
-            return redirect()->route('/');
+            return redirect('/');
             // abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 

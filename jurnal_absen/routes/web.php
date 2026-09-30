@@ -7,6 +7,8 @@ use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
 use App\Models\Jadwal;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\JadwalController;
+
 Route::get('/', [LoginController::class, 'Check'])->name('/');
 
 // Route::view('dashboard', 'dashboard')redirect()->route('login')
@@ -81,7 +83,7 @@ Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
 
     });
 
-    Route::middleware(['role:piket,guru','route:piket'])->group(function () {
+    Route::middleware(['role:piket,guru'])->group(function () {
         Route::view('/piket/dashboard', 'piket/dashboard')->name('piket.dashboard');
         // Volt::route('/piket/dashboard', 'piket.dashboard')->name('piket.dashboard');
 
@@ -112,3 +114,18 @@ Route::view('profile', 'profile')
     ->name('profile');
 require __DIR__.'/auth.php';
 
+// Rute Bantuan untuk membuat akun secara otomatis dari browser
+Route::get('/buat-akun-admin', function () {
+    \App\Models\User::updateOrCreate(
+        ['email' => 'jadwal@ex.com'],
+        [
+            'name' => 'Admin Jadwal',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            'role' => 'admin',
+            'nip' => '123456789012345678',
+//             'nuptk' => '1234567890123456',
+            'phone' => '081234567890'
+        ]
+    );
+    return 'Akun jadwal@ex.com dengan password "password" BERHASIL DIBUAT! <br><br> <a href="/login">Klik di sini untuk Login</a>';
+});

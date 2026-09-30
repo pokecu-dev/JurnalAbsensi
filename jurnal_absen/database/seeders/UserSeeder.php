@@ -55,6 +55,15 @@ class UserSeeder extends Seeder
                     'password' => Hash::make('password'),
                     'role' => 'piket'
                 ],
+                [
+                    'nip' => '111111111111111115',
+                    // 'nuptk' => '1111111111111115',
+                    'phone' => '+62 811-1111-1115',
+                    'name' => 'Admin Jadwal',
+                    'email' => 'jadwal@ex.com',
+                    'password' => Hash::make('password'),
+                    'role' => 'admin'
+                ]
                 
             ]
 
