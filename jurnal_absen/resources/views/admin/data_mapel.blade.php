@@ -30,15 +30,34 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
-<body class="bg-bg-cream text-dark-green font-sans flex min-h-screen">
+<body class="bg-bg-cream text-dark-green font-sans min-h-screen flex flex-col md:flex-row">
 
-    <!-- ================= SIDEBAR ================= -->
-    <aside class="hidden md:flex md:w-56 bg-dark-green text-white flex-col justify-between p-5 shrink-0 h-screen sticky top-0">
-        <div>
-            <!-- LOGO BRAND -->
-            <div class="flex flex-col items-center justify-center gap-1.5 mb-6 text-center">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-12 h-auto object-contain">
-                <span class="text-sm font-bold tracking-wide">Jurnal Absensi</span>
+    <!-- ================= MOBILE TOPBAR (Hanya tampil di Layar Kecil/Mobile) ================= -->
+    <header class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-md">
+        <div class="flex items-center gap-3">
+            <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-8 h-auto object-contain">
+            <span class="text-sm font-bold tracking-wide">Jurnal Absensi</span>
+        </div>
+        <button id="mobileMenuBtn" onclick="toggleMobileSidebar()" class="p-2 text-gray-300 hover:text-white focus:outline-none">
+            <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+    </header>
+
+    <!-- Overlay Latar Belakang Mobile Sidebar -->
+    <div id="sidebarBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden md:hidden transition-opacity duration-300 opacity-0"></div>
+
+    <!-- ================= SIDEBAR (DESKTOP & MOBILE DRAWER) ================= -->
+    <aside id="sidebarNav" class="fixed inset-y-0 left-0 -translate-x-full md:translate-x-0 md:sticky md:top-0 w-64 md:w-56 bg-dark-green text-white flex flex-col justify-between p-5 shrink-0 h-screen z-50 transition-transform duration-300 ease-in-out">
+        <div class="overflow-y-auto">
+            <!-- LOGO BRAND & TOMBOL CLOSE MOBILE -->
+            <div class="flex items-center justify-between md:justify-center mb-6">
+                <div class="flex flex-col items-center justify-center gap-1.5 text-center w-full">
+                    <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-12 h-auto object-contain">
+                    <span class="text-sm font-bold tracking-wide">Jurnal Absensi</span>
+                </div>
+                <button onclick="toggleMobileSidebar()" class="md:hidden text-gray-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
             </div>
 
             <!-- MENU NAVIGASI -->
@@ -81,7 +100,7 @@
             </nav>
         </div>
 
-        <div class="flex flex-col gap-1 pt-3 border-t border-white/10 text-xs">
+        <div class="flex flex-col gap-1 pt-3 border-t border-white/10 text-xs shrink-0">
             <a href="{{ url('/admin/akun') }}" class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 transition duration-200">
                 <i class="fa-solid fa-user-circle w-4"></i>
                 <span>Akun Admin</span>
@@ -95,7 +114,7 @@
 
     <!-- ================= MAIN CONTENT ================= -->
     <div class="flex-1 flex flex-col min-w-0 bg-bg-cream">
-        <main class="p-8 space-y-6 flex-1">
+        <main class="p-4 sm:p-6 md:p-8 space-y-6 flex-1">
             
             <!-- HEADER HALAMAN -->
             <div>
@@ -263,8 +282,32 @@
         </div>
     </div>
 
-    <!-- SCRIPT JAVASCRIPT UNTUK LIVE SEARCH & EDIT MODAL -->
+    <!-- SCRIPT JAVASCRIPT -->
     <script>
+        // Toggle Sidebar Mobile Navigation
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebarNav');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                // Buka Sidebar
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    backdrop.classList.remove('opacity-0');
+                    backdrop.classList.add('opacity-100');
+                }, 10);
+            } else {
+                // Tutup Sidebar
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.remove('opacity-100');
+                backdrop.classList.add('opacity-0');
+                setTimeout(() => {
+                    backdrop.classList.add('hidden');
+                }, 300);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('searchInput');
             const searchForm = document.getElementById('searchForm');
