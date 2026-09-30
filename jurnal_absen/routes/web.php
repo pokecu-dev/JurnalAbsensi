@@ -44,34 +44,45 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::view('/admin/data_guru/{id}', 'admin.detail_guru')->name('admin.detail_guru');
         Route::view('/admin/data_siswa', 'admin/data_siswa')->name('admin.data_siswa');
         Route::view('/admin/data_siswa/{id}', 'admin.detail_siswa')->name('admin.detail_siswa');
-        Route::resource('admin/data_mapel', MapelController::class)->names('admin.data_mapel');
-        Route::resource('mapels', MapelController::class);
-    });
-   
-
+        Route::view('/admin/data_kelas', 'admin.data_kelas')->name('admin.data_kelas');
+        Route::view('/admin/jadwal', 'admin.jadwal')->name('admin.jadwal');
+        Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
     });
 
     Route::middleware(['role:guru'])->group(function () {
-
         Route::get('/guru/dashboard', function () {
-            $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
+            $jadwal = Jadwal::GetJadwalBy(
+                auth()->id(),
+                1,
+                ['teacher', 'classes', 'mapel']
+            );
 
-            return view('guru.dashboard', compact(['jadwal']));
+            return view(
+                'guru.dashboard',
+                compact(['jadwal'])
+            );
         })->name('guru.dashboard');
-        // Route::view('/guru/dashboard','guru/dashboard')->name('guru.dashboard');
 
-        Route::get('/guru/jurnal', [JurnalController::class, 'form']);
-        // route::get('/guru/jurnal', function () {
-        //     $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes', 'mapel']);
+        Route::get(
+            '/guru/jurnal',
+            [JurnalController::class, 'form']
+        )->name('guru.jurnal');
 
-        //     return view('guru.jurnal',compact(['jadwal']));
-        // });
+        Route::post(
+            '/guru/jurnal/create',
+            [JurnalController::class, 'create']
+        )->name('guru.jurnal.create');
 
-        // Route::get('/guru/jurnal', [JurnalController::class,'form'])->name('guru.jurnal');
-        Route::post('/guru/jurnal/create', [JurnalController::class, 'create'])->name('guru.jurnal.create');
-        // Route::post('/guru/jurnal/create-detail',[JurnalController::class,'AddDetail'])->name('guru.jurnal.detail');
+        Route::post(
+            '/guru/jurnal/create-detail',
+            [JurnalController::class, 'AddDetail']
+        )->name('guru.jurnal.detail');
 
-        Route::view('/guru/riwayat', 'guru/riwayat')->name('guru.riwayat');
+        Route::view(
+            '/guru/akun',
+            'guru/akun'
+        )->name('guru.akun');
+
     });
 
     Route::middleware(['role:piket,guru','route:piket'])->group(function () {
@@ -99,7 +110,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
 });
-
-
-
+});
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
 require __DIR__.'/auth.php';
