@@ -21,7 +21,7 @@ class JurnalController extends Controller
     {
 
         // Carbon::setTestNow('2026-09-18 13:00:00');
-        Carbon::setTestNow('2026-09-25 13:00:00');
+        // Carbon::setTestNow('2026-09-25 13:00:00');
 
         $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
         // return response()->json($jadwal);
