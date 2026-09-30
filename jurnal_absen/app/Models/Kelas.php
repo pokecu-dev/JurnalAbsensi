@@ -10,9 +10,9 @@ class Kelas extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'class';
+    protected $table = 'classes';
 
-    protected $fillable = ['name', 'id_wali_kelas', 'total_students'];
+    protected $fillable = ['name', 'total_students'];
 
     public function waliKelas(): BelongsTo
     {

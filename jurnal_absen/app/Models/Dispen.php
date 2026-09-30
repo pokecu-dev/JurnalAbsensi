@@ -21,6 +21,7 @@ class Dispen extends Model
         'jam_selesai',
         'status',
         'approved_by',
+        'approval_user_id',
     ];
 
     protected $casts = [
@@ -40,5 +41,14 @@ class Dispen extends Model
     public function approver()
     {
         return $this->belongsTo(User::class, 'approved_by');
+    }
+    public function approvalToken()
+    {
+        return $this->hasOne(DispenApprovalToken::class);
+    }
+
+    public function approvalUser()
+    {
+        return $this->belongsTo(User::class, 'approval_user_id');
     }
 }
