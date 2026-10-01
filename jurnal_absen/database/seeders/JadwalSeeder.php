@@ -21,7 +21,7 @@ class JadwalSeeder extends Seeder
                     'teacher_id' => 3,
                     'class_id' => 8,
                     'mapel_id' => 1,
-                    'day' => 'jumat',
+                    'day' => 'kamis',
                     'start_time' => 3,
                     'end_time' => 13,
                     'created_at' => now(),

@@ -1248,7 +1248,7 @@
 
                     </div>
 
-                    @endforeach
+
 
                         <i class="fa-solid fa-circle-info text-medium-green text-sm mt-0.5"></i>
 
