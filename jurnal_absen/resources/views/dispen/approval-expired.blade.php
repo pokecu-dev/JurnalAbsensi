@@ -26,9 +26,10 @@
             Pengajuan masih menunggu persetujuan.
         </p>
 
-        <p id="resend-message">
-            Menghitung waktu kirim ulang...
-        </p>
+        @if ($isCurrentToken)
+            <p id="resend-message">
+                Menghitung waktu kirim ulang...
+            </p>
 
         <form
             id="resend-form"
@@ -96,7 +97,10 @@
                     clearInterval(timer);
                 }
             }, 1000);
-        </script>
+            </script>
+        @else
+            <p>Link ini sudah diganti. Gunakan link terbaru yang dikirim melalui WhatsApp.</p>
+        @endif
 
     @else
 

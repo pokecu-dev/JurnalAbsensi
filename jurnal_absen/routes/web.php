@@ -7,9 +7,9 @@ use App\Http\Controllers\Jurnal\DispenController;
 use App\Http\Controllers\Jurnal\JurnalController;
 use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
 use App\Models\Jadwal;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\JadwalController;
 
 Route::get('/', [LoginController::class, 'Check'])->name('/');
 
@@ -23,14 +23,27 @@ Route::get('/login', [LoginController::class, 'ShowLoginForm'])->middleware('gue
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route::get('/test-dispen', function () {
-//     return view('test-dispen');
-// });
+Route::middleware(['auth', 'role:piket'])->group(function () {
+    Route::get('/dispen/create', [DispenController::class, 'create'])
+        ->name('dispen.create');
 
-Route::get('/test-dispen', [DispenController::class, 'create']);
+    Route::post('/dispen', [DispenController::class, 'store'])
+        ->name('dispen.store');
+});
 
-Route::post('/dispen', [DispenController::class, 'store'])
-    ->name('dispen.store');
+Route::middleware(['auth', 'role:piket,admin'])->group(function () {
+    Route::get('/dispen', [DispenController::class, 'index'])
+        ->name('dispen.index');
+
+    Route::get('/dispen/{dispen}/edit', [DispenController::class, 'edit'])
+        ->name('dispen.edit');
+
+    Route::put('/dispen/{dispen}', [DispenController::class, 'update'])
+        ->name('dispen.update');
+
+    Route::delete('/dispen/{dispen}', [DispenController::class, 'destroy'])
+        ->name('dispen.destroy');
+});
 
 Route::get('/dispen/approval/{dispen}/{token}', [
     DispenApprovalController::class,
@@ -47,17 +60,17 @@ Route::post('/dispen/approval/{dispen}/login', [
     'login',
 ])->name('dispen.approval.login');
 
-Route::middleware('auth')->get('/dispen/{dispen}/approval', [
+Route::middleware(['auth', 'role:sekre'])->get('/dispen/{dispen}/approval', [
     DispenApprovalController::class,
     'approvalPage',
 ])->name('dispen.approval.page');
 
-Route::middleware('auth')->post('/dispen/{dispen}/status', [
+Route::middleware(['auth', 'role:sekre'])->post('/dispen/{dispen}/status', [
     DispenApprovalController::class,
     'updateStatus',
 ])->name('dispen.status');
 
-Route::get('/dispen/{dispen}', [
+Route::middleware(['auth', 'role:piket,admin'])->get('/dispen/{dispen}', [
     DispenController::class,
     'show',
 ])->name('dispen.show');
@@ -83,9 +96,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::view('/admin/data_guru/{id}', 'admin.detail_guru')->name('admin.detail_guru');
         Route::view('/admin/data_siswa', 'admin/data_siswa')->name('admin.data_siswa');
         Route::view('/admin/data_siswa/{id}', 'admin.detail_siswa')->name('admin.detail_siswa');
-Route::view('/admin/data_kelas', 'admin.data_kelas')->name('admin.data_kelas');
-Route::view('/admin/jadwal', 'admin.jadwal')->name('admin.jadwal');
-Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
+        Route::view('/admin/data_kelas', 'admin.data_kelas')->name('admin.data_kelas');
+        Route::view('/admin/jadwal', 'admin.jadwal')->name('admin.jadwal');
+        Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
     });
 
     Route::middleware(['role:guru'])->group(function () {
@@ -157,16 +170,17 @@ require __DIR__.'/auth.php';
 
 // Rute Bantuan untuk membuat akun secara otomatis dari browser
 Route::get('/buat-akun-admin', function () {
-    \App\Models\User::updateOrCreate(
+    User::updateOrCreate(
         ['email' => 'jadwal@ex.com'],
         [
             'name' => 'Admin Jadwal',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            'password' => Hash::make('password'),
             'role' => 'admin',
             'nip' => '123456789012345678',
-//             'nuptk' => '1234567890123456',
-            'phone' => '081234567890'
+            //             'nuptk' => '1234567890123456',
+            'phone' => '081234567890',
         ]
     );
+
     return 'Akun jadwal@ex.com dengan password "password" BERHASIL DIBUAT! <br><br> <a href="/login">Klik di sini untuk Login</a>';
 });
