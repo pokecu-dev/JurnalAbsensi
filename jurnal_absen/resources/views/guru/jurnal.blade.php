@@ -3197,7 +3197,7 @@
 
         /* SUCCESS MODAL */
 
-        @if(session('success'))
+        if(session('success'))
         document.addEventListener('DOMContentLoaded', function() {
 
             const modal =
@@ -3209,7 +3209,7 @@
             modal.classList.add('flex');
 
         });
-        @endif
+        endif
 
         /* BATAL MODAL */
         function openCancelConfirm() {

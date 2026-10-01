@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\JadwalPiketController;
+use App\Http\Controllers\Jurnal\DispenApprovalController;
+use App\Http\Controllers\Jurnal\DispenController;
 use App\Http\Controllers\Jurnal\JurnalController;
 use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
+use App\Http\Controllers\MapelController;
 use App\Models\Jadwal;
 use Illuminate\Support\Facades\Route;
 
@@ -11,15 +14,56 @@ use App\Http\Controllers\JadwalController;
 
 Route::get('/', [LoginController::class, 'Check'])->name('/');
 
-// Route::view('dashboard', 'dashboard')redirect()->route('login')
-// ->middleware(['auth', 'verified'])
-// ->name('dashboard');
-
-// Route::view('/login')
-
+// Guest Routes (Login)
 Route::get('/login', [LoginController::class, 'ShowLoginForm'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::match(['get', 'post'], '/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Authenticated Routes
+// Route::middleware(['auth'])->group(function () {
+
+// Route::get('/login', [LoginController::class, 'ShowLoginForm'])->middleware('guest')->name('login');
+// Route::post('/login', [LoginController::class, 'login']);
+// Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Route::get('/test-dispen', function () {
+//     return view('test-dispen');
+// });
+
+Route::get('/test-dispen', [DispenController::class, 'create']);
+
+Route::post('/dispen', [DispenController::class, 'store'])
+    ->name('dispen.store');
+
+Route::get('/dispen/approval/{dispen}/{token}', [
+    DispenApprovalController::class,
+    'approval',
+])->name('dispen.approval');
+
+Route::post('/dispen/approval/{dispen}/{token}/resend', [
+    DispenApprovalController::class,
+    'resend',
+])->name('dispen.approval.resend');
+
+Route::post('/dispen/approval/{dispen}/login', [
+    DispenApprovalController::class,
+    'login',
+])->name('dispen.approval.login');
+
+Route::middleware('auth')->get('/dispen/{dispen}/approval', [
+    DispenApprovalController::class,
+    'approvalPage',
+])->name('dispen.approval.page');
+
+Route::middleware('auth')->post('/dispen/{dispen}/status', [
+    DispenApprovalController::class,
+    'updateStatus',
+])->name('dispen.status');
+
+Route::get('/dispen/{dispen}', [
+    DispenController::class,
+    'show',
+])->name('dispen.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -42,9 +86,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::view('/admin/data_guru/{id}', 'admin.detail_guru')->name('admin.detail_guru');
         Route::view('/admin/data_siswa', 'admin/data_siswa')->name('admin.data_siswa');
         Route::view('/admin/data_siswa/{id}', 'admin.detail_siswa')->name('admin.detail_siswa');
-Route::view('/admin/data_kelas', 'admin.data_kelas')->name('admin.data_kelas');
-Route::view('/admin/jadwal', 'admin.jadwal')->name('admin.jadwal');
-Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
+        Route::view('/admin/data_kelas', 'admin.data_kelas')->name('admin.data_kelas');
+        Route::view('/admin/jadwal', 'admin.jadwal')->name('admin.jadwal');
+        Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
+        Route::resource('admin/data_mapel', MapelController::class)->names('admin.data_mapel');
     });
 
     Route::middleware(['role:guru'])->group(function () {
@@ -106,8 +151,9 @@ Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
         Route::get('/sekre/status-validasi', [SekreJurnal::class, 'index'])
             ->name('sekre.status-validasi');
     });
-
 });
+
+
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

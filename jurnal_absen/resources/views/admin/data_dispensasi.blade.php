@@ -330,6 +330,21 @@
 
                         </a>
 
+                        
+                        <!-- DATA MATA PELAJARAN -->
+                         <a href="{{ route('admin.data_mapel.index') }}" 
+                             class="flex items-center gap-3
+                                  px-4 py-3
+                                  text-gray-300
+                                  hover:bg-white/10
+                                  hover:text-mint-green
+                                  rounded-xl
+                                  transition
+                                  active:scale-[0.98]">
+                            <i class="fa-solid fa-book-open w-4 text-center">
+                                
+                            </i> Data Mata Pelajaran
+                         </a>
 
 
                         <!-- JADWAL -->

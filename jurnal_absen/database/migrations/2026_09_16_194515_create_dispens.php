@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('jam_mulai')->nullable();
             $table->time('jam_selesai')->nullable();
             $table->enum('status', ['pending', 'rejected', 'approved']);
+            $table->foreignId('approval_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('approved_by')->nullable()->constrained('users');
             $table->timestamps();
         });

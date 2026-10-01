@@ -60,7 +60,7 @@ class UserController extends Controller
 
     public function delete(User $user)
     {
-        if ($user->id === auth()->id()) {
+        if ($user->id === auth()->id) {
             return back()->with('error', 'Tidak bisa menghapus akun sendiri.');
         }
 

@@ -6,12 +6,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
-use App\Models\Jadwal;
-
 // #[Fillable(['id_jadwal','tgl', 'materi', 'catatan', 'status', 'guru','foto'])]
 class Jurnal extends Model
 {
-
     protected $fillable = [
         'id_jadwal',
         'teacher_id',
@@ -24,6 +21,7 @@ class Jurnal extends Model
         'catatan',
         'instruksi_tugas',
         'alasan_kosong',
+        'alasan_validasi',
         'guru',
         'status',
         'foto',
@@ -46,8 +44,6 @@ class Jurnal extends Model
         return Carbon::parse($this->tgl)->locale('id')->isoFormat('dddd, D MMMM Y');
     }
 
-
-
     public static function day()
     {
         // $daftar_hari = array(
@@ -60,7 +56,7 @@ class Jurnal extends Model
         //     'Saturday' => 'Sabtu'
         // );
         // $day = date('l');
-        // return $daftar_hari[$day]; 
+        // return $daftar_hari[$day];
 
         return now()->locale('id')->isoFormat('dddd');
     }
@@ -85,8 +81,9 @@ class Jurnal extends Model
         return $this->belongsTo(Mapel::class, 'mapel_id');
     }
 
-    public function detailJurnal() {
-        return $this->hasMany(DetailJurnal::class,'jurnal_id');
+    public function detailJurnal()
+    {
+        return $this->hasMany(DetailJurnal::class, 'jurnal_id');
     }
 
     // public static function hourConvert(int $mode,$hour) {

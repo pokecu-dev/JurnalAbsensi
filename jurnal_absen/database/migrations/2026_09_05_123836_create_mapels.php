@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mapels', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-        });
+        if (!Schema::hasTable('mapels')) {
+            Schema::create('mapels', function (Blueprint $table) {
+                $table->id();
+                $table->string('name'); 
+                $table->enum('kategori', ['Umum', 'Kejuruan'])->default('Umum');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
