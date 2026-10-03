@@ -32,7 +32,7 @@ class DispenApprovalController extends Controller
 
         $isCurrentToken = hash_equals($approvalToken->token_hash, hash('sha256', $token));
 
-        if (! $isCurrentToken) {
+        if (!$isCurrentToken) {
             return view('dispen.approval-expired', compact('dispen', 'approvalToken', 'isCurrentToken'));
         }
 
@@ -47,8 +47,9 @@ class DispenApprovalController extends Controller
         }
 
         if(auth()->check()){
-            if(auth()->role() === 'sekre'){
-                return view('dispen.approval.page',['dispen' => $dispen]);
+            if(auth()->user()->role === 'sekre'){
+                if(auth()->user()->id === $approvalUser->id) return view('dispen.approval-page',compact('dispen'));
+                else return view('sekre.dashboard');
             }
             else{
                 abort(403,'User tidak sesuai dengan yang di tunjuk');
