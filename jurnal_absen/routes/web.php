@@ -131,6 +131,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:piket,guru'])->group(function () {
         Route::view('/piket/dashboard', 'piket/dashboard')->name('piket.dashboard');
         // Volt::route('/piket/dashboard', 'piket.dashboard')->name('piket.dashboard');
+        Route::view('/piket/dispensasi', 'piket/dispensasi')->name('piket.dispensasi');
+        Route::view('/piket/jadwal', 'piket/jadwal')->name('piket.jadwal');
+        Route::view('/piket/jurnal', 'piket/jurnal')->name('piket.jurnal');
+         Route::view('/piket/akun', 'piket/akun')->name('piket.akun');
+
+
+
+
 
     });
 

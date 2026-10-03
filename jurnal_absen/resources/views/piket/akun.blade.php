@@ -95,16 +95,17 @@
             <a href="{{ url('/piket/akun') }}"
                 class="flex items-center gap-2 px-2 py-2 rounded-lg bg-white/10 text-mint-green">
                 <i class="fa-solid fa-user-circle w-4"></i>
-                <span>Akun guru</span>
+                <span>Akun</span>
             </a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                    class="w-full flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
-                    <i class="fa-solid fa-right-from-bracket w-4"></i>
-                    <span>Logout</span>
-                </button>
-            </form>
+             <!-- LOGOUT -->
+           <a href="{{ route('logout') }}"
+            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+                    hover:bg-white/10
+                    active:scale-[0.98]
+                    transition-all duration-200">
+                <i class="fa-solid fa-right-from-bracket w-4"></i>
+                <span>Logout</span>
+            </a>
         </div>
     </aside>
 
@@ -116,10 +117,14 @@
         <!-- HEADER -->
         <header class="flex items-center justify-between gap-3">
             <div class="min-w-0">
-                <h1 class="text-base sm:text-lg md:text-2xl font-black text-dark-green tracking-tight leading-snug">Akun Saya</h1>
-                <p class="text-[11px] sm:text-xs text-medium-green font-semibold mt-0.5">
-                    Informasi akunmu sebagai guru piket. Halaman ini hanya untuk dilihat.
-                </p>
+            <h1 class="text-base sm:text-lg md:text-2xl font-black text-dark-green tracking-tight leading-snug flex items-center gap-2">
+                <a href="{{ url('/piket/dashboard') }}"
+                    class="md:hidden w-7 h-7 rounded-lg flex items-center justify-center text-medium-green hover:bg-medium-green/10 transition shrink-0"
+                    aria-label="Kembali ke Dashboard">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                </a>
+                <span>Akun Saya</span>
+            </h1>      
             </div>
             <div class="text-right leading-tight shrink-0">
                 <div id="live-date" class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">memuat tanggal....</div>
@@ -149,16 +154,14 @@
             </div>
         </section>
 
-        <!-- DATA AKUN + INFO MENGAJAR -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-            <section class="bg-white border border-emerald-100 rounded-2xl overflow-hidden shadow-sm">
-                <div class="px-4 md:px-5 py-3 border-b border-gray-100">
-                    <h3 class="text-sm md:text-base font-extrabold text-dark-green">Data Akun</h3>
-                </div>
-                <dl id="akunRows" class="divide-y divide-gray-100"></dl>
-            </section>
-
+        <!-- DATA AKUN -->
+    <section class="bg-white border border-emerald-100 rounded-2xl overflow-hidden shadow-sm">
+        <div class="px-5 md:px-6 py-4 border-b border-gray-100">
+            <h3 class="text-base md:text-lg font-extrabold text-dark-green">Data Akun</h3>
         </div>
+
+        <dl id="akunRows" class="divide-y divide-gray-100"></dl>
+    </section>
          
     </main>
 
@@ -202,38 +205,9 @@
                 ['Email', 'arif.setyobudi@smkn1boyolangu.sch.id'],
                 ['No. HP', '0812-3456-7890'],
                 ['Login Terakhir', 'Hari ini, 06.40 WIB'],
-            ],
-            mengajar: [
-                ['Mata Pelajaran', ['Bahasa Indonesia']],
-                ['Kelas Diampu', ['X BD 1', 'X BD 2', 'X MP 3', 'X MP 4', 'XI AN 1', 'XI AN 2', 'XII AN 1', 'XII BD 3']],
-                ['Jam Mengajar', '28 jam per minggu'],
-                ['Status', 'Guru Mata Pelajaran'],
-            ],
-            piket: {
-                timPosisi: 3,                      // Jumat, Minggu A
-                shift: 'pagi',                     // 'pagi' | 'siang'
-                peran: 'Petugas',                  // 'Petugas' | 'Koordinator'
-                koordinator: 'Joko Priyanto, S.Kom',
-                waka: 'Fajar Luthfianto, S.Pd',
-                rekan: ['Sunarti, S.Pd', 'Isti Mufadah, S.Pd'],
-            },
-            tugas: [
-                'Menerima laporan guru tidak hadir dan memastikan kelas tetap terisi.',
-                'Mencatat surat ketidakhadiran siswa (sakit atau izin) dan meneruskannya ke sekretaris kelas.',
-                'Mengajukan dispensasi siswa ke Waka, lengkap dengan foto surat.',
-                'Menandatangani surat keterlambatan siswa yang datang ke gerbang.',
-                'Menyetujui jurnal kelas dari sekretaris sebagai persetujuan akhir.',
-            ],
-        };
+            ]
 
-        const SHIFT = {
-            pagi:  { label: 'Piket Pagi',  jam: '07.00 - 11.00', selesai: 11 * 60, icon: 'fa-sun' },
-            siang: { label: 'Piket Siang', jam: '11.00 - 15.00', selesai: 15 * 60, icon: 'fa-cloud-sun' },
         };
-        const HARI_PIKET = { 0: 'Selasa', 1: 'Rabu', 2: 'Kamis', 3: 'Jumat', 6: 'Senin', 7: 'Selasa', 8: 'Rabu', 9: 'Kamis', 10: 'Jumat', 13: 'Senin' };
-        const NAMA_HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        const TITIK_AWAL = new Date(2026, 8, 1);        // Selasa, 1 September 2026
-        const SENIN_MINGGU_A = new Date(2026, 7, 31);
 
         /* ===== UTIL ===== */
         function esc(s) {
@@ -271,55 +245,9 @@
         document.getElementById('pNama').textContent = PROFIL.nama;
         document.getElementById('pJabatan').textContent = PROFIL.jabatan;
         document.getElementById('akunRows').innerHTML = PROFIL.akun.map(r => barisHtml(r[0], r[1])).join('');
-        document.getElementById('mengajarRows').innerHTML = PROFIL.mengajar.map(r => barisHtml(r[0], r[1])).join('');
+    
 
-        document.getElementById('tugasList').innerHTML = PROFIL.tugas.map(t => `
-            <li class="flex items-start gap-2.5 text-xs md:text-[13px] text-gray-600 leading-relaxed">
-                <i class="fa-solid fa-circle-check text-medium-green mt-0.5 shrink-0"></i>
-                <span>${esc(t)}</span>
-            </li>`).join('');
-
-        /* ===== RENDER: JADWAL PIKET ===== */
-        (function () {
-            const p = PROFIL.piket;
-            const sh = SHIFT[p.shift];
-            const hari = HARI_PIKET[p.timPosisi];
-            const titik = tambahHari(TITIK_AWAL, p.timPosisi);          // contoh tanggal pertama
-            document.getElementById('shiftIcon').className = `fa-solid ${sh.icon}`;
-            document.getElementById('pPola').textContent = `${hari} \u00B7 Minggu ${hurufMinggu(titik)}`;
-            document.getElementById('pShift').textContent = `${sh.label} \u00B7 ${sh.jam}`;
-            document.getElementById('pPeran').textContent = p.peran;
-            document.getElementById('pKoord').textContent = p.koordinator;
-            document.getElementById('pWaka').textContent = p.waka;
-            document.getElementById('pRekan').innerHTML = p.rekan.map(n => esc(n)).join('<br>');
-
-            const sekarang = new Date();
-            const menit = sekarang.getHours() * 60 + sekarang.getMinutes();
-            const hariIni = mulaiHari(sekarang);
-            const hasil = [];
-            for (let i = 0; i < 70 && hasil.length < 3; i++) {
-                const d = tambahHari(hariIni, i);
-                const pos = ((selisihHari(d, TITIK_AWAL) % 14) + 14) % 14;
-                if (pos !== p.timPosisi) continue;
-                if (i === 0 && menit >= sh.selesai) continue;            // shift hari ini sudah selesai
-                hasil.push({ d, i });
-            }
-
-            document.getElementById('giliranList').innerHTML = hasil.length
-                ? hasil.map(h => {
-                    const rel = h.i === 0 ? 'Hari ini' : (h.i === 1 ? 'Besok' : '');
-                    const tgl = h.d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-                    return `
-                    <div class="flex items-center justify-between gap-3 rounded-xl ${h.i === 0 ? 'bg-mint-green/30 border border-mint-green' : 'bg-gray-50'} px-3.5 py-2.5">
-                        <div class="min-w-0">
-                            <p class="text-xs font-extrabold text-dark-green">${NAMA_HARI[h.d.getDay()]}, ${esc(tgl)}</p>
-                            <p class="text-[10px] text-gray-500 mt-0.5">Minggu ${hurufMinggu(h.d)} &middot; ${sh.label} ${sh.jam}</p>
-                        </div>
-                        ${rel ? `<span class="text-[9px] font-bold text-dark-green bg-white px-2.5 py-1 rounded-full whitespace-nowrap">${rel}</span>` : ''}
-                    </div>`;
-                }).join('')
-                : '<p class="text-xs text-gray-400">Belum ada giliran piket terjadwal.</p>';
-        })();
+        
     </script>
 </body>
 </html>

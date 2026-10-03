@@ -95,16 +95,17 @@
             <a href="{{ url('/piket/akun') }}"
                 class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
                 <i class="fa-solid fa-user-circle w-4"></i>
-                <span>Akun guru</span>
+                <span>Akun</span>
             </a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                    class="w-full flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
-                    <i class="fa-solid fa-right-from-bracket w-4"></i>
-                    <span>Logout</span>
-                </button>
-            </form>
+             <!-- LOGOUT -->
+           <a href="{{ route('logout') }}"
+            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+                    hover:bg-white/10
+                    active:scale-[0.98]
+                    transition-all duration-200">
+                <i class="fa-solid fa-right-from-bracket w-4"></i>
+                <span>Logout</span>
+            </a>
         </div>
     </aside>
 
@@ -115,11 +116,16 @@
 
         <!-- HEADER -->
         <header class="flex items-center justify-between gap-3">
+            
             <div class="min-w-0">
-                <h1 class="text-base sm:text-lg md:text-2xl font-black text-dark-green tracking-tight leading-snug">Riwayat Dispensasi</h1>
-                <p class="text-[11px] sm:text-xs text-medium-green font-semibold mt-0.5">
-                    Semua pengajuan dispensasi dari guru piket, beserta status persetujuannya.
-                </p>
+            <h1 class="text-base sm:text-lg md:text-2xl font-black text-dark-green tracking-tight leading-snug flex items-center gap-2">
+                <a href="{{ url('/piket/dashboard') }}"
+                    class="md:hidden w-7 h-7 rounded-lg flex items-center justify-center text-medium-green hover:bg-medium-green/10 transition shrink-0"
+                    aria-label="Kembali ke Dashboard">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                </a>
+                <span>Riwayat Dispensasi</span>
+            </h1>  
             </div>
             <div class="text-right leading-tight shrink-0">
                 <div id="live-date" class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">memuat tanggal....</div>
@@ -159,6 +165,27 @@
             <p class="text-xs font-bold text-gray-500">Tidak ada dispensasi yang cocok.</p>
         </div>
     </main>
+
+     <!-- ============================================================= -->
+    <!-- MOBILE SCROLL HELPER -->
+    <!-- ============================================================= -->
+    <div id="scrollHelper"
+        class="md:hidden fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-1">
+
+        <button type="button" onclick="scrollToTop()" aria-label="Kembali ke atas"
+            class="w-7 h-7 rounded-full bg-white/95 border border-emerald-100 shadow-md text-medium-green flex items-center justify-center active:scale-90 transition">
+            <i class="fa-solid fa-chevron-up text-[9px]"></i>
+        </button>
+
+        <div class="relative w-1 h-28 bg-dark-green/10 rounded-full overflow-hidden">
+            <div id="scrollIndicator" class="absolute left-0 top-0 w-1 h-8 bg-medium-green rounded-full"></div>
+        </div>
+
+        <button type="button" onclick="scrollToBottom()" aria-label="Ke bagian bawah"
+            class="w-7 h-7 rounded-full bg-white/95 border border-emerald-100 shadow-md text-medium-green flex items-center justify-center active:scale-90 transition">
+            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+        </button>
+    </div>
 
     <!-- ============================================================= -->
     <!-- MODAL DETAIL DISPENSASI  -->
@@ -213,6 +240,39 @@
         if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
         sidebar.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { if (window.innerWidth < 768) closeSidebar(); }));
         window.addEventListener('resize', () => { if (window.innerWidth >= 768) { sidebarOverlay.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); } });
+
+         /* ===== MOBILE SCROLL HELPER ===== */
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        function updateScrollIndicator() {
+            if (!scrollIndicator) return;
+            const scrollTop = window.scrollY || window.pageYOffset;
+            const documentHeight = document.documentElement.scrollHeight;
+            const windowHeight = window.innerHeight;
+            const maxScroll = documentHeight - windowHeight;
+
+            if (maxScroll <= 0) {
+                scrollIndicator.style.top = '0px';
+                return;
+            }
+
+            const trackHeight = 112; // h-28
+            const indicatorHeight = 32; // h-8
+            const maxTop = trackHeight - indicatorHeight;
+            const progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+            scrollIndicator.style.top = `${progress * maxTop}px`;
+        }
+
+        window.addEventListener('scroll', updateScrollIndicator, { passive: true });
+        window.addEventListener('resize', updateScrollIndicator);
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function scrollToBottom() {
+            window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+        }
+        updateScrollIndicator();
 
         
         function iso(offsetHari) {
