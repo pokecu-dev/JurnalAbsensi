@@ -6,6 +6,7 @@ use App\Http\Controllers\Jurnal\DispenApprovalController;
 use App\Http\Controllers\Jurnal\DispenController;
 use App\Http\Controllers\Jurnal\JurnalController;
 use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
+use App\Http\Controllers\MapelController;
 use App\Models\Jadwal;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -13,15 +14,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'Check'])->name('/');
 
-// Route::view('dashboard', 'dashboard')redirect()->route('login')
-// ->middleware(['auth', 'verified'])
-// ->name('dashboard');
-
-// Route::view('/login')
-
+// Guest Routes (Login)
 Route::get('/login', [LoginController::class, 'ShowLoginForm'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::match(['get', 'post'], '/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Authenticated Routes
+// Route::middleware(['auth'])->group(function () {
+
+// Route::get('/login', [LoginController::class, 'ShowLoginForm'])->middleware('guest')->name('login');
+// Route::post('/login', [LoginController::class, 'login']);
+// Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:piket'])->group(function () {
     Route::get('/dispen/create', [DispenController::class, 'create'])
@@ -99,6 +102,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::view('/admin/data_kelas', 'admin.data_kelas')->name('admin.data_kelas');
         Route::view('/admin/jadwal', 'admin.jadwal')->name('admin.jadwal');
         Route::view('/admin/akun', 'admin.akun')->name('admin.akun');
+        Route::resource('admin/data_mapel', MapelController::class)->names('admin.data_mapel');
     });
 
     Route::middleware(['role:guru'])->group(function () {
@@ -140,6 +144,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:piket,guru'])->group(function () {
         Route::view('/piket/dashboard', 'piket/dashboard')->name('piket.dashboard');
         // Volt::route('/piket/dashboard', 'piket.dashboard')->name('piket.dashboard');
+        Route::view('/piket/dispensasi', 'piket/dispensasi')->name('piket.dispensasi');
+        Route::view('/piket/jadwal', 'piket/jadwal')->name('piket.jadwal');
+        Route::view('/piket/jurnal', 'piket/jurnal')->name('piket.jurnal');
+         Route::view('/piket/akun', 'piket/akun')->name('piket.akun');
+
+
+
+
 
     });
 
@@ -160,8 +172,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/sekre/status-validasi', [SekreJurnal::class, 'index'])
             ->name('sekre.status-validasi');
     });
-
 });
+
+
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

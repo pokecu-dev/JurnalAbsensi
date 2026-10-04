@@ -1259,7 +1259,7 @@
 
                     </div>
 
-                    @endforeach
+
 
                 </div>
 

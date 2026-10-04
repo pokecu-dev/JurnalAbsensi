@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="id" class="overscroll-none">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Akun Guru Piket</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
         tailwind.config = {
@@ -22,898 +16,238 @@
                         'dark-green': '#1A312C',
                         'medium-green': '#428475',
                         'mint-green': '#89D7B7',
-                        'cream': '#FFF4E1'
+                        'bg-cream': '#FFF4E1',
                     }
                 }
             }
         }
     </script>
+
+    <style>
+        body { overflow-x: hidden; }
+    </style>
 </head>
 
-<body class="bg-[#FFF4E1] min-h-screen text-gray-700">
+<body class="bg-bg-cream text-dark-green font-sans min-h-screen overflow-x-hidden overscroll-none">
 
-    <!-- ========================================================= -->
+    <!-- ============================================================= -->
     <!-- MOBILE HEADER -->
-    <!-- ========================================================= -->
-
-    <header class="md:hidden sticky top-0 z-40
-                   bg-[#1A312C] text-white
-                   px-4 py-3 shadow-lg">
-
-        <div class="flex items-center justify-between">
-
-            <div class="flex items-center gap-3">
-
-                <div class="w-9 h-9 rounded-xl
-                            bg-[#89D7B7]
-                            text-[#1A312C]
-                            flex items-center justify-center">
-
-                    <i class="fa-solid fa-user-shield"></i>
-
-                </div>
-
-                <div>
-                    <p class="text-[10px] text-[#89D7B7] font-bold uppercase">
-                        Guru Piket
-                    </p>
-
-                    <p class="text-sm font-extrabold">
-                        Akun Saya
-                    </p>
-                </div>
-
-            </div>
-
+    <!-- ============================================================= -->
+    <div class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        <div class="flex items-center gap-2">
+            <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
+            <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
         </div>
+        <button id="hamburgerBtn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
 
-    </header>
+    <!-- MOBILE OVERLAY -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
-
-    <!-- ========================================================= -->
+    <!-- ============================================================= -->
     <!-- SIDEBAR -->
-    <!-- ========================================================= -->
+    <!-- ============================================================= -->
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-60 bg-dark-green text-white p-6 flex flex-col justify-between z-50
+               -translate-x-full md:translate-x-0 transition-transform duration-300">
 
-    <aside class="hidden md:flex
-                  fixed left-0 top-0 bottom-0
-                  w-56
-                  bg-[#1A312C]
-                  text-white
-                  flex-col
-                  z-50">
-
-        <!-- LOGO -->
-        <div class="px-5 py-5">
-
-            <div class="flex items-center gap-3">
-
-                <div class="w-10 h-10
-                            rounded-xl
-                            bg-[#89D7B7]
-                            text-[#1A312C]
-                            flex items-center justify-center">
-
-                    <i class="fa-solid fa-user-shield"></i>
-
-                </div>
-
-                <div class="min-w-0">
-
-                    <p class="text-sm font-black">
-                        Jurnal Absensi
-                    </p>
-
-                    <p class="text-[10px]
-                              text-[#89D7B7]
-                              font-semibold">
-                        Guru Piket
-                    </p>
-
-                </div>
-
+        <div>
+            <div class="flex flex-col items-center gap-2 mb-10 text-center">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-16 h-auto">
+                <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
             </div>
 
+            <nav class="flex flex-col gap-5 font-semibold text-xs">
+                <div>
+                    <div class="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider mb-2 px-2">Utama</div>
+                    <div class="space-y-1">
+                        <a href="{{ url('/piket/dashboard') }}"
+                            class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                            <i class="fa-solid fa-house w-4 text-center"></i>
+                            Dashboard
+                        </a>
+
+                        <a href="{{ url('/piket/jurnal') }}"
+                            class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                            <i class="fa-solid fa-inbox w-4 text-center"></i>
+                            Jurnal Masuk
+                        </a>
+
+                        <a href="{{ url('/piket/dispensasi') }}"
+                            class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                            <i class="fa-regular fa-calendar-days w-4 text-center"></i>
+                            Dispensasi
+                        </a>
+
+                        <a href="{{ url('/piket/jadwal') }}"
+                            class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                            <i class="fa-solid fa-clipboard-check w-4 text-center"></i>
+                            Jadwal Piket
+                        </a>
+                    </div>
+                </div>
+            </nav>
         </div>
 
-
-        <!-- NAVIGATION -->
-        <nav class="flex-1 px-3 overflow-y-auto">
-
-            <div class="space-y-1">
-
-                <!-- DASHBOARD -->
-                <a href="{{ url('/piket/dashboard') }}"
-                   class="flex items-center gap-3
-                          px-4 py-3
-                          text-gray-300
-                          hover:bg-white/10
-                          hover:text-[#89D7B7]
-                          rounded-xl
-                          transition">
-
-                    <i class="fa-solid fa-house w-4 text-center"></i>
-
-                    <span class="text-sm">
-                        Dashboard
-                    </span>
-
-                </a>
-
-
-                <!-- JURNAL -->
-                <a href="{{ url('/piket/jurnal') }}"
-                   class="flex items-center gap-3
-                          px-4 py-3
-                          text-gray-300
-                          hover:bg-white/10
-                          hover:text-[#89D7B7]
-                          rounded-xl
-                          transition">
-
-                    <i class="fa-solid fa-book w-4 text-center"></i>
-
-                    <span class="text-sm">
-                        Jurnal
-                    </span>
-
-                </a>
-
-
-                <!-- DISPENSASI -->
-                <a href="{{ url('/piket/dispensasi') }}"
-                   class="flex items-center gap-3
-                          px-4 py-3
-                          text-gray-300
-                          hover:bg-white/10
-                          hover:text-[#89D7B7]
-                          rounded-xl
-                          transition">
-
-                    <i class="fa-solid fa-file-circle-plus w-4 text-center"></i>
-
-                    <span class="text-sm">
-                        Dispensasi
-                    </span>
-
-                </a>
-
-            </div>
-
-        </nav>
-
-
-        <!-- FOOTER -->
-        <div class="px-3 pb-4">
-
-            <div class="border-t border-white/10 pt-3 space-y-1">
-
-                <!-- AKUN AKTIF -->
-                <a href="{{ url('/piket/akun') }}"
-                   class="flex items-center gap-3
-                          px-4 py-3
-                          bg-white/10
-                          text-[#89D7B7]
-                          rounded-xl">
-
-                    <i class="fa-solid fa-user-circle w-4 text-center"></i>
-
-                    <span class="text-sm font-bold">
-                        Akun Saya
-                    </span>
-
-                </a>
-
-
-                <!-- LOGOUT -->
-                <a href="{{ route('logout') }}"
-                   class="flex items-center gap-3
-                          px-4 py-3
-                          text-gray-300
-                          hover:bg-red-500/10
-                          hover:text-red-300
-                          rounded-xl
-                          transition">
-
-                    <i class="fa-solid fa-right-from-bracket w-4 text-center"></i>
-
-                    <span class="text-sm">
-                        Logout
-                    </span>
-
-                </a>
-
-            </div>
-
+        <div class="flex flex-col gap-1 pt-3 border-t border-white/10 text-xs">
+            <a href="{{ url('/piket/akun') }}"
+                class="flex items-center gap-2 px-2 py-2 rounded-lg bg-white/10 text-mint-green">
+                <i class="fa-solid fa-user-circle w-4"></i>
+                <span>Akun</span>
+            </a>
+             <!-- LOGOUT -->
+           <a href="{{ route('logout') }}"
+            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+                    hover:bg-white/10
+                    active:scale-[0.98]
+                    transition-all duration-200">
+                <i class="fa-solid fa-right-from-bracket w-4"></i>
+                <span>Logout</span>
+            </a>
         </div>
-
     </aside>
 
-
-    <!-- ========================================================= -->
+    <!-- ============================================================= -->
     <!-- MAIN -->
-    <!-- ========================================================= -->
-
-    <main class="md:ml-56
-                 min-h-screen
-                 p-4
-                 md:p-8">
+    <!-- ============================================================= -->
+    <main class="min-w-0 p-4 pb-12 md:p-8 md:ml-60 max-w-full md:max-w-[calc(100%-15rem)] space-y-4 md:space-y-5">
 
         <!-- HEADER -->
-        <div class="max-w-4xl mx-auto mb-6">
-
-            <div class="flex items-center gap-2 mb-2">
-
-                <span class="w-2 h-2
-                             rounded-full
-                             bg-[#428475]">
-                </span>
-
-                <span class="text-[10px]
-                             md:text-xs
-                             font-bold
-                             uppercase
-                             tracking-wider
-                             text-[#428475]">
-
-                    Profil Pengguna
-
-                </span>
-
+        <header class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+            <h1 class="text-base sm:text-lg md:text-2xl font-black text-dark-green tracking-tight leading-snug flex items-center gap-2">
+                <a href="{{ url('/piket/dashboard') }}"
+                    class="md:hidden w-7 h-7 rounded-lg flex items-center justify-center text-medium-green hover:bg-medium-green/10 transition shrink-0"
+                    aria-label="Kembali ke Dashboard">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                </a>
+                <span>Akun Saya</span>
+            </h1>      
             </div>
-
-
-            <h1 class="text-2xl md:text-3xl
-                       font-black
-                       text-[#1A312C]">
-
-                Akun Guru Piket
-
-            </h1>
-
-
-            <p class="text-xs md:text-sm
-                      text-gray-500
-                      mt-1">
-
-                Informasi akun dan identitas Guru Piket.
-
-            </p>
-
-        </div>
-
-
-        <!-- ===================================================== -->
-        <!-- PROFILE CARD -->
-        <!-- ===================================================== -->
-
-        <section class="max-w-4xl mx-auto">
-
-            <div class="bg-white
-                        rounded-3xl
-                        shadow-sm
-                        border border-gray-100
-                        overflow-hidden">
-
-
-                <!-- PROFILE HEADER -->
-                <div class="bg-[#1A312C]
-                            px-5 py-6
-                            md:px-7">
-
-                    <div class="flex items-center gap-4">
-
-                       <div class="w-16 h-16
-                                    md:w-20 md:h-20
-                                    rounded-2xl
-                                    bg-[#89D7B7]
-                                    text-[#1A312C]
-                                    flex items-center justify-center
-                                    shrink-0
-                                    font-black
-                                    text-2xl md:text-3xl">
-
-                            {{ strtoupper(substr(auth()->user()->name ?? 'G', 0, 1)) }}
-
-                        </div>
-
-
-                        <!-- NAME -->
-                        <div class="min-w-0">
-
-                            <p class="text-[10px]
-                                      uppercase
-                                      tracking-wider
-                                      text-[#89D7B7]
-                                      font-bold
-                                      mb-1">
-
-                                Guru Piket
-
-                            </p>
-
-
-                            <h2 class="text-lg md:text-xl
-                                       font-black
-                                       text-white
-                                       truncate">
-
-                                {{ auth()->user()->name ?? 'Nama Guru Piket' }}
-
-                            </h2>
-
-
-                            <div class="flex items-center gap-2 mt-2">
-
-                                <span class="inline-flex
-                                             items-center gap-1.5
-                                             bg-white/10
-                                             text-[#89D7B7]
-                                             px-2.5 py-1
-                                             rounded-lg
-                                             text-[9px]
-                                             font-bold">
-
-                                    <i class="fa-solid fa-shield-halved"></i>
-
-                                    Guru Piket
-
-                                </span>
-
-
-                                <span class="inline-flex
-                                             items-center gap-1.5
-                                             bg-emerald-400/10
-                                             text-emerald-300
-                                             px-2.5 py-1
-                                             rounded-lg
-                                             text-[9px]
-                                             font-bold">
-
-                                    <span class="w-1.5 h-1.5
-                                                 rounded-full
-                                                 bg-emerald-400">
-                                    </span>
-
-                                    Aktif
-
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ================================================= -->
-                <!-- INFORMASI AKUN -->
-                <!-- ================================================= -->
-
-                <div class="p-5 md:p-7">
-
-                    <div class="mb-5">
-
-                        <h3 class="text-sm
-                                   font-black
-                                   text-[#1A312C]">
-
-                            Informasi Akun
-
-                        </h3>
-
-                        <p class="text-[10px]
-                                  text-gray-400
-                                  mt-1">
-
-                            Data akun yang digunakan untuk masuk ke sistem.
-
-                        </p>
-
-                    </div>
-
-
-                    <div class="grid grid-cols-1
-                                md:grid-cols-2
-                                gap-4">
-
-
-                        <!-- USERNAME -->
-                        <div class="border border-gray-100
-                                    rounded-2xl
-                                    p-4
-                                    bg-gray-50/50">
-
-                            <div class="flex items-start gap-3">
-
-                                <div class="w-9 h-9
-                                            rounded-xl
-                                            bg-[#1A312C]
-                                            text-[#89D7B7]
-                                            flex items-center justify-center
-                                            shrink-0">
-
-                                    <i class="fa-solid fa-at text-xs"></i>
-
-                                </div>
-
-
-                                <div class="min-w-0">
-
-                                    <p class="text-[9px]
-                                              uppercase
-                                              tracking-wider
-                                              font-bold
-                                              text-gray-400">
-
-                                        Username
-
-                                    </p>
-
-                                    <p class="text-sm
-                                              font-bold
-                                              text-[#1A312C]
-                                              mt-1
-                                              break-all">
-
-                                        {{ auth()->user()->username ?? '-' }}
-
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- EMAIL -->
-                        <div class="border border-gray-100
-                                    rounded-2xl
-                                    p-4
-                                    bg-gray-50/50">
-
-                            <div class="flex items-start gap-3">
-
-                                <div class="w-9 h-9
-                                            rounded-xl
-                                            bg-[#1A312C]
-                                            text-[#89D7B7]
-                                            flex items-center justify-center
-                                            shrink-0">
-
-                                    <i class="fa-solid fa-envelope text-xs"></i>
-
-                                </div>
-
-
-                                <div class="min-w-0">
-
-                                    <p class="text-[9px]
-                                              uppercase
-                                              tracking-wider
-                                              font-bold
-                                              text-gray-400">
-
-                                        Email
-
-                                    </p>
-
-                                    <p class="text-sm
-                                              font-bold
-                                              text-[#1A312C]
-                                              mt-1
-                                              break-all">
-
-                                        {{ auth()->user()->email ?? '-' }}
-
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- ROLE -->
-                        <div class="border border-gray-100
-                                    rounded-2xl
-                                    p-4
-                                    bg-gray-50/50">
-
-                            <div class="flex items-start gap-3">
-
-                                <div class="w-9 h-9
-                                            rounded-xl
-                                            bg-[#1A312C]
-                                            text-[#89D7B7]
-                                            flex items-center justify-center
-                                            shrink-0">
-
-                                    <i class="fa-solid fa-user-tag text-xs"></i>
-
-                                </div>
-
-
-                                <div>
-
-                                    <p class="text-[9px]
-                                              uppercase
-                                              tracking-wider
-                                              font-bold
-                                              text-gray-400">
-
-                                        Role
-
-                                    </p>
-
-                                    <p class="text-sm
-                                              font-bold
-                                              text-[#1A312C]
-                                              mt-1">
-
-                                        Guru Piket
-
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- STATUS -->
-                        <div class="border border-gray-100
-                                    rounded-2xl
-                                    p-4
-                                    bg-gray-50/50">
-
-                            <div class="flex items-start gap-3">
-
-                                <div class="w-9 h-9
-                                            rounded-xl
-                                            bg-emerald-100
-                                            text-emerald-600
-                                            flex items-center justify-center
-                                            shrink-0">
-
-                                    <i class="fa-solid fa-circle-check text-xs"></i>
-
-                                </div>
-
-
-                                <div>
-
-                                    <p class="text-[9px]
-                                              uppercase
-                                              tracking-wider
-                                              font-bold
-                                              text-gray-400">
-
-                                        Status Akun
-
-                                    </p>
-
-                                    <p class="text-sm
-                                              font-bold
-                                              text-emerald-600
-                                              mt-1">
-
-                                        Aktif
-
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ================================================= -->
-                    <!-- DATA IDENTITAS -->
-                    <!-- ================================================= -->
-
-                    <div class="mt-8 mb-5">
-
-                        <h3 class="text-sm
-                                   font-black
-                                   text-[#1A312C]">
-
-                            Data Identitas
-
-                        </h3>
-
-                        <p class="text-[10px]
-                                  text-gray-400
-                                  mt-1">
-
-                            Informasi identitas Guru Piket.
-
-                        </p>
-
-                    </div>
-
-
-                    <div class="grid grid-cols-1
-                                md:grid-cols-2
-                                gap-4">
-
-
-                        <!-- NIP / NIK -->
-                        <div class="border border-gray-100
-                                    rounded-2xl
-                                    p-4">
-
-                            <p class="text-[9px]
-                                      uppercase
-                                      tracking-wider
-                                      font-bold
-                                      text-gray-400">
-
-                                NIP / NIK
-
-                            </p>
-
-                            <p class="text-sm
-                                      font-bold
-                                      text-[#1A312C]
-                                      mt-1">
-
-                                {{ auth()->user()->nip ?? auth()->user()->nik ?? '-' }}
-
-                            </p>
-
-                        </div>
-
-
-                        <!-- NAMA -->
-                        <div class="border border-gray-100
-                                    rounded-2xl
-                                    p-4">
-
-                            <p class="text-[9px]
-                                      uppercase
-                                      tracking-wider
-                                      font-bold
-                                      text-gray-400">
-
-                                Nama Lengkap
-
-                            </p>
-
-                            <p class="text-sm
-                                      font-bold
-                                      text-[#1A312C]
-                                      mt-1">
-
-                                {{ auth()->user()->name ?? '-' }}
-
-                            </p>
-
-                        </div>
-
-
-                        <!-- NO HP -->
-                        <div class="border border-gray-100
-                                    rounded-2xl
-                                    p-4">
-
-                            <p class="text-[9px]
-                                      uppercase
-                                      tracking-wider
-                                      font-bold
-                                      text-gray-400">
-
-                                Nomor HP
-
-                            </p>
-
-                            <p class="text-sm
-                                      font-bold
-                                      text-[#1A312C]
-                                      mt-1">
-
-                                {{ auth()->user()->no_hp ?? auth()->user()->phone ?? '-' }}
-
-                            </p>
-
-                        </div>
-
-
-                        <!-- JENIS KELAMIN -->
-                        <div class="border border-gray-100
-                                    rounded-2xl
-                                    p-4">
-
-                            <p class="text-[9px]
-                                      uppercase
-                                      tracking-wider
-                                      font-bold
-                                      text-gray-400">
-
-                                Jenis Kelamin
-
-                            </p>
-
-                            <p class="text-sm
-                                      font-bold
-                                      text-[#1A312C]
-                                      mt-1">
-
-                                {{ auth()->user()->jenis_kelamin ?? '-' }}
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ================================================= -->
-                    <!-- JADWAL PIKET -->
-                    <!-- ================================================= -->
-
-                    <div class="mt-8 mb-5">
-
-                        <h3 class="text-sm
-                                   font-black
-                                   text-[#1A312C]">
-
-                            Jadwal Piket
-
-                        </h3>
-
-                        <p class="text-[10px]
-                                  text-gray-400
-                                  mt-1">
-
-                            Jadwal piket yang ditetapkan untuk akun ini.
-
-                        </p>
-
-                    </div>
-
-
-                    <div class="border border-gray-100
-                                rounded-2xl
-                                overflow-hidden">
-
-                        <div class="p-4
-                                    flex items-center gap-3">
-
-                            <div class="w-10 h-10
-                                        rounded-xl
-                                        bg-blue-50
-                                        text-blue-600
-                                        flex items-center justify-center">
-
-                                <i class="fa-solid fa-calendar-check"></i>
-
-                            </div>
-
-
-                            <div>
-
-                                <p class="text-[9px]
-                                          uppercase
-                                          tracking-wider
-                                          font-bold
-                                          text-gray-400">
-
-                                    Jadwal
-
-                                </p>
-
-                                <p class="text-sm
-                                          font-bold
-                                          text-[#1A312C]
-                                          mt-1">
-
-                                    Jadwal piket mengikuti data yang ditetapkan oleh Waka.
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ================================================= -->
-                    <!-- INFO TIDAK BISA EDIT -->
-                    <!-- ================================================= -->
-
-                    <div class="mt-6
-                                rounded-2xl
-                                bg-[#89D7B7]/15
-                                border border-[#89D7B7]/40
-                                p-4">
-
-                        <div class="flex items-start gap-3">
-
-                            <div class="w-9 h-9
-                                        rounded-xl
-                                        bg-[#1A312C]
-                                        text-[#89D7B7]
-                                        flex items-center justify-center
-                                        shrink-0">
-
-                                <i class="fa-solid fa-lock text-xs"></i>
-
-                            </div>
-
-
-                            <div>
-
-                                <p class="text-xs
-                                          font-black
-                                          text-[#1A312C]">
-
-                                    Data akun tidak dapat diedit
-
-                                </p>
-
-                                <p class="text-[10px]
-                                          leading-relaxed
-                                          text-gray-600
-                                          mt-1">
-
-                                    Untuk menjaga keamanan dan keakuratan data,
-                                    Guru Piket tidak dapat mengubah informasi akun
-                                    secara langsung.
-
-                                    Jika terdapat kesalahan atau ingin melakukan
-                                    perubahan data, silakan hubungi
-
-                                    <span class="font-bold text-[#428475]">
-                                        Waka
-                                    </span>.
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
+            <div class="text-right leading-tight shrink-0">
+                <div id="live-date" class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">memuat tanggal....</div>
+                <div id="live-clock" class="text-[10px] sm:text-xs font-extrabold text-dark-green mt-0.5">00.00 WIB</div>
             </div>
+        </header>
 
+        <!-- KARTU IDENTITAS -->
+        <section class="bg-dark-green text-white rounded-2xl p-4 sm:p-5 md:px-7 md:py-6 shadow-md">
+            <div class="flex items-center gap-4">
+                <div id="avatar"
+                    class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-[#2E524A] border border-[#3D6B61] text-mint-green flex items-center justify-center text-lg md:text-xl font-black shrink-0">
+                    --
+                </div>
+                <div class="min-w-0">
+                    <h2 id="pNama" class="text-base md:text-xl font-bold truncate">-</h2>
+                    <p id="pJabatan" class="text-[11px] md:text-xs text-[#8FBFB0] mt-0.5 truncate">-</p>
+                    <div class="flex flex-wrap items-center gap-2 mt-2">
+                        <span class="text-[9px] md:text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-400/15 text-amber-300 whitespace-nowrap">
+                            <i class="fa-solid fa-door-open mr-1"></i>Guru Piket
+                        </span>
+                        <span class="text-[9px] md:text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-400/15 text-emerald-300 whitespace-nowrap">
+                            <i class="fa-solid fa-circle text-[6px] mr-1 align-middle"></i>Aktif
+                        </span>
+                    </div>
+                </div>
+            </div>
         </section>
 
-
-        <!-- ========================================================= -->
-        <!-- FOOTER -->
-        <!-- ========================================================= -->
-
-        <div class="max-w-4xl mx-auto
-                    mt-6
-                    text-center">
-
-            <p class="text-[10px]
-                      text-gray-400">
-
-                Jurnal Absensi Sekolah
-
-                <span class="mx-1">•</span>
-
-                Akun Guru Piket
-
-            </p>
-
+        <!-- DATA AKUN -->
+    <section class="bg-white border border-emerald-100 rounded-2xl overflow-hidden shadow-sm">
+        <div class="px-5 md:px-6 py-4 border-b border-gray-100">
+            <h3 class="text-base md:text-lg font-extrabold text-dark-green">Data Akun</h3>
         </div>
 
+        <dl id="akunRows" class="divide-y divide-gray-100"></dl>
+    </section>
+         
     </main>
 
+    <!-- ============================================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================================================= -->
+    <script>
+        /* ===== LIVE CLOCK ===== */
+        function updateLiveTime() {
+            const now = new Date();
+            const dateEl = document.getElementById('live-date');
+            const clockEl = document.getElementById('live-clock');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            if (clockEl) {
+                const jam = String(now.getHours()).padStart(2, '0');
+                const menit = String(now.getMinutes()).padStart(2, '0');
+                clockEl.textContent = `${jam}.${menit} WIB`;
+            }
+        }
+        updateLiveTime();
+        setInterval(updateLiveTime, 1000);
+
+        /* ===== MOBILE SIDEBAR ===== */
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        function openSidebar() { sidebar.classList.remove('-translate-x-full'); sidebarOverlay.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); }
+        function closeSidebar() { sidebar.classList.add('-translate-x-full'); sidebarOverlay.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); }
+        if (hamburgerBtn) hamburgerBtn.addEventListener('click', openSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+        sidebar.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { if (window.innerWidth < 768) closeSidebar(); }));
+        window.addEventListener('resize', () => { if (window.innerWidth >= 768) { sidebarOverlay.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); } });
+
+        const PROFIL = {
+            nama: 'Arif Setyobudi, S.Pd',
+            jabatan: 'Guru Bahasa Indonesia',
+            akun: [
+                ['Nama Lengkap', 'Arif Setyobudi, S.Pd'],
+                ['NIP', '19780830 200701 1 017'],
+                ['Username', 'arif.setyobudi'],
+                ['Email', 'arif.setyobudi@smkn1boyolangu.sch.id'],
+                ['No. HP', '0812-3456-7890'],
+                ['Login Terakhir', 'Hari ini, 06.40 WIB'],
+            ]
+
+        };
+
+        /* ===== UTIL ===== */
+        function esc(s) {
+            return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+        function inisial(nama) {
+            const kata = nama.split(',')[0].split(' ').filter(w => w && !w.endsWith('.'));
+            return (kata.slice(0, 2).map(w => w[0]).join('') || '?').toUpperCase();
+        }
+        function mulaiHari(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+        function tambahHari(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+        function selisihHari(a, b) {
+            return Math.round((Date.UTC(a.getFullYear(), a.getMonth(), a.getDate()) - Date.UTC(b.getFullYear(), b.getMonth(), b.getDate())) / 86400000);
+        }
+        function hurufMinggu(tgl) {
+            const dow = tgl.getDay();
+            const senin = tambahHari(mulaiHari(tgl), dow === 0 ? -6 : 1 - dow);
+            const w = Math.floor(selisihHari(senin, SENIN_MINGGU_A) / 7);
+            return (((w % 2) + 2) % 2) === 0 ? 'A' : 'B';
+        }
+        function barisHtml(label, nilai) {
+            const isi = Array.isArray(nilai)
+                ? `<div class="flex flex-wrap gap-1.5 sm:justify-end">${nilai.map(v =>
+                    `<span class="text-[10px] md:text-[11px] font-semibold text-medium-green bg-[#E7F5EE] px-2.5 py-0.5 rounded-full whitespace-nowrap">${esc(v)}</span>`).join('')}</div>`
+                : `<span class="text-xs md:text-[13px] font-semibold text-dark-green break-words">${esc(nilai)}</span>`;
+            return `
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-4 px-4 md:px-5 py-2.5">
+                <dt class="text-[10px] md:text-xs text-gray-400 font-semibold sm:shrink-0">${esc(label)}</dt>
+                <dd class="sm:text-right min-w-0">${isi}</dd>
+            </div>`;
+        }
+
+        /* ===== RENDER: IDENTITAS & DATA ===== */
+        document.getElementById('avatar').textContent = inisial(PROFIL.nama);
+        document.getElementById('pNama').textContent = PROFIL.nama;
+        document.getElementById('pJabatan').textContent = PROFIL.jabatan;
+        document.getElementById('akunRows').innerHTML = PROFIL.akun.map(r => barisHtml(r[0], r[1])).join('');
+    
+
+        
+    </script>
 </body>
 </html>

@@ -1,723 +1,565 @@
-<!DOCTYPE html>                                                                                                                                                                                            
-    <html lang="id">                                                                                                                                                                                           
-    <head>                                                                                                                                                                                                     
-        <meta charset="UTF-8">                                                                                                                                                                                 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">                                                                                                                                 
-        <title>Dashboard Sekretaris</title>                                                                                                                                                                    
-                                                                                                                                                                                                               
-                                                                                                                                                                            
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!DOCTYPE html>
+<html lang="id" class="overscroll-none">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Sekretaris</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-green': '#1A312C',
+                        'medium-green': '#428475',
+                        'mint-green': '#89D7B7',
+                        'bg-cream': '#FFF4E1',
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-                                                                                                                                                               
-            :root {                                                                                                                                                                                            
-                --bg-sidebar: #1A312C;                                                                                                                                           
-                --bg-body: #F4ECE1;                                                                                                                                  
-                --accent-mint: #89D7B7;                                                                                                                                 
-                --menu-active: #24423B;                                                                                                                                  
-                --text-white: #FFFFFF;                                                                                                                                                                         
-                --text-dark: #1E292B;                                                                                                                                                                          
-            }                                                                                                                                                                                                  
-                                                                                                                                                                                                               
-                                                                                                                                                                                          
-            * {                                                                                                                                                                                                
-                margin: 0;                                                                                                                                                                                     
-                padding: 0;                                                                                                                                                                                    
-                box-sizing: border-box;                                                                                                                                                                        
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;                                                                                                                                  
-            }                                                                                                                                                                                                  
-                                                                                                                                                                                                               
-            body {                                                                                                                                                                                             
-                background-color: var(--bg-body);                                                                                                                                                              
-            }                                                                                                                                                                                                  
-                                                                                                                                                                                                               
-                                                                                                                                                         
-            .dasboard-layout {                                                                                                                                                                                 
-                display: flex;                                                                                                                                                                                 
-                min-height: 100vh;                                                                                                                                                                             
-            }                                                                                                                                                                                                  
-            .sidebar {                                                                                                                                                                                     
-                    width: 200px;                                                                                                                                                                              
-                    min-width: 200px;                                                                                                                                                                          
-                    background-color: var(--bg-sidebar);                                                                                                                                                       
-                    display: flex;                                                                                                                                                                             
-                    flex-direction: column;                                                                                                                                                                    
-                    justify-content: space-between;                                                                                                                                                            
-                    padding: 24px 16px;                                                                                                                                                                        
-                    color: #fff;                                                                                                                                                                               
-                    position: sticky;                                                                                                                                                                          
-                    top: 0;                                                                                                                                                                                    
-                    height: 100vh;                                                                                                                                                                             
-                    flex-shrink: 0;                                                                                                                                                                            
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .logo-container {                                                                                                                                                                              
-                    display: flex;                                                                                                                                                                             
-                    flex-direction: column;                                                                                                                                                                    
-                    align-items: center;                                                                                                                                                                       
-                    justify-content: center;                                                                                                                                                                   
-                    gap: 8px;                                                                                                                                                                                  
-                    padding: 10px 0 45px 0;                                                                                                                                                                    
-                    text-align: center;                                                                                                                                                                        
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .logo-container img {                                                                                                                                                                          
-                    width: 65px;                                                                                                                                                                               
-                    height: auto;                                                                                                                                                                              
-                    object-fit: contain;                                                                                                                                                                       
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .logo-title {                                                                                                                                                                                  
-                    font-size: 15px;                                                                                                                                                                           
-                    font-weight: 700;                                                                                                                                                                          
-                    color: #ffffff;                                                                                                                                                                            
-                    letter-spacing: 0.5px;                                                                                                                                                                     
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .nav-menu {                                                                                                                                                                                    
-                    display: flex;                                                                                                                                                                             
-                    flex-direction: column;                                                                                                                                                                    
-                    gap: 12px;                                                                                                                                                                                 
-                    margin-top: 10px;                                                                                                                                                                          
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .nav-item {                                                                                                                                                                                    
-                    display: flex;                                                                                                                                                                             
-                    align-items: center;                                                                                                                                                                       
-                    gap: 14px;                                                                                                                                                                                 
-                    padding: 12px 16px;                                                                                                                                                                        
-                    color: #A5B5B0;                                                                                                                                                                            
-                    text-decoration: none;                                                                                                                                                                     
-                    font-size: 14px;                                                                                                                                                                           
-                    font-weight: 600;                                                                                                                                                                          
-                    border-radius: 12px;                                                                                                                                                                       
-                    transition: all 0.2s ease;                                                                                                                                                                 
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .nav-item:hover, .nav-item.active {                                                                                                                                                            
-                    background-color: rgba(255, 255, 255, 0.12);                                                                                                                                               
-                    color: var(--accent-mint);                                                                                                                                                                 
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .sidebar-footer {                                                                                                                                                                              
-                    display: flex;                                                                                                                                                                             
-                    flex-direction: column;                                                                                                                                                                    
-                    gap: 10px;                                                                                                                                                                                 
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .btn-sidebar {                                                                                                                                                                                 
-                    display: flex;                                                                                                                                                                             
-                    align-items: center;                                                                                                                                                                       
-                    gap: 14px;                                                                                                                                                                                 
-                    padding: 12px 16px;                                                                                                                                                                        
-                    background: rgba(255, 255, 255, 0.08);                                                                                                                                                     
-                    color: #fff;                                                                                                                                                                               
-                    border: none;                                                                                                                                                                              
-                    border-radius: 12px;                                                                                                                                                                       
-                    cursor: pointer;                                                                                                                                                                           
-                    font-size: 13px;                                                                                                                                                                           
-                    font-weight: 600;                                                                                                                                                                          
-                    text-decoration: none;                                                                                                                                                                     
-                    transition: background 0.2s;                                                                                                                                                               
-                }                                                                                                                                                                                              
-                                                                                                                                                                                                               
-                .btn-sidebar:hover {                                                                                                                                                                           
-                    background: rgba(255, 255, 255, 0.18);                                                                                                                                                     
-                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                        
-            .main-content {
-                flex: 1;
-                padding: 30px 45px;
-                overflow-y: auto;
-            }
-            .top-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding-bottom: 22px;
-                border-bottom: 1.5px solid #E5DCCE;
-                margin-bottom: 28px;
-            }
-            .welcome-title {
-                font-size: 26px;                                                                                                                                                                                       
-        font-weight: 700;                                                                                                                                                                                      
-        color: var(--text-dark);
-            }
-            .welcome-subtitle {
-                    font-size: 13px;
-                    color: #7A8985;
-                    margin-top: 4px;
-            }
-            .header-right {
-                    display: flex;
-                    align-items: center;
-                    gap: 20px;
-                }
-                .btn-notif {
-                    position: relative;
-                    background: #FFFFFF;
-                    border: 1px solid #DFD5C7;
-                    width: 44px;
-                    height: 44px;
-                    border-radius: 12px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 18px;
-                    color: var(--text-dark);
-                    cursor: pointer;
-                    transition: 0.2s;
-}
-                .btn-notif:hover {
-                    transform: translateY(-2px);
-                    border-color: var(--accent-mint);
-                }
-                .notif-badge {
-                    position: absolute;
-                    top: 9px;
-                    right: 10px;
-                    width: 8px;
-                    height: 8px;
-                    background-color: #EF4444;
-                    border-radius: 50%;
-                    border: 1.5px solid #FFFFFF;
-                }
-                .datetime-box {
-                    display: flex;
-                    flex-direction: column; 
-                    text-align: right;      
-                    gap: 3px;
-                }
-  
-                .date-text {
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: var(--text-dark);
-                }
-                .time-text {
-                    font-size: 12px;
-                    color: #7A8985;
-                    font-weight: 600;
-                }
-                .benner-card {
-                background-color: var(--bg-sidebar);
-                border-radius: 16px;
-                padding: 18px 28px;
-                margin-bottom: 28px;
-                color: var(--text-white);
-}
+        html { scroll-behavior: smooth; }
+        body { overflow-x: hidden; }
+        #scrollIndicator { transition: top 0.15s ease-out; }
+    </style>
+</head>
 
-.benner-badge {
-    display: inline-block;
-    font-size: 11px;
-    color: #A0BFB7;
-    margin-bottom: 12px;
-    text-transform: lowercase;
-}
+<body class="bg-bg-cream text-dark-green font-sans min-h-screen overflow-x-hidden overscroll-none">
 
-.benner-body {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-}
+    <!-- ============================================================= -->
+    <!-- MOBILE HEADER -->
+    <!-- ============================================================= -->
+    <div class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        <div class="flex items-center gap-2">
+            <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
+            <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
+        </div>
+        <button id="hamburgerBtn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
 
-.banner-col {
-    flex: 1;
-    padding-right: 20px;
-    border-right: 1px solid #2E524A;
-}
+    <!-- MOBILE OVERLAY -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
-.banner-col:last-child {
-    border-right: none;
-    padding-right: 0;
-}
+    <!-- ============================================================= -->
+    <!-- SIDEBAR -->
+    <!-- ============================================================= -->
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-60 bg-dark-green text-white p-6 flex flex-col justify-between z-50
+               -translate-x-full md:translate-x-0 transition-transform duration-300">
 
-.col-label {
-    display: none; 
-}
+        <div>
+            <!-- LOGO -->
+            <div class="flex flex-col items-center gap-2 mb-10 text-center">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo Jurnal Absensi" class="w-16 h-auto">
+                <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
+            </div>
 
-.col-title {
-    font-size: 17px;
-    font-weight: 700;
-    color: #FFFFFF;
-}
+            <!-- NAVIGATION -->
+            <nav class="flex flex-col gap-3 font-semibold text-xs">
+                <a href="{{ url('/sekre/dashboard') }}"
+                    class="flex items-center gap-3 px-4 py-3 bg-white/10 text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-solid fa-house w-4 text-center"></i>
+                    <span>Dashboard</span>
+                </a>
 
-.col-desc {
-    font-size: 12px;
-    color: #8FBFB0;
-    margin-top: 3px;
-}
+                <a href="{{ url('/sekre/jurnal') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-solid fa-book-open w-4 text-center"></i>
+                    <span>Jurnal</span>
+                </a>
 
-.col-time {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #FFFFFF;
-}
+                <a href="{{ url('/sekre/jadwal') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-mint-green rounded-xl transition active:scale-[0.98]">
+                    <i class="fa-regular fa-calendar-days w-4 text-center"></i>
+                    <span>Jadwal Mata Pelajaran</span>
+                </a>
+            </nav>
+        </div>
 
-.col-time i {
-    color: var(--accent-mint);
-    font-size: 16px;
-}
+        <!-- FOOTER SIDEBAR -->
+        <div class="flex flex-col gap-1 pt-3 border-t border-white/10 text-xs">
+             <a href="{{ url('/sekre/akun') }}"
+                class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
+                <i class="fa-solid fa-user-circle w-4"></i>
+                <span>Akun Sekre</span>
+            </a>
 
-.col-room {
-    font-size: 12px;
-    color: #8FBFB0;
-    margin-top: 4px;
-}
+            <!-- LOGOUT -->
+            <a href="{{ route('logout') }}"
+                class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
+                <i class="fa-solid fa-arrow-right-from-bracket w-4"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
 
-.col-guru {
-    font-size: 15px;
-    font-weight: 600;
-    color: #FFFFFF;
-}
+    <!-- ============================================================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ============================================================= -->
+    <main class="min-w-0 p-4 pb-12 md:p-8 md:ml-60 max-w-full md:max-w-[calc(100%-15rem)] space-y-4 md:space-y-6">
 
-.btn-detail-banner {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 22px;
-    background-color: #2E524A;
-    border: 1px solid #3D6B61;
-    border-radius: 50px;
-    color: var(--accent-mint);
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: 0.2s;
-    white-space: nowrap;
-}
+        <!-- HEADER -->
+        <header class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-dark-green truncate">
+                    Selamat Datang, {{ Auth::user()->name ?? 'Sekretaris' }}
+                </h2>
+                <p class="text-[11px] sm:text-xs text-gray-400 font-semibold mt-1">
+                    Semangat menjalankan tugas jurnal hari ini!
+                </p>
+            </div>
 
-.btn-detail-banner:hover {
-    background-color: #3D6B61;
-    color: #FFFFFF;
-}
-             .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 30px;
-}
-.stat-card {
-    background-color: #FFFFFF;
-    border: 1.5px solid #E5DCCE;
-    border-radius: 14px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    transition: 0.2s;
-}
-.stat-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-}
-.stat-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-}
-.stat-icon.blue    { background-color: #E0EDFF; color: #3B82F6; }
-.stat-icon.yellow  { background-color: #FFF4D6; color: #F59E0B; }
-.stat-icon.green   { background-color: #D9F5E8; color: #22C55E; }
-.stat-icon.red     { background-color: #FFE0E0; color: #EF4444; }
-.stat-info {
-    display: flex;
-    flex-direction: column;
-}
-.stat-label {
-    font-size: 11px;
-    color: #7A8985;
-    font-weight: 500;
-    margin-bottom: 2px;
-}
-.stat-value {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--text-dark);
-}
-.bottom-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-    width: 100%;
-}
-.section-card {
-    background-color: #FFFFFF;
-    border: 1.5px solid #E5DCCE;
-    border-radius: 16px;
-    padding: 22px 24px;
-    display: flex;
-    flex-direction: column;
-}
-.section-card h3 {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 18px;
-}
-.validasi-list {
-    display: flex;
-    flex-direction: column; 
-    gap: 14px;
-    flex: 1;
-}
-.validasi-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 0 ;
-    border-bottom: 1px solid #EDE6DA;
-}
-.validasi-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dot.hijau   { background-color: #22C55E; }
-.dot.kuning  { background-color: #F59E0B; }
-.dot.merah   { background-color: #EF4444; }
-.validasi-info {
-    flex: 1;
-}
-.validasi-mapel {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-dark);
-}
-.validasi-kelas {
-    font-size: 11px;
-    color: #7A8985;
-    margin-top: 2px;
-}
-.validasi-status {
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-    min-width: 130px;
-    text-align: right;
-}
-.validasi-status.tervalidasi       { color: #22C55E; }
-.validasi-status.menunggu          { color: #F59E0B; }
-.validasi-status.perlu-diperbaiki  { color: #EF4444; }
-.validasi-tanggal {
-    font-size: 11px;
-    color: #7A8985;
-    white-space: nowrap;
-    text-align: right;
-}
-.btn-detail {
-    padding: 6px 20px;
-    border-radius: 50px;           
-    background-color: #E2F2EB;    
-    color: #386E5E;                 
-    font-size: 12px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: 0.2s;
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.btn-detail:hover {
-    background-color: #C5EAD9;
-    color: #1A312C;
-}
-
-
-.btn-lihat-semua {
-    display: block;
-    width: 100%;
-    margin-top: 18px;
-    padding: 12px;
-    background-color: #CBEAD9;     
-    color: #1A312C;                
-    border: none;
-    border-radius: 50px;           
-    font-size: 13px;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-lihat-semua:hover {
-    background-color: #b4e2ca;
-}
-
-/* Warna Khusus Kartu Perlu Validasi */
-.card-perlu-validasi .validasi-mapel {
-    color: #638A7E;                
-    font-weight: 600;
-}
-
-.card-perlu-validasi .validasi-kelas {
-    color: #8BAAA0;
-}
-
-.validasi-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
-    gap: 4px;
-    flex-shrink: 0;
-}
-
-.validasi-tanggal {
-    font-size: 11px;
-    color: #7A8985;
-    white-space: nowrap;
-    text-align: right;
-    min-width: 120px;
-}
-        </style>                                                                                                   
-    </head>
-    <body>
-        <div class="dasboard-layout">
-            <aside class="sidebar">
-                <div>
-                  <div class="logo-container">
-                            <img src="{{ asset('image/logo.png') }}" alt="Logo Jurnal Absensi">
-                            <span class="logo-title">Jurnal Absensi</span>
-                        </div>
-                <nav class="nav-menu">
-                            <a href="{{ url('/sekre/dashboard') }}" class="nav-item active">
-                                <i class="fa-solid fa-house"></i>
-                                <span>Home</span>
-                            </a>
-                            <a href="{{ url('/sekre/jadwal') }}" class="nav-item">
-                                <i class="fa-regular fa-calendar-days"></i>
-                                <span>Jadwal</span>
-                            </a>
-                            <a href="{{ url('/sekre/jurnal') }}" class="nav-item">
-                                <i class="fa-solid fa-book-open"></i>
-                                <span>Jurnal</span>
-                            </a>
-                            <a href="{{ url('/sekre/status-validasi') }}" class="nav-item">
-                                <i class="fa-regular fa-file-lines"></i>
-                                <span>Status Validasi</span>
-                            </a>
-                        </nav>
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                <div class="text-right leading-tight">
+                    <div id="live-date" class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">memuat tanggal....</div>
+                    <div id="live-clock" class="text-[10px] sm:text-xs font-extrabold text-dark-green mt-0.5">00.00 WIB</div>
                 </div>
-                <div class="sidebar-footer">
-                        <a href="{{ route('profile') }}" class="btn-sidebar">
-                            <i class="fa-regular fa-user"></i>
-                            <span>Profile</span>
-                        </a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="btn-sidebar" style="width: 100%;">
-                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                <span>Logout</span>
-                            </button>
-                        </form>
+            </div>
+        </header>
+
+        <!-- JADWAL JAM INI: jurnal jam pelajaran berjalan di kelasmu, klik untuk lihat & approve -->
+        <a href="{{ url('/sekre/jurnal/3') }}"
+            class="group block bg-dark-green text-white rounded-2xl p-4 sm:p-5 md:px-7 md:py-5 hover:bg-[#20392F] transition">
+            <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] text-mint-green/80 uppercase tracking-wider font-bold">
+                    <i class="fa-regular fa-clock"></i> Jam ke-3 &middot; Sedang Berlangsung
+                </span>
+                <span class="bg-amber-400/15 text-amber-300 text-[9px] sm:text-[10px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap">Menunggu Validasi</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
+                <div class="sm:flex-1 sm:pr-5 sm:border-r sm:border-[#2E524A]">
+                    <h3 class="text-base sm:text-[17px] font-bold">Matematika</h3>
+                    <p class="text-[11px] sm:text-xs text-[#8FBFB0] mt-0.5">Kelas XI DKV 2</p>
+                </div>
+
+                <div class="sm:flex-1 sm:pr-5 sm:border-r sm:border-[#2E524A]">
+                    <div class="flex items-center gap-2 text-sm sm:text-[15px] font-semibold">
+                        <i class="fa-regular fa-clock text-mint-green text-sm sm:text-base"></i>
+                        <span>13.00 - 13.40</span>
                     </div>
-            </aside>
-            <main class="main-content">
-                <header class="top-header"> 
-                    <div class="header-left">
-                        <h2 class="welcome-title">Selamat Datang, {{ Auth::user()->name ?? 'Sekretaris' }}</h2>
-                        <p class="welcome-subtitle">Semangat menjalankan tugas jurnal hari ini!</p>
+                    <p class="text-[11px] sm:text-xs text-[#8FBFB0] mt-1">RUANG 18</p>
+                </div>
+
+                <div class="sm:flex-1">
+                    <p class="text-[10px] sm:text-[11px] text-[#8FBFB0] uppercase tracking-wide">Diisi oleh</p>
+                    <p class="text-sm sm:text-[15px] font-semibold">Arvia Rienetasary, S.Pd.</p>
+                </div>
+
+                <span class="flex items-center justify-center gap-2 bg-[#2E524A] border border-[#3D6B61] text-mint-green text-xs sm:text-[13px] font-semibold px-4 sm:px-[22px] py-2.5 rounded-full group-hover:bg-[#3D6B61] group-hover:text-white transition whitespace-nowrap shrink-0">
+                    Lihat & Approve <i class="fa-solid fa-arrow-right"></i>
+                </span>
+            </div>
+        </a>
+
+        <!-- ============================================================= -->
+        <!-- INFO PIKET HARI INI: siswa tidak masuk (surat) + siswa terlambat -->
+        <!-- ============================================================= -->
+        <div id="infoPiket" class="bg-white border-[1.5px] border-[#E5DCCE] rounded-2xl p-4 md:p-[22px_24px]">
+            <div class="flex items-center justify-between gap-3 mb-1">
+                <h3 class="text-sm md:text-[17px] font-bold text-dark-green">Info Piket Hari Ini</h3>
+                <span class="text-[10px] md:text-xs font-bold text-medium-green bg-emerald-50 px-2.5 py-1 rounded-full shrink-0">5 siswa</span>
+            </div>
+            <p class="text-[10px] md:text-xs text-gray-400 mb-3">Dari guru piket: surat siswa tidak masuk & catatan keterlambatan.</p>
+
+            <!-- FILTER -->
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+                <button type="button" data-filter="all"
+                    class="piket-tab bg-dark-green text-white text-[10px] md:text-xs font-bold px-3.5 py-1.5 rounded-full transition">
+                    Semua <span class="opacity-70">5</span>
+                </button>
+                <button type="button" data-filter="absen"
+                    class="piket-tab bg-blue-50 text-blue-600 text-[10px] md:text-xs font-bold px-3.5 py-1.5 rounded-full transition">
+                    <i class="fa-solid fa-envelope-open-text mr-1"></i>Tidak Masuk <span class="opacity-70">3</span>
+                </button>
+                <button type="button" data-filter="telat"
+                    class="piket-tab bg-violet-50 text-violet-600 text-[10px] md:text-xs font-bold px-3.5 py-1.5 rounded-full transition">
+                    <i class="fa-regular fa-clock mr-1"></i>Terlambat <span class="opacity-70">2</span>
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-3">
+
+                <!-- ===== TIDAK MASUK (BIRU) ===== -->
+                <div data-type="absen" class="piket-item flex items-center justify-between gap-3 p-3 rounded-xl bg-blue-50/60 border border-blue-100">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-500 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-envelope-open-text text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="text-xs md:text-sm font-semibold text-dark-green">Ahmad Rizki</p>
+                                <span class="text-[9px] font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">SAKIT</span>
+                            </div>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">XI TKJ 2 &middot; Surat diterima piket</p>
+                        </div>
                     </div>
-                    <div class="header-right">
-                        <button class="btn-notif" type="button" title="pemberitahuan">
-                        <i class="fa-regular fa-bell"></i>
-                        <span class="notif-badge"></span>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button type="button" onclick="bukaSurat('Ahmad Rizki', 'SAKIT')"
+                            class="bg-white border border-blue-200 text-blue-600 hover:bg-blue-50 text-[10px] md:text-xs font-bold px-3 py-2 rounded-full transition whitespace-nowrap">
+                            <i class="fa-regular fa-image mr-1"></i>Surat
                         </button>
-                    <div class="datetime-box">
-                        <span class="date-text" id="live-date">memuat tanggal....</span>
-                        <span class="time-text" id="live-clock">00:00:00 WIB</span>
                     </div>
-                    </div>
-                </header>
-                <div class="benner-card">
-                    <span class="benner-badge">jurnal masuk yang belum divlidasi</span>
-                    <div class="benner-body">
-                        <div class="banner-col">
-                            <span class="col-label">MATA PELAJARAN</span>
-                            <h3 class="col-title">Matematika</h3>        
-                            <p class="col-desc">XI DKV 2</p>    
-                        </div>
-                        <div class="banner-col">
-                            <div class="col-time">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>13.00 - 13.40</span>
-                            </div>
-                             <p class="col-room">RUANG 18</p>
-                        </div>
-                        <div class="banner-col">
-                            <p class="col-guru">NAMA GURU</p>
-                        </div>
-                        <a href="{{ url('/sekre/jurnal') }}" class="btn-detail-banner">
-                            detail<i class="fa-solid fa-arrow-right"></i>
-                        </a>
-    
-                    </div>
+                </div>
 
+                <div data-type="absen" class="piket-item flex items-center justify-between gap-3 p-3 rounded-xl bg-blue-50/60 border border-blue-100">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-500 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-envelope-open-text text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="text-xs md:text-sm font-semibold text-dark-green">Siti Nurhaliza</p>
+                                <span class="text-[9px] font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">IZIN</span>
+                            </div>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">XI DKV 2 &middot; Surat diterima piket</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button type="button" onclick="bukaSurat('Siti Nurhaliza', 'IZIN')"
+                            class="bg-white border border-blue-200 text-blue-600 hover:bg-blue-50 text-[10px] md:text-xs font-bold px-3 py-2 rounded-full transition whitespace-nowrap">
+                            <i class="fa-regular fa-image mr-1"></i>Surat
+                        </button>
+                    </div>
                 </div>
-                <div class="stats-row">
-                    <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <i class="fa-solid fa-table-cells"></i>
-                        </div>
-                        <div class="stat-info">
-                            <span class="stat-label">total jurnal hari in</span>
-                            <span class="stat-value">45</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon yelow">
-                            <i class="fa-solid fa-hourglass-half"></i>
-                        </div>
-                        <div class="stat-info">
-                            <span class="stat-label">belum di validasi</span>
-                            <span class="stat-value">30</span>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon green">
-                            <i class="fa-solid fa-circle-check"></i>
-                    </div>
 
-                 <div class="stat-info">
-                     <span class="stat-label">jurnal tervalidasi</span>
-                     <span class="stat-value">13</span>
-                </div>
-                </div>
-                   <div class="stat-card">
-                       <div class="stat-icon red">
-                           <i class="fa-solid fa-circle-exclamation"></i> 
-                       </div>
-                       <div class="stat-info">
-                           <span class="stat-label">jurnal di tolak</span>
-                           <span class="stat-value">2</span>
-                       </div>    
-                  </div>
-                </div>
-                  <div class="bottom-row">
-                    <div class="section-card">
-                        <h3>Status Validasi</h3>
-                        <div class="validasi-list">
-                            <div class="validasi-item">
-                                <span class="dot hijau"></span>
-                                <div class="validasi-info">
-                                    <span class="validasi-mapel">MATEMATIKA</span>
-                                    <span class="validasi-kelas">XI PPLG 2 - Jam ke 1</span>
-                                </div>
-                                <span class="validasi-status tervalidasi">TERVALIDASI</span>
-                                <span class="validasi-kelas">21 juli 2026, 08:20</span>
+                <!-- sudah dicatat sekre -->
+                <div data-type="absen" class="piket-item flex items-center justify-between gap-3 p-3 rounded-xl bg-blue-50/30 border border-blue-100">
+                    <div class="flex items-center gap-3 min-w-0 opacity-70">
+                        <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-500 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-envelope-open-text text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="text-xs md:text-sm font-semibold text-dark-green">Budi Santoso</p>
+                                <span class="text-[9px] font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">SAKIT</span>
                             </div>
-                            <div class="validasi-item">
-                                <span class="dot hijau"></span>
-                                <div class="validasi-info">
-                                    <span class="validasi-mapel">MATEMATIKA</span>
-                                    <span class="validasi-kelas">XI PPLG 1 - Jam ke 2</span>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">XI DKV 2 &middot; Surat diterima piket</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button type="button" onclick="bukaSurat('Budi Santoso', 'SAKIT')"
+                            class="bg-white border border-blue-200 text-blue-600 hover:bg-blue-50 text-[10px] md:text-xs font-bold px-3 py-2 rounded-full transition whitespace-nowrap">
+                            <i class="fa-regular fa-image mr-1"></i>Surat
+                        </button>
+                       
+                    </div>
+                </div>
+
+                <!-- ===== TERLAMBAT (UNGU) ===== -->
+                <div data-type="telat" class="piket-item flex items-center justify-between gap-3 p-3 rounded-xl bg-violet-50/60 border border-violet-100">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-xl bg-violet-100 text-violet-500 flex items-center justify-center shrink-0">
+                            <i class="fa-regular fa-clock text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="text-xs md:text-sm font-semibold text-dark-green">Dimas Prasetyo</p>
+                                <span class="text-[9px] font-bold text-violet-600 bg-violet-100 px-2 py-0.5 rounded-full">JAM KE-1</span>
                             </div>
-                            <span class="validasi-status tervalidasi">TERVALIDASI</span>
-                            <span class="validasi-kelas">21 juli 2026, 08:40</span>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5 truncate">XI PPLG 1 &middot; Ban motor bocor</p>
+                            <p class="text-[10px] text-gray-400 mt-0.5">
+                                <i class="fa-solid fa-signature mr-1"></i>TTD: Piket <i class="fa-solid fa-check text-emerald-500"></i>
+                                &middot; Waka <i class="fa-solid fa-check text-emerald-500"></i>
+                            </p>
                         </div>
-                        <div class="validasi-item">
-                            <span class="dot kuning"></span>
-                            <div class="validasi-info">
-                                <span class="validasi-mapel">MATEMATIKA</span>
-                                <span class="validasi-kelas">XI TKJ 2 - Jam ke 4</span>                                                          
-                        </div>
-                        <span class="validasi-status menunggu">MENUNGGU</span>
-                        <span class="validasi-kelas"> 21 juli 2026, 09:00</span>
                     </div>
-                    <div class="validasi-item">
-                        <span class="dot merah"></span>
-                        <div class="validasi-info">
-                            <span class="validasi-mapel">MATEMATIKA</span>
-                            <span class="validasi-kelas">XI TKI 2 - Jam ke 5</span>
+                    <a href="#" class="bg-violet-500 hover:bg-violet-600 text-white text-[10px] md:text-xs font-bold px-3.5 py-2 rounded-full transition whitespace-nowrap shrink-0">Detail</a>
+                </div>
+
+                <div data-type="telat" class="piket-item flex items-center justify-between gap-3 p-3 rounded-xl bg-violet-50/60 border border-violet-100">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-xl bg-violet-100 text-violet-500 flex items-center justify-center shrink-0">
+                            <i class="fa-regular fa-clock text-sm"></i>
                         </div>
-                        <span class="validasi-status perlu-diperbaiki">Perlu Diperbaiki</span>
-                        <span class="validasi-kelas">21 juli 2026, 09:50</span>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="text-xs md:text-sm font-semibold text-dark-green">Rina Marlina</p>
+                                <span class="text-[9px] font-bold text-violet-600 bg-violet-100 px-2 py-0.5 rounded-full">JAM KE-2</span>
+                            </div>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5 truncate">XI TKI 2 &middot; Kesiangan</p>
+                            <p class="text-[10px] text-gray-400 mt-0.5">
+                                <i class="fa-solid fa-signature mr-1"></i>TTD: Piket <i class="fa-solid fa-check text-emerald-500"></i>
+                                &middot; Waka <i class="fa-solid fa-hourglass-half text-amber-500"></i>
+                            </p>
+                        </div>
                     </div>
-                  </div>
-                  <a href="#" class="btn-lihat-semua">LIhat Semua Status Validasi</a>
-              </div>
-              <div class="section-card card-perlu-validasi">
-        <h3>Perlu Validasi</h3>
-        <div class="validasi-list">
-            <div class="validasi-item">
-                <div class="validasi-info">
-                    <span class="validasi-mapel">MATEMATIKA</span>
-                    <span class="validasi-kelas">XI PPLG 2 - Jam ke 1</span>
-                </div>
-                <div class="validasi-right">
-                <a href="#" class="btn-detail">Detail</a>
-                <span class="validasi-tanggal">21 Juli 2026, 08:20</span>
+                    <a href="#" class="bg-violet-500 hover:bg-violet-600 text-white text-[10px] md:text-xs font-bold px-3.5 py-2 rounded-full transition whitespace-nowrap shrink-0">Detail</a>
                 </div>
             </div>
-            <div class="validasi-item">
-                <div class="validasi-info">
-                    <span class="validasi-mapel">MATEMATIKA</span>
-                    <span class="validasi-kelas">XI PPLG 1 - Jam ke 8</span>
+
+            <p id="piketEmpty" class="hidden text-center text-xs text-gray-400 py-6">Belum ada data.</p>
+        </div>
+
+        <!-- ANTREAN VALIDASI: satu daftar, urut prioritas, satu tombol aksi per baris -->
+        <div id="antreanValidasi" class="bg-white border-[1.5px] border-[#E5DCCE] rounded-2xl p-4 md:p-[22px_24px] scroll-mt-20">
+            <div class="flex items-center justify-between gap-3 mb-1">
+                <h3 class="text-sm md:text-[17px] font-bold text-dark-green">Antrean Validasi</h3>
+                <span class="text-[10px] md:text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full shrink-0">4 menunggu</span>
+            </div>
+            <p class="text-[10px] md:text-xs text-gray-400 mb-4 md:mb-5">Diurutkan dari yang paling perlu perhatian.</p>
+
+            <div class="flex flex-col gap-3">
+                <!-- PERLU DIPERBAIKI: paling prioritas -->
+                <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-red-50/60 border border-red-100">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0"></span>
+                        <div class="min-w-0">
+                            <p class="text-xs md:text-sm font-semibold text-dark-green">MATEMATIKA &middot; XI TKI 2</p>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Jam ke 5 &middot; Materi belum lengkap</p>
+                        </div>
+                    </div>
+                    <a href="#" class="bg-red-500 hover:bg-red-600 text-white text-[10px] md:text-xs font-bold px-3.5 py-2 rounded-full transition whitespace-nowrap shrink-0">Tinjau Ulang</a>
                 </div>
-                <div class="validasi-right">
-                <a href="#" class="btn-detail">Detail</a>
-                <span class="validasi-tanggal">21 Juli 2026, 08:40</span>
+
+                <!-- MENUNGGU VALIDASI x3 -->
+                <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-amber-50/60 border border-amber-100">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
+                        <div class="min-w-0">
+                            <p class="text-xs md:text-sm font-semibold text-dark-green">MATEMATIKA &middot; XI TKJ 2</p>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Jam ke 4 &middot; 09:00</p>
+                        </div>
+                    </div>
+                    <a href="#" class="bg-dark-green hover:bg-medium-green text-white text-[10px] md:text-xs font-bold px-3.5 py-2 rounded-full transition whitespace-nowrap shrink-0">Validasi</a>
+                </div>
+
+                <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-amber-50/60 border border-amber-100">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
+                        <div class="min-w-0">
+                            <p class="text-xs md:text-sm font-semibold text-dark-green">BAHASA INDONESIA &middot; XI PPLG 1</p>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Jam ke 8 &middot; 09:30</p>
+                        </div>
+                    </div>
+                    <a href="#" class="bg-dark-green hover:bg-medium-green text-white text-[10px] md:text-xs font-bold px-3.5 py-2 rounded-full transition whitespace-nowrap shrink-0">Validasi</a>
+                </div>
+
+                <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-amber-50/60 border border-amber-100">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
+                        <div class="min-w-0">
+                            <p class="text-xs md:text-sm font-semibold text-dark-green">IPA &middot; XI TKJ 1</p>
+                            <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Jam ke 3 &middot; 10:10</p>
+                        </div>
+                    </div>
+                    <a href="#" class="bg-dark-green hover:bg-medium-green text-white text-[10px] md:text-xs font-bold px-3.5 py-2 rounded-full transition whitespace-nowrap shrink-0">Validasi</a>
                 </div>
             </div>
-            <div class="validasi-item">
-                <div class="validasi-info">
-                    <span class="validasi-mapel">MATEMATIKA</span>
-                    <span class="validasi-kelas">XI TKJ 2 - Jam ke 8</span>
+
+            <a href="{{ url('/sekre/jurnal') }}" class="block w-full mt-4 md:mt-5 py-2.5 md:py-3 bg-[#CBEAD9] hover:bg-[#b4e2ca] text-dark-green text-xs md:text-[13px] font-semibold text-center rounded-full transition">
+                Lihat Semua Jurnal
+            </a>
+        </div>
+    </main>
+
+    <!-- ============================================================= -->
+    <!-- MODAL SURAT -->
+    <!-- ============================================================= -->
+    <div id="modalSurat" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60" onclick="tutupSurat()"></div>
+        <div class="relative bg-white rounded-2xl w-full max-w-md p-5 shadow-xl max-h-full overflow-y-auto">
+            <div class="flex items-center justify-between mb-3">
+                <div>
+                    <h4 id="suratNama" class="text-sm font-bold text-dark-green">Nama</h4>
+                    <span id="suratJenis" class="text-[9px] font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">SAKIT</span>
                 </div>
-                <div class="validasi-right">
-                <a href="#" class="btn-detail">Detail</a>
-                <span class="validasi-tanggal">21 Juli 2026, 09:30</span>
-                </div>
+                <button type="button" onclick="tutupSurat()" aria-label="Tutup" class="w-8 h-8 rounded-lg hover:bg-gray-100 text-gray-500">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <div class="validasi-item">
-                <div class="validasi-info">
-                    <span class="validasi-mapel">MATEMATIKA</span>
-                    <span class="validasi-kelas">XI TKI 2 - Jam ke 10</span>
-                </div>
-                <div class="validasi-right">
-                <a href="#" class="btn-detail">Detail</a>
-                <span class="validasi-tanggal">21 Juli 2026, 09:30</span>
+
+            <!-- Ganti src dengan foto surat dari database nanti -->
+            <div class="bg-gray-100 rounded-xl overflow-hidden aspect-[3/4] flex items-center justify-center">
+                <img id="suratFoto" src="" alt="Foto surat" class="w-full h-full object-contain hidden">
+                <div id="suratKosong" class="text-center text-gray-400 text-xs">
+                    <i class="fa-regular fa-image text-3xl mb-2"></i>
+                    <p>Foto surat belum diupload</p>
                 </div>
             </div>
         </div>
-        <a href="#" class="btn-lihat-semua">Lihat Semua Antrean</a>
     </div>
-</div> <!-- .bottom-row -->
-            </main>
-        </div> <!-- .dasboard-layout -->
-           <script> 
-                function updateLiveTIME() {
-                    const now = new Date();
-                    const opstions = { weekday: 'long',day: 'numeric',month: 'long',year: 'numeric' };
-                    const dateIndo = now.toLocaleDateString('id-ID',opstions);
-                    const jam = String(now.getHours()).padStart(2, '0');
-                    const menit = String(now.getMinutes()).padStart(2, '0');
-                    const detik = String(now.getSeconds()).padStart(2, '0');
-                    document.getElementById('live-date').textContent = dateIndo;
-                    document.getElementById('live-clock').textContent = `${jam}.${menit}.${detik} WIB`;
 
-                } 
-                updateLiveTIME();
-                setInterval(updateLiveTIME, 1000);
-            </script>
+    <!-- ============================================================= -->
+    <!-- MOBILE SCROLL HELPER -->
+    <!-- ============================================================= -->
+    <div id="scrollHelper"
+        class="md:hidden fixed right-2 sm:right-3 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-1">
 
-    </body>                                                                                                                                                                                                    
-    </html>                                
+        <button type="button" onclick="scrollToTop()" aria-label="Kembali ke atas"
+            class="w-7 h-7 rounded-full bg-white/95 border border-emerald-100 shadow-md text-medium-green flex items-center justify-center active:scale-90 transition">
+            <i class="fa-solid fa-chevron-up text-[9px]"></i>
+        </button>
+
+        <div class="relative w-1 h-28 bg-dark-green/10 rounded-full overflow-hidden">
+            <div id="scrollIndicator" class="absolute left-0 top-0 w-1 h-8 bg-medium-green rounded-full"></div>
+        </div>
+
+        <button type="button" onclick="scrollToBottom()" aria-label="Ke bagian bawah"
+            class="w-7 h-7 rounded-full bg-white/95 border border-emerald-100 shadow-md text-medium-green flex items-center justify-center active:scale-90 transition">
+            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+        </button>
+    </div>
+
+    <!-- ============================================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================================================= -->
+    <script>
+        /* ===== LIVE CLOCK ===== */
+        function updateLiveTime() {
+            const now = new Date();
+            const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            const dateEl = document.getElementById('live-date');
+            const clockEl = document.getElementById('live-clock');
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', opsi);
+            if (clockEl) {
+                const jam = String(now.getHours()).padStart(2, '0');
+                const menit = String(now.getMinutes()).padStart(2, '0');
+                clockEl.textContent = `${jam}.${menit} WIB`;
+            }
+        }
+        updateLiveTime();
+        setInterval(updateLiveTime, 1000);
+
+        /* ===== MOBILE SIDEBAR ===== */
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+        if (hamburgerBtn) hamburgerBtn.addEventListener('click', openSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+        if (sidebar) {
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) closeSidebar();
+                });
+            });
+        }
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                sidebarOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        });
+
+        /* ===== FILTER INFO PIKET ===== */
+        (function () {
+            const tabs = document.querySelectorAll('.piket-tab');
+            const items = document.querySelectorAll('.piket-item');
+            const empty = document.getElementById('piketEmpty');
+            if (!tabs.length) return;
+
+            const activeCls = {
+                all:   ['bg-dark-green', 'text-white'],
+                absen: ['bg-blue-500', 'text-white'],
+                telat: ['bg-violet-500', 'text-white'],
+            };
+            const idleCls = {
+                all:   ['bg-gray-100', 'text-gray-600'],
+                absen: ['bg-blue-50', 'text-blue-600'],
+                telat: ['bg-violet-50', 'text-violet-600'],
+            };
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const f = tab.dataset.filter;
+
+                    tabs.forEach(t => {
+                        const k = t.dataset.filter;
+                        t.classList.remove(...activeCls[k], ...idleCls[k]);
+                        t.classList.add(...(k === f ? activeCls[k] : idleCls[k]));
+                    });
+
+                    let visible = 0;
+                    items.forEach(el => {
+                        const show = f === 'all' || el.dataset.type === f;
+                        el.classList.toggle('hidden', !show);
+                        if (show) visible++;
+                    });
+                    empty.classList.toggle('hidden', visible > 0);
+                });
+            });
+        })();
+
+        /* ===== MODAL SURAT ===== */
+        function bukaSurat(nama, jenis, fotoUrl) {
+            document.getElementById('suratNama').textContent = nama;
+            document.getElementById('suratJenis').textContent = jenis;
+            const foto = document.getElementById('suratFoto');
+            const kosong = document.getElementById('suratKosong');
+            if (fotoUrl) {
+                foto.src = fotoUrl;
+                foto.classList.remove('hidden');
+                kosong.classList.add('hidden');
+            } else {
+                foto.removeAttribute('src');
+                foto.classList.add('hidden');
+                kosong.classList.remove('hidden');
+            }
+            const m = document.getElementById('modalSurat');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+        function tutupSurat() {
+            const m = document.getElementById('modalSurat');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') tutupSurat();
+        });
+
+        /* ===== MOBILE SCROLL HELPER ===== */
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        function updateScrollIndicator() {
+            if (!scrollIndicator) return;
+            const scrollTop = window.scrollY || window.pageYOffset;
+            const documentHeight = document.documentElement.scrollHeight;
+            const windowHeight = window.innerHeight;
+            const maxScroll = documentHeight - windowHeight;
+
+            if (maxScroll <= 0) {
+                scrollIndicator.style.top = '0px';
+                return;
+            }
+
+            const trackHeight = 112; // h-28
+            const indicatorHeight = 32; // h-8
+            const maxTop = trackHeight - indicatorHeight;
+            const progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+            scrollIndicator.style.top = `${progress * maxTop}px`;
+        }
+
+        window.addEventListener('scroll', updateScrollIndicator, { passive: true });
+        window.addEventListener('resize', updateScrollIndicator);
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function scrollToBottom() {
+            window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+        }
+        updateScrollIndicator();
+    </script>
+
+</body>
+</html>

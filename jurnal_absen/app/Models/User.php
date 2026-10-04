@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Jadwal;
 
-
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
