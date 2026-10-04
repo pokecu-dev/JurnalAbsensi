@@ -1,3 +1,8 @@
+@php
+use Illuminate\Support\Carbon;
+
+Carbon::setTestNow('2026-10-05 09:00:00');
+@endphp
 <!DOCTYPE html>
 <html lang="id" class="overscroll-none">
 
@@ -230,30 +235,21 @@
                 <span>
                     Akun Guru
                 </span>
+            </a>
 
-                <a href="{{ url('/admin/akun') }}"
-                    class="flex items-center gap-2 px-2 py-2 rounded-lg
-                        hover:bg-white/10
-                        active:scale-[0.98]
-                        transition-all duration-200">
-                    <i class="fa-solid fa-user-circle w-4"></i>
-                    <span>Akun Admin</span>
-                </a>
-
-
-                <!-- LOGOUT -->
-                <a href="{{ route('logout') }}"
-                    class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+            <!-- LOGOUT -->
+            <a href="{{ route('logout') }}"
+                class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
                     hover:bg-white/10
                     active:scale-[0.98]
                     transition-all duration-200">
-                    <i class="fa-solid fa-right-from-bracket w-4"></i>
+                <i class="fa-solid fa-right-from-bracket w-4"></i>
 
-                    <span>
-                        Logout
-                    </span>
+                <span>
+                    Logout
+                </span>
 
-                </a>
+            </a>
 
         </div>
 
@@ -338,12 +334,6 @@
             </p>
         </div>
 
-
-        <!-- @else -->
-
-        <!-- @if(!$jadwal) -->
-        <!-- <div>ih</div> -->
-
         @else
         <!-- =====================================================
                  INFORMASI SESI
@@ -363,18 +353,29 @@
 
                     <div class="min-w-0">
 
-                        <p class="text-[9px] uppercase tracking-wider text-medium-green font-extrabold">
-                            Sesi Mengajar
-                        </p>
+                        <div id="dateTimeContainer" data-laravel-now="{{ now()->toIso8601String() }}">
 
-                        <p class="text-xs sm:text-sm font-extrabold text-dark-green mt-0.5">
+
+
+                            <p class="text-[9px] uppercase tracking-wider text-medium-green font-extrabold">
+                                Sesi Mengajar
+                            </p>
+
+                            <!-- <p id="tanggalSekarang" class="text-xs sm:text-sm font-extrabold text-dark-green mt-0.5">
                             {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
-                        </p>
+                        </p> -->
+                            <p id="tanggalSekarang" class="text-xs sm:text-sm font-extrabold text-dark-green mt-0.5">
+                                {{ __(now()->isoFormat('dddd, D MMMM Y')) }}
+                            </p>
 
-                        <p class="text-[10px] sm:text-xs text-gray-500 font-semibold mt-0.5">
+                            <!-- <p id="jamSekarang" class="text-[10px] sm:text-xs text-gray-500 font-semibold mt-0.5">
                             Waktu pengisian: {{ now()->format('H.i') }} WIB
-                        </p>
+                        </p> -->
+                            <p id="jamSekarang" class="text-[10px] sm:text-xs text-gray-500 font-semibold mt-0.5">
+                                Waktu pengisian: {{ __(now()->isoFormat('H.i')) }} WIB
+                            </p>
 
+                        </div>
                     </div>
 
                 </div>
@@ -453,8 +454,8 @@
 
 
             <!-- =================================================
-                     STATUS KEHADIRAN GURU
-                ================================================== -->
+                        STATUS KEHADIRAN GURU
+                    ================================================== -->
             <section
                 class="bg-white p-4 sm:p-5 rounded-2xl border border-emerald-100 shadow-sm">
 
@@ -495,8 +496,8 @@
 
 
             <!-- =================================================
-                     HADIR
-                ================================================== -->
+                        HADIR
+                    ================================================== -->
             <section
                 id="sectionHadir"
                 class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
@@ -530,6 +531,7 @@
 
                         <textarea
                             name="materi"
+                            id="materi"
                             placeholder="Contoh: Fungsi Linear, Fungsi Kuadrat..."
                             class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
 
@@ -548,6 +550,7 @@
 
                         <textarea
                             name="keterangan"
+                            id="keterangan"
                             placeholder="Contoh: Diskusi kelompok, latihan soal, tanya jawab..."
                             class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
 
@@ -559,380 +562,8 @@
 
 
             <!-- =================================================
-                     TUGAS
-                ================================================== -->
-            <section
-                id="sectionTugas"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-medium-green"></i>
-                        Tugas untuk Siswa
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Digunakan ketika guru tidak hadir tetapi memberikan tugas.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                    <i class="fa-solid fa-circle-info text-base mt-0.5"></i>
-
-                    <div>
-                        Tugas dapat diteruskan kepada pihak yang bertanggung jawab untuk disampaikan kepada siswa.
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <label
-                        class="block text-xs font-bold text-dark-green mb-1.5">
-
-                        Instruksi / Deskripsi Tugas
-                        <span class="text-rose-500">*</span>
-
-                    </label>
-
-                    <textarea
-                        name="instruksi_tugas"
-                        placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
-                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                     TIDAK HADIR / PERLU PENANGANAN
-                ================================================== -->
-            <section
-                id="sectionTanpaTugas"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-solid fa-building-user text-medium-green"></i>
-                        Penanganan Kelas
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                    <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
-
-                    <div>
-                        Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <label
-                        class="block text-xs font-bold text-dark-green mb-1.5">
-
-                        Alasan / Keterangan
-
-                    </label>
-
-                    <textarea
-                        name="alasan_kosong"
-                        placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
-                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
-
-                </div>
-
-                </div>
-
-            </section>
-
-            <!-- =================================================
-                 TUGAS
-            ================================================== -->
-            <section
-                id="sectionTugas"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-medium-green"></i>
-                        Tugas untuk Siswa
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Digunakan ketika guru tidak hadir tetapi memberikan tugas.
-                    </p>
-
-                </div>
-
-                <div
-                    class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                    <i class="fa-solid fa-circle-info text-base mt-0.5"></i>
-
-                    <div>
-                        Tugas dapat diteruskan kepada pihak yang bertanggung jawab untuk disampaikan kepada siswa.
-                    </div>
-
-                </div>
-
-                <div>
-
-                    <label
-                        class="block text-xs font-bold text-dark-green mb-1.5">
-
-                        Instruksi / Deskripsi Tugas
-                        <span class="text-rose-500">*</span>
-
-                    </label>
-
-                    <textarea
-                        name="instruksi_tugas"
-                        placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
-                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 TIDAK HADIR / PERLU PENANGANAN
-            ================================================== -->
-            <section
-                id="sectionTanpaTugas"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-solid fa-building-user text-medium-green"></i>
-                        Penanganan Kelas
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                    <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
-
-                    <div>
-                        Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <label
-                        class="block text-xs font-bold text-dark-green mb-1.5">
-
-                        Alasan / Keterangan
-
-                    </label>
-
-                    <textarea
-                        name="alasan_kosong"
-                        placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
-                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
-
-                </div>
-
-            </section>
-
-            <!-- =================================================
-                ABSENSI SISWA
-            ================================================== -->
-            <section
-                id="sectionAbsensiSiswa"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
-
-                <!-- HEADER -->
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                        <i class="fa-solid fa-users text-medium-green"></i>
-                        Absensi Siswa
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Tandai status kehadiran setiap siswa pada sesi pembelajaran ini.
-                    </p>
-
-                </div>
-
-
-                <!-- =================================================
-                    ABSENSI SISWA
-                ================================================== -->
-
-                <div class="bg-amber-50/60 p-3 sm:p-4 rounded-xl border border-amber-100">
-
-                    <!-- HEADER -->
-                    <div>
-
-                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                            <i class="fa-solid fa-users text-medium-green"></i>
-                            Absensi Siswa
-                        </h3>
-
-                        <p class="text-[10px] text-gray-400 mt-1">
-                            Tandai status kehadiran setiap siswa pada sesi pembelajaran ini.
-                        </p>
-
-                    </div>
-
-
-                    <!-- =================================================
-                        SEARCH & FILTER
+                        TUGAS
                     ================================================== -->
-                    <div class="bg-amber-50/60 p-3 sm:p-4 rounded-xl border border-amber-100">
-
-                        <div class="flex flex-col sm:flex-row gap-3">
-
-                            <!-- SEARCH -->
-                            <div class="relative flex-1">
-
-                                <i
-                                    class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
-                                </i>
-
-                                <input
-                                    type="text"
-                                    id="searchSiswa"
-                                    placeholder="Cari nama / NISN / no. absen..."
-                                    autocomplete="off"
-                                    class="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs font-semibold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
-
-                            </div>
-
-
-                            <!-- FILTER -->
-                            <select
-                                id="filterAbsensi"
-                                class="w-full sm:w-40 bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
-
-                                <option value="semua">
-                                    Semua Siswa
-                                </option>
-
-                                <option value="tidak_hadir">
-                                    Tidak Hadir
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- INFO -->
-                        <div class="flex items-center justify-between mt-3 px-1">
-
-                            <p class="text-[10px] text-gray-400">
-                                Default semua siswa dianggap hadir.
-                            </p>
-
-                            <p class="text-[10px] font-bold text-medium-green whitespace-nowrap">
-                                Tidak hadir:
-                                <span id="jumlahTidakHadir">0</span>
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =================================================
-                        DAFTAR SISWA
-                    ================================================== -->
-                    <div
-                        id="studentList"
-                        class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
-
-                        <p class="text-[10px] text-gray-400">
-                            Default semua siswa dianggap hadir.
-                        </p>
-
-                        <p class="text-[10px] font-bold text-medium-green whitespace-nowrap">
-                            Tidak hadir:
-                            <span id="jumlahTidakHadir">0</span>
-                        </p>
-
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                        <!-- MATERI -->
-
-                        <div>
-
-                            <label class="block text-xs font-bold text-dark-green mb-1.5">
-
-                                Materi Pembelajaran
-                                <span class="text-rose-500">*</span>
-
-                            </label>
-
-                            <textarea
-                                name="materi"
-                                id="materi"
-                                placeholder="Contoh: Fungsi Linear, Fungsi Kuadrat..."
-                                class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
-
-                        </div>
-
-
-                        <!-- KETERANGAN -->
-
-                        <div>
-
-                            <label class="block text-xs font-bold text-dark-green mb-1.5">
-
-                                Keterangan / Aktivitas Kelas
-
-                            </label>
-
-                            <textarea
-                                name="keterangan"
-                                id="keterangan"
-                                placeholder="Contoh: Diskusi kelompok, latihan soal, tanya jawab..."
-                                class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
-
-                        </div>
-
-                    </div>
-
-            </section>
-
-            <!-- =================================================
-                    DAFTAR SISWA
-                ================================================== -->
 
             <section
                 id="sectionTugas"
@@ -988,8 +619,8 @@
 
 
             <!-- =================================================
-                     TIDAK HADIR / PERLU PENANGANAN
-                ================================================== -->
+                        TIDAK HADIR / PERLU PENANGANAN
+                    ================================================== -->
 
             <section
                 id="sectionTanpaTugas"
@@ -1044,8 +675,8 @@
 
 
             <!-- =================================================
-                     ABSENSI SISWA
-                ================================================== -->
+                        ABSENSI SISWA
+                    ================================================== -->
 
             <section
                 id="sectionAbsensiSiswa"
@@ -1258,14 +889,13 @@
                         </div>
 
                     </div>
+                    @endforeach
 
 
 
                 </div>
 
 
-
-                <i class="fa-solid fa-circle-info text-medium-green text-sm mt-0.5"></i>
 
                 <!-- INFO BAWAH -->
 
@@ -1287,8 +917,8 @@
             </section>
 
             <!-- =================================================
-                     ACTION BUTTONS
-                ================================================== -->
+                        ACTION BUTTONS
+                    ================================================== -->
             <div
                 class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex flex-col gap-2.5 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
 
@@ -1335,10 +965,10 @@
 
             </div>
 
+        </form>
 
-            @endif
+        @endif
 
-            @endif
     </main>
 
 
@@ -2051,55 +1681,95 @@
            TANGGAL & JAM OTOMATIS
         ====================================================== */
 
+        // function updateDateTime() {
+
+        //     const now = new Date();
+
+        //     const tanggalElement =
+        //         document.getElementById('tanggalSekarang');
+
+        //     const jamElement =
+        //         document.getElementById('jamSekarang');
+
+
+        //     const tanggal =
+        //         new Intl.DateTimeFormat(
+        //             'id-ID', {
+        //                 weekday: 'long',
+        //                 day: 'numeric',
+        //                 month: 'long',
+        //                 year: 'numeric'
+        //             }
+        //         ).format(now);
+
+
+        //     const jam =
+        //         new Intl.DateTimeFormat(
+        //             'id-ID', {
+        //                 hour: '2-digit',
+        //                 minute: '2-digit',
+        //                 second: '2-digit',
+        //                 hour12: false
+        //             }
+        //         ).format(now);
+
+
+        //     if (tanggalElement) {
+
+        //         tanggalElement.innerText =
+        //             tanggal;
+
+        //     }
+
+
+        //     if (jamElement) {
+
+        //         jamElement.innerText =
+        //             'Waktu pengisian: ' + jam + ' WIB';
+
+        //     }
+
+        // }
+
+
+        const container = document.getElementById('dateTimeContainer');
+        const laravelTimeStr = container ? container.getAttribute('data-laravel-now') : null;
+
+        let currentTime = laravelTimeStr ? new Date(laravelTimeStr) : new Date();
+
         function updateDateTime() {
+            const tanggalElement = document.getElementById('tanggalSekarang');
+            const jamElement = document.getElementById('jamSekarang');
 
-            const now = new Date();
+            const tanggal = new Intl.DateTimeFormat(
+                'id-ID', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                }
+            ).format(currentTime);
 
-            const tanggalElement =
-                document.getElementById('tanggalSekarang');
-
-            const jamElement =
-                document.getElementById('jamSekarang');
-
-
-            const tanggal =
-                new Intl.DateTimeFormat(
-                    'id-ID', {
-                        weekday: 'long',
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric'
-                    }
-                ).format(now);
-
-
-            const jam =
-                new Intl.DateTimeFormat(
-                    'id-ID', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false
-                    }
-                ).format(now);
-
+            const jam = new Intl.DateTimeFormat(
+                'id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                }
+            ).format(currentTime);
 
             if (tanggalElement) {
-
-                tanggalElement.innerText =
-                    tanggal;
-
+                tanggalElement.innerText = tanggal;
             }
-
 
             if (jamElement) {
-
-                jamElement.innerText =
-                    'Waktu pengisian: ' + jam + ' WIB';
-
+                jamElement.innerText = 'Waktu pengisian: ' + jam + ' WIB';
             }
 
+            currentTime.setSeconds(currentTime.getSeconds() + 1);
         }
+
 
 
         updateDateTime();
@@ -2343,37 +2013,37 @@
         }
 
 
-        function updateJumlahTidakHadir() {
+        // function updateJumlahTidakHadir() {
 
-            let jumlah =
-                0;
-
-
-            document
-                .querySelectorAll('.status-siswa')
-                .forEach(select => {
-
-                    if (select.value !== 'hadir') {
-
-                        jumlah++;
-
-                    }
-
-                });
+        //     let jumlah =
+        //         0;
 
 
-            const counter =
-                document.getElementById('jumlahTidakHadir');
+        //     document
+        //         .querySelectorAll('.status-siswa')
+        //         .forEach(select => {
+
+        //             if (select.value !== 'hadir') {
+
+        //                 jumlah++;
+
+        //             }
+
+        //         });
 
 
-            if (counter) {
+        //     const counter =
+        //         document.getElementById('jumlahTidakHadir');
 
-                counter.innerText =
-                    jumlah;
 
-            }
+        //     if (counter) {
 
-        }
+        //         counter.innerText =
+        //             jumlah;
+
+        //     }
+
+        // }
         if (searchSiswa) {
 
             searchSiswa.addEventListener(
@@ -2384,57 +2054,57 @@
         }
 
 
-        if (filterAbsensi) {
+        // if (filterAbsensi) {
 
-            filterAbsensi.addEventListener(
-                'change',
-                filterDaftarSiswa
-            );
+        //     filterAbsensi.addEventListener(
+        //         'change',
+        //         filterDaftarSiswa
+        //     );
 
-        }
-
-
-        document
-            .querySelectorAll('.status-siswa')
-            .forEach(select => {
-
-                select.addEventListener(
-                    'change',
-                    function() {
-
-                        const item =
-                            this.closest('.student-item');
-
-                        if (!item) return;
+        // }
 
 
-                        /* Tandai siswa yang tidak hadir */
+        // document
+        //     .querySelectorAll('.status-siswa')
+        //     .forEach(select => {
 
-                        if (this.value === 'hadir') {
+        //         select.addEventListener(
+        //             'change',
+        //             function() {
 
-                            item.classList.remove(
-                                'border-rose-200',
-                                'bg-rose-50/40'
-                            );
+        //                 const item =
+        //                     this.closest('.student-item');
 
-                        } else {
-
-                            item.classList.add(
-                                'border-rose-200',
-                                'bg-rose-50/40'
-                            );
-
-                        }
+        //                 if (!item) return;
 
 
-                        /* Terapkan filter kembali */
+        //                 /* Tandai siswa yang tidak hadir */
 
-                        filterDaftarSiswa();
+        //                 if (this.value === 'hadir') {
 
-                    }
-                );
+        //                     item.classList.remove(
+        //                         'border-rose-200',
+        //                         'bg-rose-50/40'
+        //                     );
 
-            });
+        //                 } else {
+
+        //                     item.classList.add(
+        //                         'border-rose-200',
+        //                         'bg-rose-50/40'
+        //                     );
+
+        //                 }
+
+
+        //                 /* Terapkan filter kembali */
+
+        //                 filterDaftarSiswa();
+
+        //             }
+        //         );
+
+        //     });
 
 
         updateJumlahTidakHadir();
@@ -3189,51 +2859,51 @@
 
         updateJumlahTidakHadir();
 
-        function closeErrorModal() {
+        // function closeErrorModal() {
 
-            const modal = document.getElementById('errorModal');
+        //     const modal = document.getElementById('errorModal');
 
-            if (!modal) return;
+        //     if (!modal) return;
 
-            modal.classList.add('hidden');
+        //     modal.classList.add('hidden');
 
-        }
+        // }
 
 
         /* SUCCESS MODAL */
 
-        if (session('success'))
-            document.addEventListener('DOMContentLoaded', function() {
+        // if (session('success'))
+        //     document.addEventListener('DOMContentLoaded', function() {
 
-                const modal =
-                    document.getElementById('successModal');
+        //         const modal =
+        //             document.getElementById('successModal');
 
-                if (!modal) return;
+        //         if (!modal) return;
 
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
+        //         modal.classList.remove('hidden');
+        //         modal.classList.add('flex');
 
-            });
-        endif
+        //     });
+        // endif
 
         /* BATAL MODAL */
-        function openCancelConfirm() {
+        // function openCancelConfirm() {
 
-            const modal = document.getElementById('cancelModal');
+        //     const modal = document.getElementById('cancelModal');
 
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+        //     modal.classList.remove('hidden');
+        //     modal.classList.add('flex');
 
-        }
+        // }
 
-        function closeCancelConfirm() {
+        // function closeCancelConfirm() {
 
-            const modal = document.getElementById('cancelModal');
+        //     const modal = document.getElementById('cancelModal');
 
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        //     modal.classList.add('hidden');
+        //     modal.classList.remove('flex');
 
-        }
+        // }
     </script>
 
 </body>
