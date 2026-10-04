@@ -18,7 +18,7 @@ class DispenApprovalController extends Controller
 {
     public function approval(Dispen $dispen, string $token): View
     {
-        $dispen->load(['approvalToken', 'approvalUser', 'siswa', 'kelas']);
+        $dispen->load(['approvalToken', 'approvalUser', 'details.siswa.class']);
 
         if ($dispen->status !== 'pending') {
             return view('dispen.approval-finished', compact('dispen'));
@@ -30,18 +30,30 @@ class DispenApprovalController extends Controller
             abort(404, 'Token approval tidak ditemukan.');
         }
 
-        if (! hash_equals($approvalToken->token_hash, hash('sha256', $token))) {
-            return view('dispen.approval-expired', compact('dispen', 'approvalToken'));
+        $isCurrentToken = hash_equals($approvalToken->token_hash, hash('sha256', $token));
+
+        if (!$isCurrentToken) {
+            return view('dispen.approval-expired', compact('dispen', 'approvalToken', 'isCurrentToken'));
         }
 
         if ($approvalToken->used_at !== null || $approvalToken->expires_at->isPast()) {
-            return view('dispen.approval-expired', compact('dispen', 'approvalToken'));
+            return view('dispen.approval-expired', compact('dispen', 'approvalToken', 'isCurrentToken'));
         }
 
         $approvalUser = $dispen->approvalUser;
 
         if (! $approvalUser || $approvalUser->role !== 'sekre') {
             abort(403, 'User approval tidak valid.');
+        }
+
+        if(auth()->check()){
+            if(auth()->user()->role === 'sekre'){
+                if(auth()->user()->id === $approvalUser->id) return view('dispen.approval-page',compact('dispen'));
+                else return view('sekre.dashboard');
+            }
+            else{
+                abort(403,'User tidak sesuai dengan yang di tunjuk');
+            }
         }
 
         return view('dispen.approval', compact('dispen', 'approvalToken', 'token', 'approvalUser'));
@@ -100,7 +112,7 @@ class DispenApprovalController extends Controller
             return view('dispen.approval-finished', compact('dispen'));
         }
 
-        $dispen->load(['siswa', 'kelas']);
+        $dispen->load(['details.siswa.class']);
 
         return view('dispen.approval-page', compact('dispen'));
     }
@@ -113,7 +125,7 @@ class DispenApprovalController extends Controller
             abort(403, 'User approval tidak valid.');
         }
 
-        $phone = preg_replace('/\D+/', '', $approvalUser->phone ?? '');
+        $phone = preg_replace('/\D+/', '', (string) $approvalUser->phone);
 
         if (! str_starts_with($phone, '62')) {
             abort(422, 'Nomor WhatsApp Sekre tidak valid.');
@@ -149,13 +161,19 @@ class DispenApprovalController extends Controller
             return $newToken;
         });
 
-        $dispen->load(['siswa', 'kelas']);
+        $dispen->load(['details.siswa.class']);
         $approvalUrl = route('dispen.approval', ['dispen' => $dispen, 'token' => $newToken]);
+        $studentLines = $dispen->details->values()->map(fn ($detail, int $index): string => sprintf(
+            '%d. %s - %s',
+            $index + 1,
+            $detail->siswa?->name ?? 'Siswa dihapus',
+            $detail->siswa?->class?->name ?? 'Kelas belum ditentukan'
+        ))->implode("\n");
         $message = "Mohon lakukan approval Dispen.\n"
-            ."Nama Siswa: {$dispen->siswa->name}\n"
-            ."Kelas: {$dispen->kelas->name}\n"
+            ."Tanggal: {$dispen->tgl->locale('id')->translatedFormat('d F Y')}\n"
             ."Kategori: {$dispen->kategori}\n"
             ."Alasan: {$dispen->alasan}\n"
+            ."Daftar Siswa:\n{$studentLines}\n"
             ."Link: {$approvalUrl}\n"
             .'Link berlaku selama 1 jam.';
 
@@ -164,15 +182,11 @@ class DispenApprovalController extends Controller
 
     public function updateStatus(Request $request, Dispen $dispen): JsonResponse
     {
-        $validated = $request->validate([
-            'status' => ['required', Rule::in(['approved', 'rejected'])],
-        ]);
-
         abort_unless(Auth::check(), 401);
         abort_unless(Auth::user()->role === 'sekre', 403);
         abort_unless((int) Auth::id() === (int) $dispen->approval_user_id, 403);
 
-        DB::transaction(function () use ($dispen, $validated): void {
+        $validated = DB::transaction(function () use ($request, $dispen): array {
             $lockedDispen = Dispen::query()->whereKey($dispen->id)->lockForUpdate()->firstOrFail();
 
             if ($lockedDispen->status !== 'pending') {
@@ -183,6 +197,10 @@ class DispenApprovalController extends Controller
                 abort(403, 'Anda bukan Sekre yang ditunjuk untuk approval.');
             }
 
+            $validated = $request->validate([
+                'status' => ['required', Rule::in(['approved', 'rejected'])],
+            ]);
+
             $lockedDispen->update([
                 'status' => $validated['status'],
                 'approved_by' => Auth::id(),
@@ -191,13 +209,15 @@ class DispenApprovalController extends Controller
             DispenApprovalToken::query()->where('dispen_id', $lockedDispen->id)
                 ->lockForUpdate()
                 ->first()?->update(['used_at' => now()]);
+
+            return $validated;
         });
 
         return response()->json([
             'status' => 'success',
             'message' => 'Status dispensasi berhasil diperbarui.',
             'dispen_id' => $dispen->id,
-            'status' => $validated['status'],
+            'decision_status' => $validated['status'],
             'approved_by' => Auth::id(),
         ]);
     }

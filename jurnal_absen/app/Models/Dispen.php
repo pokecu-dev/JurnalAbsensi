@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Dispen extends Model
 {
@@ -12,8 +15,6 @@ class Dispen extends Model
     protected $table = 'dispens';
 
     protected $fillable = [
-        'siswa_id',
-        'class_id',
         'kategori',
         'alasan',
         'tgl',
@@ -28,26 +29,22 @@ class Dispen extends Model
         'tgl' => 'date',
     ];
 
-    public function siswa()
+    public function details(): HasMany
     {
-        return $this->belongsTo(Siswa::class, 'siswa_id');
+        return $this->hasMany(DetailDispen::class, 'dispen_id');
     }
 
-    public function kelas()
-    {
-        return $this->belongsTo(Classes::class, 'class_id');
-    }
-
-    public function approver()
+    public function approver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approved_by');
     }
-    public function approvalToken()
+
+    public function approvalToken(): HasOne
     {
         return $this->hasOne(DispenApprovalToken::class);
     }
 
-    public function approvalUser()
+    public function approvalUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approval_user_id');
     }

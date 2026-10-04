@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DispenApprovalToken extends Model
 {
@@ -20,7 +21,7 @@ class DispenApprovalToken extends Model
         'used_at' => 'datetime',
     ];
 
-    public function dispen()
+    public function dispen(): BelongsTo
     {
         return $this->belongsTo(Dispen::class);
     }

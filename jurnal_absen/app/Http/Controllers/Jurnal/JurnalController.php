@@ -25,7 +25,16 @@ class JurnalController extends Controller
 
         $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
         // return response()->json($jadwal);
-        return view('guru.jurnal', compact('jadwal'));
+
+
+
+        $jurnal = Jurnal::with('jadwal')->where('id_jadwal',$jadwal?->id)->where('tgl',now()->format('Y-m-d'))->first();
+
+        // return response()->json([
+            // $jurnal
+        // ]);
+        
+        return view('guru.jurnal', compact('jadwal','jurnal'));
     }
 
     public function index()

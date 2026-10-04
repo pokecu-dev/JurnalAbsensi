@@ -231,38 +231,38 @@
                     Akun Guru
                 </span>
 
-            <a href="{{ url('/admin/akun') }}"
-                class="flex items-center gap-2 px-2 py-2 rounded-lg
+                <a href="{{ url('/admin/akun') }}"
+                    class="flex items-center gap-2 px-2 py-2 rounded-lg
                         hover:bg-white/10
                         active:scale-[0.98]
                         transition-all duration-200">
-                <i class="fa-solid fa-user-circle w-4"></i>
-                <span>Akun Admin</span>
-            </a>
+                    <i class="fa-solid fa-user-circle w-4"></i>
+                    <span>Akun Admin</span>
+                </a>
 
 
-            <!-- LOGOUT -->
-            <a href="{{ route('logout') }}"
-                class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+                <!-- LOGOUT -->
+                <a href="{{ route('logout') }}"
+                    class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
                     hover:bg-white/10
                     active:scale-[0.98]
                     transition-all duration-200">
-                <i class="fa-solid fa-right-from-bracket w-4"></i>
+                    <i class="fa-solid fa-right-from-bracket w-4"></i>
 
-                <span>
-                    Logout
-                </span>
+                    <span>
+                        Logout
+                    </span>
 
-            </a>
+                </a>
 
         </div>
 
     </aside>
 
     <div
-    id="sidebarOverlay"
-    class="fixed inset-0 bg-black/40 z-40 hidden md:hidden">
-</div>
+        id="sidebarOverlay"
+        class="fixed inset-0 bg-black/40 z-40 hidden md:hidden">
+    </div>
 
     <!-- =========================================================
          MAIN CONTENT
@@ -275,7 +275,7 @@
              MOBILE BACK
         ====================================================== -->
 
-         <header class="mb-5 md:mb-7">
+        <header class="mb-5 md:mb-7">
 
             <div class="flex items-start justify-between gap-3">
 
@@ -294,7 +294,7 @@
                     <div>
 
                         <h1 class="text-xl md:text-2xl font-black tracking-tight">
-                         Jurnal
+                            Jurnal
                         </h1>
 
                         <p class="text-[11px] md:text-xs text-medium-green
@@ -305,115 +305,251 @@
                     </div>
 
                 </div>
-            </div> 
-</header> 
-
-       @if(!$jadwal)
-
-    <div class="bg-white border border-emerald-100 rounded-2xl p-6 text-center shadow-sm">
-        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-50 flex items-center justify-center">
-            <i class="fa-regular fa-calendar-xmark text-medium-green text-lg"></i>
-        </div>
-
-        <h2 class="text-sm font-extrabold text-dark-green">
-            Tidak Ada Jadwal Aktif
-        </h2>
-
-        <p class="text-xs text-gray-500 mt-1">
-            Saat ini tidak ada jadwal mengajar yang sedang berlangsung.
-        </p>
-    </div>
-
-@else
+            </div>
+        </header>
 
         @if(!$jadwal)
-            <div>ih</div>
+
+        <div class="bg-white border border-emerald-100 rounded-2xl p-6 text-center shadow-sm">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-50 flex items-center justify-center">
+                <i class="fa-regular fa-calendar-xmark text-medium-green text-lg"></i>
+            </div>
+
+            <h2 class="text-sm font-extrabold text-dark-green">
+                Tidak Ada Jadwal Aktif
+            </h2>
+
+            <p class="text-xs text-gray-500 mt-1">
+                Saat ini tidak ada jadwal mengajar yang sedang berlangsung.
+            </p>
+        </div>
+        @elseif($jurnal)
+        <div class="bg-white border border-emerald-100 rounded-2xl p-6 text-center shadow-sm">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-50 flex items-center justify-center">
+                <i class="fa-regular fa-calendar-xmark text-medium-green text-lg"></i>
+            </div>
+
+            <h2 class="text-sm font-extrabold text-dark-green">
+                anda sudah mengisi jurnal
+            </h2>
+
+            <p class="text-xs text-gray-500 mt-1">
+                anda sudah mengisi jurnal pada jadwal saat ini.
+            </p>
+        </div>
+
+
+        <!-- @else -->
+
+        <!-- @if(!$jadwal) -->
+        <!-- <div>ih</div> -->
 
         @else
-            <!-- =====================================================
+        <!-- =====================================================
                  INFORMASI SESI
             ====================================================== -->
-            <section
-                class="bg-white rounded-2xl border border-emerald-100 shadow-sm overflow-hidden mb-5">
+        <section
+            class="bg-white rounded-2xl border border-emerald-100 shadow-sm overflow-hidden mb-5">
 
-                <!-- TANGGAL & WAKTU -->
-                <div class="px-4 py-3.5 bg-emerald-50/60 border-b border-emerald-100">
+            <!-- TANGGAL & WAKTU -->
+            <div class="px-4 py-3.5 bg-emerald-50/60 border-b border-emerald-100">
 
-                    <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3">
 
-                        <div
-                            class="w-10 h-10 rounded-xl bg-dark-green text-mint-green flex items-center justify-center shrink-0">
-                            <i class="fa-regular fa-calendar-days"></i>
-                        </div>
+                    <div
+                        class="w-10 h-10 rounded-xl bg-dark-green text-mint-green flex items-center justify-center shrink-0">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </div>
 
-                        <div class="min-w-0">
+                    <div class="min-w-0">
 
-                            <p class="text-[9px] uppercase tracking-wider text-medium-green font-extrabold">
-                                Sesi Mengajar
-                            </p>
+                        <p class="text-[9px] uppercase tracking-wider text-medium-green font-extrabold">
+                            Sesi Mengajar
+                        </p>
 
-                            <p class="text-xs sm:text-sm font-extrabold text-dark-green mt-0.5">
-                                {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
-                            </p>
+                        <p class="text-xs sm:text-sm font-extrabold text-dark-green mt-0.5">
+                            {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                        </p>
 
-                            <p class="text-[10px] sm:text-xs text-gray-500 font-semibold mt-0.5">
-                                Waktu pengisian: {{ now()->format('H.i') }} WIB
-                            </p>
-
-                        </div>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-semibold mt-0.5">
+                            Waktu pengisian: {{ now()->format('H.i') }} WIB
+                        </p>
 
                     </div>
 
                 </div>
 
+            </div>
 
-                <!-- DETAIL JADWAL -->
-                <div class="grid grid-cols-3 gap-px bg-gray-100">
 
-                    <!-- KELAS -->
-                    <div class="bg-white p-3">
+            <!-- DETAIL JADWAL -->
+            <div class="grid grid-cols-3 gap-px bg-gray-100">
 
-                        <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
-                            Kelas
-                        </span>
+                <!-- KELAS -->
+                <div class="bg-white p-3">
 
-                        <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
-                            {{ $jadwal?->classes?->name ?? 'Gak Ada' }}
-                        </p>
+                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
+                        Kelas
+                    </span>
+
+                    <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
+                        {{ $jadwal?->classes?->name ?? 'Gak Ada' }}
+                    </p>
+
+                </div>
+
+
+                <!-- MAPEL -->
+                <div class="bg-white p-3">
+
+                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
+                        Mapel
+                    </span>
+
+                    <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
+                        {{ $jadwal?->mapel?->name ?? '-' }}
+                    </p>
+
+                </div>
+
+
+                <!-- JAM -->
+                <div class="bg-white p-3">
+
+                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
+                        Jam
+                    </span>
+
+                    <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
+
+                        @if($jadwal)
+                        {{ $jadwal->start_time }} - {{ $jadwal->end_time }}
+                        @else
+                        Tidak Aktif
+                        @endif
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+                 FORM UTAMA
+            ====================================================== -->
+        <form id="jurnalForm"
+            method="POST"
+            action="{{ route('guru.jurnal.create') }}"
+            class="space-y-5">
+
+            @csrf
+
+            <input type="hidden"
+                name="jadwal_id"
+                value="{{ $jadwal?->id }}">
+
+
+            <!-- =================================================
+                     STATUS KEHADIRAN GURU
+                ================================================== -->
+            <section
+                class="bg-white p-4 sm:p-5 rounded-2xl border border-emerald-100 shadow-sm">
+
+                <label
+                    for="statusKehadiran"
+                    class="block text-xs font-extrabold text-dark-green mb-2">
+
+                    Kehadiran Guru
+
+                </label>
+
+                <p class="text-[10px] text-gray-400 mb-3">
+                    Pilih kondisi guru pada sesi mengajar ini.
+                </p>
+
+
+                <select
+                    id="statusKehadiran"
+                    name="status_kehadiran"
+                    onchange="handleStatusChange()"
+                    class="w-full bg-white border border-emerald-200 rounded-xl px-4 py-3 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30 cursor-pointer shadow-sm">
+
+                    <option value="hadir" selected>
+                        Hadir — Mengajar
+                    </option>
+
+                    <option value="tidak_hadir_tugas">
+                        Tidak Hadir — Memberikan Tugas
+                    </option>
+
+                    <option value="tidak_hadir_tanpa_tugas">
+                        Tidak Hadir — Perlu Penanganan
+                    </option>
+
+                </select>
+
+            </section>
+
+
+            <!-- =================================================
+                     HADIR
+                ================================================== -->
+            <section
+                id="sectionHadir"
+                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
+
+                <div>
+
+                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+                        <i class="fa-regular fa-pen-to-square text-medium-green"></i>
+                        Detail Kegiatan
+                    </h3>
+
+                    <p class="text-[10px] text-gray-400 mt-1">
+                        Catat materi dan kegiatan yang dilakukan selama pembelajaran.
+                    </p>
+
+                </div>
+
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <!-- MATERI -->
+                    <div>
+
+                        <label
+                            class="block text-xs font-bold text-dark-green mb-1.5">
+
+                            Materi Pembelajaran
+                            <span class="text-rose-500">*</span>
+
+                        </label>
+
+                        <textarea
+                            name="materi"
+                            placeholder="Contoh: Fungsi Linear, Fungsi Kuadrat..."
+                            class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
 
                     </div>
 
 
-                    <!-- MAPEL -->
-                    <div class="bg-white p-3">
+                    <!-- KETERANGAN -->
+                    <div>
 
-                        <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
-                            Mapel
-                        </span>
+                        <label
+                            class="block text-xs font-bold text-dark-green mb-1.5">
 
-                        <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
-                            {{ $jadwal?->mapel?->name ?? '-' }}
-                        </p>
+                            Keterangan / Aktivitas Kelas
 
-                    </div>
+                        </label>
 
-
-                    <!-- JAM -->
-                    <div class="bg-white p-3">
-
-                        <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-gray-400 font-bold">
-                            Jam
-                        </span>
-
-                        <p class="text-[11px] sm:text-xs font-extrabold text-dark-green mt-1 truncate">
-
-                            @if($jadwal)
-                            {{ $jadwal->start_time }} - {{ $jadwal->end_time }}
-                            @else
-                            Tidak Aktif
-                            @endif
-
-                        </p>
+                        <textarea
+                            name="keterangan"
+                            placeholder="Contoh: Diskusi kelompok, latihan soal, tanya jawab..."
+                            class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
 
                     </div>
 
@@ -422,228 +558,107 @@
             </section>
 
 
-            <!-- =====================================================
-                 FORM UTAMA
-            ====================================================== -->
-            <form id="jurnalForm"
-                method="POST"
-                action="{{ route('guru.jurnal.create') }}"
-                class="space-y-5">
-
-                @csrf
-
-                <input type="hidden"
-                    name="jadwal_id"
-                    value="{{ $jadwal?->id }}">
-
-
-                <!-- =================================================
-                     STATUS KEHADIRAN GURU
+            <!-- =================================================
+                     TUGAS
                 ================================================== -->
-                <section
-                    class="bg-white p-4 sm:p-5 rounded-2xl border border-emerald-100 shadow-sm">
+            <section
+                id="sectionTugas"
+                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
+
+                <div>
+
+                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-medium-green"></i>
+                        Tugas untuk Siswa
+                    </h3>
+
+                    <p class="text-[10px] text-gray-400 mt-1">
+                        Digunakan ketika guru tidak hadir tetapi memberikan tugas.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs flex items-start gap-3">
+
+                    <i class="fa-solid fa-circle-info text-base mt-0.5"></i>
+
+                    <div>
+                        Tugas dapat diteruskan kepada pihak yang bertanggung jawab untuk disampaikan kepada siswa.
+                    </div>
+
+                </div>
+
+
+                <div>
 
                     <label
-                        for="statusKehadiran"
-                        class="block text-xs font-extrabold text-dark-green mb-2">
+                        class="block text-xs font-bold text-dark-green mb-1.5">
 
-                        Kehadiran Guru
+                        Instruksi / Deskripsi Tugas
+                        <span class="text-rose-500">*</span>
 
                     </label>
 
-                    <p class="text-[10px] text-gray-400 mb-3">
-                        Pilih kondisi guru pada sesi mengajar ini.
-                    </p>
+                    <textarea
+                        name="instruksi_tugas"
+                        placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
+                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
+
+                </div>
+
+            </section>
 
 
-                    <select
-                        id="statusKehadiran"
-                        name="status_kehadiran"
-                        onchange="handleStatusChange()"
-                        class="w-full bg-white border border-emerald-200 rounded-xl px-4 py-3 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30 cursor-pointer shadow-sm">
-
-                        <option value="hadir" selected>
-                            Hadir — Mengajar
-                        </option>
-
-                        <option value="tidak_hadir_tugas">
-                            Tidak Hadir — Memberikan Tugas
-                        </option>
-
-                        <option value="tidak_hadir_tanpa_tugas">
-                            Tidak Hadir — Perlu Penanganan
-                        </option>
-
-                    </select>
-
-                </section>
-
-
-                <!-- =================================================
-                     HADIR
-                ================================================== -->
-                <section
-                    id="sectionHadir"
-                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
-
-                    <div>
-
-                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                            <i class="fa-regular fa-pen-to-square text-medium-green"></i>
-                            Detail Kegiatan
-                        </h3>
-
-                        <p class="text-[10px] text-gray-400 mt-1">
-                            Catat materi dan kegiatan yang dilakukan selama pembelajaran.
-                        </p>
-
-                    </div>
-
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                        <!-- MATERI -->
-                        <div>
-
-                            <label
-                                class="block text-xs font-bold text-dark-green mb-1.5">
-
-                                Materi Pembelajaran
-                                <span class="text-rose-500">*</span>
-
-                            </label>
-
-                            <textarea
-                                name="materi"
-                                placeholder="Contoh: Fungsi Linear, Fungsi Kuadrat..."
-                                class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
-
-                        </div>
-
-
-                        <!-- KETERANGAN -->
-                        <div>
-
-                            <label
-                                class="block text-xs font-bold text-dark-green mb-1.5">
-
-                                Keterangan / Aktivitas Kelas
-
-                            </label>
-
-                            <textarea
-                                name="keterangan"
-                                placeholder="Contoh: Diskusi kelompok, latihan soal, tanya jawab..."
-                                class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =================================================
-                     TUGAS
-                ================================================== -->
-                <section
-                    id="sectionTugas"
-                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                    <div>
-
-                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-medium-green"></i>
-                            Tugas untuk Siswa
-                        </h3>
-
-                        <p class="text-[10px] text-gray-400 mt-1">
-                            Digunakan ketika guru tidak hadir tetapi memberikan tugas.
-                        </p>
-
-                    </div>
-
-
-                    <div
-                        class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                        <i class="fa-solid fa-circle-info text-base mt-0.5"></i>
-
-                        <div>
-                            Tugas dapat diteruskan kepada pihak yang bertanggung jawab untuk disampaikan kepada siswa.
-                        </div>
-
-                    </div>
-
-
-                    <div>
-
-                        <label
-                            class="block text-xs font-bold text-dark-green mb-1.5">
-
-                            Instruksi / Deskripsi Tugas
-                            <span class="text-rose-500">*</span>
-
-                        </label>
-
-                        <textarea
-                            name="instruksi_tugas"
-                            placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
-                            class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =================================================
+            <!-- =================================================
                      TIDAK HADIR / PERLU PENANGANAN
                 ================================================== -->
-                <section
-                    id="sectionTanpaTugas"
-                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
+            <section
+                id="sectionTanpaTugas"
+                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
+
+                <div>
+
+                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+                        <i class="fa-solid fa-building-user text-medium-green"></i>
+                        Penanganan Kelas
+                    </h3>
+
+                    <p class="text-[10px] text-gray-400 mt-1">
+                        Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
+
+                    <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
 
                     <div>
-
-                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-                            <i class="fa-solid fa-building-user text-medium-green"></i>
-                            Penanganan Kelas
-                        </h3>
-
-                        <p class="text-[10px] text-gray-400 mt-1">
-                            Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
-                        </p>
-
+                        Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
                     </div>
 
-
-                    <div
-                        class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                        <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
-
-                        <div>
-                            Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
-                        </div>
-
-                    </div>
+                </div>
 
 
-                    <div>
+                <div>
 
-                        <label
-                            class="block text-xs font-bold text-dark-green mb-1.5">
+                    <label
+                        class="block text-xs font-bold text-dark-green mb-1.5">
 
-                            Alasan / Keterangan
+                        Alasan / Keterangan
 
-                        </label>
+                    </label>
 
-                        <textarea
-                            name="alasan_kosong"
-                            placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
-                            class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
+                    <textarea
+                        name="alasan_kosong"
+                        placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
+                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
 
-                    </div>
+                </div>
 
                 </div>
 
@@ -913,417 +928,417 @@
 
                     </div>
 
-                </section>
+            </section>
 
-                <!-- =================================================
+            <!-- =================================================
                     DAFTAR SISWA
                 ================================================== -->
 
-                <section
-                    id="sectionTugas"
-                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
+            <section
+                id="sectionTugas"
+                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
 
-                    <div>
+                <div>
 
-                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
 
-                            <i class="fa-solid fa-list-check text-medium-green"></i>
+                        <i class="fa-solid fa-list-check text-medium-green"></i>
 
-                            Tugas untuk Siswa
+                        Tugas untuk Siswa
 
-                        </h3>
+                    </h3>
 
-                        <p class="text-[10px] text-gray-400 mt-1">
-                            Digunakan ketika guru tidak hadir tetapi memberikan tugas.
-                        </p>
-
-                    </div>
-
-
-                    <div
-                        class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                        <i class="fa-solid fa-circle-info text-base mt-0.5"></i>
-
-                        <div>
-                            Tugas dapat diteruskan kepada pihak yang bertanggung jawab untuk disampaikan kepada siswa.
-                        </div>
-
-                    </div>
-
-
-                    <div>
-
-                        <label class="block text-xs font-bold text-dark-green mb-1.5">
-
-                            Instruksi / Deskripsi Tugas
-                            <span class="text-rose-500">*</span>
-
-                        </label>
-
-                        <textarea
-                            name="instruksi_tugas"
-                            id="instruksiTugas"
-                            placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
-                            class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =================================================
-                     TIDAK HADIR / PERLU PENANGANAN
-                ================================================== -->
-
-                <section
-                    id="sectionTanpaTugas"
-                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                    <div>
-
-                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-
-                            <i class="fa-solid fa-building-user text-medium-green"></i>
-
-                            Penanganan Kelas
-
-                        </h3>
-
-                        <p class="text-[10px] text-gray-400 mt-1">
-                            Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
-                        </p>
-
-                    </div>
-
-
-                    <div
-                        class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                        <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
-
-                        <div>
-                            Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
-                        </div>
-
-                    </div>
-
-
-                    <div>
-
-                        <label class="block text-xs font-bold text-dark-green mb-1.5">
-
-                            Alasan / Keterangan
-
-                        </label>
-
-                        <textarea
-                            name="alasan_kosong"
-                            id="alasanKosong"
-                            placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
-                            class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =================================================
-                     ABSENSI SISWA
-                ================================================== -->
-
-                <section
-                    id="sectionAbsensiSiswa"
-                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
-
-                    <div>
-
-                        <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-
-                            <i class="fa-solid fa-users text-medium-green"></i>
-
-                            Absensi Siswa
-
-                        </h3>
-
-                        <p class="text-[10px] text-gray-400 mt-1">
-                            Tandai status kehadiran setiap siswa pada sesi pembelajaran ini.
-                        </p>
-
-                    </div>
-
-
-                    <!-- SEARCH & FILTER -->
-
-                    <div
-                        class="bg-amber-50/60 p-3 sm:p-4 rounded-xl border border-amber-100">
-
-                        <div class="flex flex-col sm:flex-row gap-3">
-
-                            <!-- SEARCH -->
-
-                            <div class="relative flex-1">
-
-                                <i
-                                    class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
-                                </i>
-
-                                <input
-                                    type="text"
-                                    id="searchSiswa"
-                                    placeholder="Cari nama / NISN / no. absen..."
-                                    autocomplete="off"
-                                    class="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs font-semibold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
-
-                            </div>
-
-
-                            <!-- FILTER -->
-
-                            <select
-                                id="filterAbsensi"
-                                class="w-full sm:w-40 bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
-
-                                <option value="semua">
-                                    Semua Siswa
-                                </option>
-
-                                <option value="tidak_hadir">
-                                    Tidak Hadir
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- INFO -->
-
-                        <div class="flex items-center justify-between mt-3 px-1">
-
-                            <p class="text-[10px] text-gray-400">
-                                Default semua siswa dianggap hadir.
-                            </p>
-
-                            <p class="text-[10px] font-bold text-medium-green whitespace-nowrap">
-
-                                Tidak hadir:
-                                <span id="jumlahTidakHadir">0</span>
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- DAFTAR SISWA -->
-
-                    <div
-                        id="studentList"
-                        class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
-
-                        @foreach($jadwal->classes->siswas as $index => $siswa)
-
-                        <div
-                            class="student-item p-3 rounded-xl border border-gray-100 bg-gray-50 transition"
-                            data-nama="{{ strtolower($siswa['name']) }}"
-                            data-nisn=""
-                            data-no-absen="{{ $index + 1 }}"
-                            data-status="hadir">
-
-                            <!-- IDENTITAS -->
-
-                            <div class="flex items-center gap-3 min-w-0">
-
-                                <!-- NOMOR -->
-
-                                <div
-                                    class="w-8 h-8 rounded-lg bg-emerald-100 text-medium-green flex items-center justify-center text-xs font-extrabold shrink-0">
-
-                                    {{ $index + 1 }}
-
-                                </div>
-
-
-                                <!-- NAMA -->
-
-                                <div class="min-w-0 flex-1">
-
-                                    <p class="text-xs font-extrabold text-dark-green truncate">
-                                        {{ $siswa['name'] }}
-                                    </p>
-
-                                    <p class="text-[9px] text-gray-400 mt-0.5">
-                                        Siswa kelas ini
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- STATUS ABSENSI -->
-
-                            <div
-                                class="mt-3 overflow-x-auto pb-1 status-scroll">
-
-                                <div class="flex gap-1.5 min-w-max">
-
-                                    <!-- INPUT TERSEMBUNYI -->
-
-                                    <input
-                                        type="hidden"
-                                        name="absensi[{{ $siswa['id'] }}]"
-                                        value="hadir"
-                                        class="status-input">
-
-
-                                    <!-- HADIR -->
-
-                                    <button
-                                        type="button"
-                                        data-status="hadir"
-                                        class="status-btn active-status px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
-
-                                        Hadir
-
-                                    </button>
-
-
-                                    <!-- SAKIT -->
-
-                                    <button
-                                        type="button"
-                                        data-status="sakit"
-                                        class="status-btn px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
-
-                                        Sakit
-
-                                    </button>
-
-
-                                    <!-- IZIN -->
-
-                                    <button
-                                        type="button"
-                                        data-status="izin"
-                                        class="status-btn px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
-
-                                        Izin
-
-                                    </button>
-
-
-                                    <!-- ALPHA -->
-
-                                    <button
-                                        type="button"
-                                        data-status="alpha"
-                                        class="status-btn px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
-
-                                        Alpha
-
-                                    </button>
-
-
-                                    <!-- DISPEN -->
-
-                                    <button
-                                        type="button"
-                                        data-status="dispen"
-                                        class="status-btn px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
-
-                                        Dispen
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        @endforeach
-
-                    </div>
-
-
-
-                        <i class="fa-solid fa-circle-info text-medium-green text-sm mt-0.5"></i>
-
-                    <!-- INFO BAWAH -->
-
-                    <div
-                        class="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-start gap-3">
-
-                        <i class="fa-solid fa-circle-info text-medium-green text-sm mt-0.5"></i>
-
-                        <p class="text-[10px] text-emerald-800 leading-relaxed">
-
-                            Gunakan pencarian jika siswa yang tidak hadir memiliki nomor
-                            absen di bagian bawah daftar. Kamu tidak perlu menggulir sampai
-                            menemukan siswa tersebut.
-
-                        </p>
-
-                    </div>
-
-                </section>
-
-                <!-- =================================================
-                     ACTION BUTTONS
-                ================================================== -->
-                <div
-                    class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex flex-col gap-2.5 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
-
-                    <!-- BATAL -->
-                    <button
-                        type="button"
-                        onclick="openCancelConfirm()"
-                        class="w-full sm:w-auto px-5 py-3 text-xs font-bold text-gray-500 hover:text-dark-green hover:bg-gray-50 rounded-xl transition order-3 sm:order-1">
-
-                        <i class="fa-solid fa-xmark mr-1"></i>
-                        Batal
-
-                    </button>
-
-
-                    <!-- SIMPAN DRAF -->
-                    <button
-                        type="button"
-                        onclick="openConfirm('draft')"
-                        class="w-full sm:w-auto bg-white text-dark-green border-2 border-medium-green hover:bg-emerald-50 font-bold text-xs px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 order-2">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                        Simpan Draf
-
-                    </button>
-
-
-                    <!-- KIRIM -->
-
-                    <button
-                        type="button"
-                        onclick="openSummary()"
-                        id="btnSubmit"
-                        class="w-full sm:w-auto bg-dark-green hover:bg-medium-green text-white font-bold text-xs px-5 py-3 rounded-xl transition shadow-sm flex items-center justify-center gap-2 order-1 sm:order-3">
-
-                        <i class="fa-regular fa-paper-plane"></i>
-
-                        <span id="textBtnSimpan">
-                            Kirim Jurnal
-                        </span>
-
-                    </button>
+                    <p class="text-[10px] text-gray-400 mt-1">
+                        Digunakan ketika guru tidak hadir tetapi memberikan tugas.
+                    </p>
 
                 </div>
 
 
-        @endif
+                <div
+                    class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs flex items-start gap-3">
 
-        @endif
+                    <i class="fa-solid fa-circle-info text-base mt-0.5"></i>
+
+                    <div>
+                        Tugas dapat diteruskan kepada pihak yang bertanggung jawab untuk disampaikan kepada siswa.
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label class="block text-xs font-bold text-dark-green mb-1.5">
+
+                        Instruksi / Deskripsi Tugas
+                        <span class="text-rose-500">*</span>
+
+                    </label>
+
+                    <textarea
+                        name="instruksi_tugas"
+                        id="instruksiTugas"
+                        placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
+                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                     TIDAK HADIR / PERLU PENANGANAN
+                ================================================== -->
+
+            <section
+                id="sectionTanpaTugas"
+                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
+
+                <div>
+
+                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+
+                        <i class="fa-solid fa-building-user text-medium-green"></i>
+
+                        Penanganan Kelas
+
+                    </h3>
+
+                    <p class="text-[10px] text-gray-400 mt-1">
+                        Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
+
+                    <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
+
+                    <div>
+                        Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label class="block text-xs font-bold text-dark-green mb-1.5">
+
+                        Alasan / Keterangan
+
+                    </label>
+
+                    <textarea
+                        name="alasan_kosong"
+                        id="alasanKosong"
+                        placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
+                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                     ABSENSI SISWA
+                ================================================== -->
+
+            <section
+                id="sectionAbsensiSiswa"
+                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4">
+
+                <div>
+
+                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
+
+                        <i class="fa-solid fa-users text-medium-green"></i>
+
+                        Absensi Siswa
+
+                    </h3>
+
+                    <p class="text-[10px] text-gray-400 mt-1">
+                        Tandai status kehadiran setiap siswa pada sesi pembelajaran ini.
+                    </p>
+
+                </div>
+
+
+                <!-- SEARCH & FILTER -->
+
+                <div
+                    class="bg-amber-50/60 p-3 sm:p-4 rounded-xl border border-amber-100">
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+
+                        <!-- SEARCH -->
+
+                        <div class="relative flex-1">
+
+                            <i
+                                class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
+                            </i>
+
+                            <input
+                                type="text"
+                                id="searchSiswa"
+                                placeholder="Cari nama / NISN / no. absen..."
+                                autocomplete="off"
+                                class="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs font-semibold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
+
+                        </div>
+
+
+                        <!-- FILTER -->
+
+                        <select
+                            id="filterAbsensi"
+                            class="w-full sm:w-40 bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs font-bold text-dark-green outline-none focus:border-medium-green focus:ring-2 focus:ring-mint-green/30">
+
+                            <option value="semua">
+                                Semua Siswa
+                            </option>
+
+                            <option value="tidak_hadir">
+                                Tidak Hadir
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- INFO -->
+
+                    <div class="flex items-center justify-between mt-3 px-1">
+
+                        <p class="text-[10px] text-gray-400">
+                            Default semua siswa dianggap hadir.
+                        </p>
+
+                        <p class="text-[10px] font-bold text-medium-green whitespace-nowrap">
+
+                            Tidak hadir:
+                            <span id="jumlahTidakHadir">0</span>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DAFTAR SISWA -->
+
+                <div
+                    id="studentList"
+                    class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
+
+                    @foreach($jadwal->classes->siswas as $index => $siswa)
+
+                    <div
+                        class="student-item p-3 rounded-xl border border-gray-100 bg-gray-50 transition"
+                        data-nama="{{ strtolower($siswa['name']) }}"
+                        data-nisn=""
+                        data-no-absen="{{ $index + 1 }}"
+                        data-status="hadir">
+
+                        <!-- IDENTITAS -->
+
+                        <div class="flex items-center gap-3 min-w-0">
+
+                            <!-- NOMOR -->
+
+                            <div
+                                class="w-8 h-8 rounded-lg bg-emerald-100 text-medium-green flex items-center justify-center text-xs font-extrabold shrink-0">
+
+                                {{ $index + 1 }}
+
+                            </div>
+
+
+                            <!-- NAMA -->
+
+                            <div class="min-w-0 flex-1">
+
+                                <p class="text-xs font-extrabold text-dark-green truncate">
+                                    {{ $siswa['name'] }}
+                                </p>
+
+                                <p class="text-[9px] text-gray-400 mt-0.5">
+                                    Siswa kelas ini
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS ABSENSI -->
+
+                        <div
+                            class="mt-3 overflow-x-auto pb-1 status-scroll">
+
+                            <div class="flex gap-1.5 min-w-max">
+
+                                <!-- INPUT TERSEMBUNYI -->
+
+                                <input
+                                    type="hidden"
+                                    name="absensi[{{ $siswa['id'] }}]"
+                                    value="hadir"
+                                    class="status-input">
+
+
+                                <!-- HADIR -->
+
+                                <button
+                                    type="button"
+                                    data-status="hadir"
+                                    class="status-btn active-status px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
+
+                                    Hadir
+
+                                </button>
+
+
+                                <!-- SAKIT -->
+
+                                <button
+                                    type="button"
+                                    data-status="sakit"
+                                    class="status-btn px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
+
+                                    Sakit
+
+                                </button>
+
+
+                                <!-- IZIN -->
+
+                                <button
+                                    type="button"
+                                    data-status="izin"
+                                    class="status-btn px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
+
+                                    Izin
+
+                                </button>
+
+
+                                <!-- ALPHA -->
+
+                                <button
+                                    type="button"
+                                    data-status="alpha"
+                                    class="status-btn px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
+
+                                    Alpha
+
+                                </button>
+
+
+                                <!-- DISPEN -->
+
+                                <button
+                                    type="button"
+                                    data-status="dispen"
+                                    class="status-btn px-3 py-2 rounded-lg border text-[10px] font-bold whitespace-nowrap transition">
+
+                                    Dispen
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+                <i class="fa-solid fa-circle-info text-medium-green text-sm mt-0.5"></i>
+
+                <!-- INFO BAWAH -->
+
+                <div
+                    class="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-start gap-3">
+
+                    <i class="fa-solid fa-circle-info text-medium-green text-sm mt-0.5"></i>
+
+                    <p class="text-[10px] text-emerald-800 leading-relaxed">
+
+                        Gunakan pencarian jika siswa yang tidak hadir memiliki nomor
+                        absen di bagian bawah daftar. Kamu tidak perlu menggulir sampai
+                        menemukan siswa tersebut.
+
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- =================================================
+                     ACTION BUTTONS
+                ================================================== -->
+            <div
+                class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex flex-col gap-2.5 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
+
+                <!-- BATAL -->
+                <button
+                    type="button"
+                    onclick="openCancelConfirm()"
+                    class="w-full sm:w-auto px-5 py-3 text-xs font-bold text-gray-500 hover:text-dark-green hover:bg-gray-50 rounded-xl transition order-3 sm:order-1">
+
+                    <i class="fa-solid fa-xmark mr-1"></i>
+                    Batal
+
+                </button>
+
+
+                <!-- SIMPAN DRAF -->
+                <button
+                    type="button"
+                    onclick="openConfirm('draft')"
+                    class="w-full sm:w-auto bg-white text-dark-green border-2 border-medium-green hover:bg-emerald-50 font-bold text-xs px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 order-2">
+
+                    <i class="fa-regular fa-bookmark"></i>
+
+                    Simpan Draf
+
+                </button>
+
+
+                <!-- KIRIM -->
+
+                <button
+                    type="button"
+                    onclick="openSummary()"
+                    id="btnSubmit"
+                    class="w-full sm:w-auto bg-dark-green hover:bg-medium-green text-white font-bold text-xs px-5 py-3 rounded-xl transition shadow-sm flex items-center justify-center gap-2 order-1 sm:order-3">
+
+                    <i class="fa-regular fa-paper-plane"></i>
+
+                    <span id="textBtnSimpan">
+                        Kirim Jurnal
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            @endif
+
+            @endif
     </main>
 
 
@@ -1499,7 +1514,7 @@
                     <span
                         class="text-[10px] font-extrabold text-dark-green text-right">
 
-                       {{ $jadwal?->start_time ?? '-' }} - {{ $jadwal?->end_time ?? '-' }}
+                        {{ $jadwal?->start_time ?? '-' }} - {{ $jadwal?->end_time ?? '-' }}
 
                     </span>
 
@@ -1791,7 +1806,7 @@
 
                 </a>
 
-                
+
 
 
                 <a
@@ -2049,8 +2064,7 @@
 
             const tanggal =
                 new Intl.DateTimeFormat(
-                    'id-ID',
-                    {
+                    'id-ID', {
                         weekday: 'long',
                         day: 'numeric',
                         month: 'long',
@@ -2061,8 +2075,7 @@
 
             const jam =
                 new Intl.DateTimeFormat(
-                    'id-ID',
-                    {
+                    'id-ID', {
                         hour: '2-digit',
                         minute: '2-digit',
                         second: '2-digit',
@@ -2144,20 +2157,14 @@
                 textBtnSimpan.innerText =
                     'Kirim Jurnal';
 
-            }
-
-
-            else if (status === 'tidak_hadir_tugas') {
+            } else if (status === 'tidak_hadir_tugas') {
 
                 sectionTugas.classList.remove('hidden');
 
                 textBtnSimpan.innerText =
                     'Kirim Tugas';
 
-            }
-
-
-            else if (status === 'tidak_hadir_tanpa_tugas') {
+            } else if (status === 'tidak_hadir_tanpa_tugas') {
 
                 sectionTanpaTugas.classList.remove('hidden');
 
@@ -2193,7 +2200,7 @@
 
                 button.addEventListener(
                     'click',
-                    function () {
+                    function() {
 
                         const item =
                             this.closest('.student-item');
@@ -2508,14 +2515,14 @@
 
 
             document.getElementById(
-                'summaryTanggal'
-            ).innerText =
+                    'summaryTanggal'
+                ).innerText =
                 tanggal;
 
 
             document.getElementById(
-                'summaryJam'
-            ).innerText =
+                    'summaryJam'
+                ).innerText =
                 jam.replace('Waktu pengisian: ', '');
 
 
@@ -2532,8 +2539,8 @@
 
 
             document.getElementById(
-                'summaryStatusGuru'
-            ).innerText =
+                    'summaryStatusGuru'
+                ).innerText =
                 statusText;
 
 
@@ -2544,8 +2551,8 @@
 
 
             document.getElementById(
-                'summaryMateri'
-            ).innerText =
+                    'summaryMateri'
+                ).innerText =
                 materi || 'Belum diisi';
 
 
@@ -2556,8 +2563,8 @@
 
 
             document.getElementById(
-                'summaryKeterangan'
-            ).innerText =
+                    'summaryKeterangan'
+                ).innerText =
                 keterangan || '-';
 
             /* =================================================
@@ -2623,7 +2630,7 @@
 
                         dispen: 'Dispen'
 
-                    }[status] || status;
+                    } [status] || status;
 
 
                     const row =
@@ -2665,14 +2672,14 @@
 
 
             document.getElementById(
-                'summaryHadir'
-            ).innerText =
+                    'summaryHadir'
+                ).innerText =
                 jumlahHadir;
 
 
             document.getElementById(
-                'summaryTidakHadir'
-            ).innerText =
+                    'summaryTidakHadir'
+                ).innerText =
                 jumlahTidakHadir;
 
 
@@ -2801,7 +2808,7 @@
             .getElementById('summaryModal')
             ?.addEventListener(
                 'click',
-                function (event) {
+                function(event) {
 
                     if (event.target === this) {
 
@@ -2956,7 +2963,7 @@
 
         document.addEventListener(
             'keydown',
-            function (event) {
+            function(event) {
 
                 if (event.key !== 'Escape') return;
 
@@ -3040,8 +3047,7 @@
 
         window.addEventListener(
             'scroll',
-            updateScrollIndicator,
-            {
+            updateScrollIndicator, {
                 passive: true
             }
         );
@@ -3070,8 +3076,7 @@
 
             window.scrollTo({
 
-                top:
-                    document.documentElement.scrollHeight,
+                top: document.documentElement.scrollHeight,
 
                 behavior: 'smooth'
 
@@ -3109,7 +3114,7 @@
 
         document.addEventListener(
             'DOMContentLoaded',
-            function () {
+            function() {
 
                 const modal =
                     document.getElementById(
@@ -3197,18 +3202,18 @@
 
         /* SUCCESS MODAL */
 
-        if(session('success'))
-        document.addEventListener('DOMContentLoaded', function() {
+        if (session('success'))
+            document.addEventListener('DOMContentLoaded', function() {
 
-            const modal =
-                document.getElementById('successModal');
+                const modal =
+                    document.getElementById('successModal');
 
-            if (!modal) return;
+                if (!modal) return;
 
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
 
-        });
+            });
         endif
 
         /* BATAL MODAL */
