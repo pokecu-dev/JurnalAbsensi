@@ -1,7 +1,7 @@
 @php
 use Illuminate\Support\Carbon;
 
-Carbon::setTestNow('2026-10-05 09:00:00');
+Carbon::setTestNow('2026-10-06 13:00:00');
 @endphp
 <!DOCTYPE html>
 <html lang="id" class="overscroll-none">
@@ -15,6 +15,8 @@ Carbon::setTestNow('2026-10-05 09:00:00');
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
 
     <script>
         tailwind.config = {
