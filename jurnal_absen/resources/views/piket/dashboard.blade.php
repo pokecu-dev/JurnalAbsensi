@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guru Piket - Jurnal Absensi</title>
+    <title>Guru Piket</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -554,7 +554,7 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-xs font-extrabold">Siswa Terlambat</p>
-                            <p class="text-[10px] text-violet-100 mt-0.5">Surat izin masuk kelas + TTD Waka</p>
+                            <p class="text-[10px] text-violet-100 mt-0.5">Surat izin masuk kelas</p>
                         </div>
                         <i class="fa-solid fa-chevron-right text-xs shrink-0"></i>
                     </div>
@@ -1921,7 +1921,7 @@ function guruDetailHtml(g) {
 
             let aksi = `<button type="button" onclick="lihatSuratTelat(${s.id})" class="flex-1 rounded-lg border border-gray-300 bg-white py-2 text-[10px] font-bold text-gray-600 hover:bg-gray-50 transition"><i class="fa-regular fa-file-lines mr-1"></i>Lihat Surat</button>`;
             if (st === 'menunggu') {
-                aksi += `<button type="button" onclick="mintaTtdWaka(${s.id})" class="flex-1 rounded-lg bg-emerald-600 py-2 text-[10px] font-bold text-white hover:bg-emerald-700 transition"><i class="fa-brands fa-whatsapp mr-1"></i>Minta TTD Waka</button>`;
+                aksi += `<button type="button" onclick="mintaTtdWaka(${s.id})" class="flex-1 rounded-lg bg-emerald-600 py-2 text-[10px] font-bold text-white hover:bg-emerald-700 transition"><i class="fa-brands fa-whatsapp mr-1"></i></button>`;
             } else if (st === 'lengkap') {
                 aksi += `<button type="button" onclick="kirimSuratTelat(${s.id})" class="flex-1 rounded-lg bg-dark-green py-2 text-[10px] font-bold text-white hover:bg-medium-green transition"><i class="fa-solid fa-paper-plane mr-1"></i>Kirim ke Guru &amp; Sekre</button>`;
             }
@@ -1970,10 +1970,7 @@ function guruDetailHtml(g) {
             if (konfirmasi > 0) {
                 badge.textContent = `${konfirmasi} Perlu Dikonfirmasi`;
                 badge.className = 'bg-red-50 text-red-700 px-2.5 py-1 rounded-lg text-[9px] font-extrabold shrink-0';
-            } else if (menungguWaka > 0) {
-                badge.textContent = `${menungguWaka} Menunggu TTD Waka`;
-                badge.className = 'bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg text-[9px] font-extrabold shrink-0';
-            } else {
+            }else {
                 badge.textContent = `${belum.length} Belum Kembali`;
                 badge.className = (belum.length === 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700') + ' px-2.5 py-1 rounded-lg text-[9px] font-extrabold shrink-0';
             }
@@ -2154,7 +2151,7 @@ function guruDetailHtml(g) {
             closeLate();
             absenTab = 'telat';
             renderAbsen();
-            showToast(`Surat ${kelas} tersimpan. Menunggu TTD Waka.`);
+            showToast(`Surat ${kelas} tersimpan.`);
         }
 
         /* ----- Aksi surat ----- */
@@ -2286,21 +2283,12 @@ Mohon tanda tangan Waka piket (${wakaHariIni()}) di aplikasi Jurnal Absensi.`;
             return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
 
-// Dummy. Nanti ganti dengan pencarian ke database (siswa dari SEMUA kelas).
-const DATA_SISWA = [
-    { id: 1,  nama: 'Ahmad Fauzan',   kelas: 'XI DKV 2' },
-    { id: 2,  nama: 'Citra Ayu',      kelas: 'XI DKV 2' },
-    { id: 3,  nama: 'Dewi Lestari',   kelas: 'XI DKV 2' },
-    { id: 4,  nama: 'Bagas Setiawan', kelas: 'XI PPLG 1' },
-    { id: 5,  nama: 'Dimas Prasetyo', kelas: 'XI PPLG 1' },
-    { id: 6,  nama: 'Rina Marlina',   kelas: 'XI TKI 2' },
-    { id: 7,  nama: 'Budi Santoso',   kelas: 'XI TKJ 2' },
-    { id: 8,  nama: 'Siti Nurhaliza', kelas: 'XII DKV 1' },
-    { id: 9,  nama: 'Eko Prasetyo',   kelas: 'XII RPL 2' },
-    { id: 10, nama: 'Gita Permata',   kelas: 'X DKV 1' },
-    { id: 11, nama: 'Hendra Wijaya',  kelas: 'X TKJ 2' },
-    { id: 12, nama: 'Indah Sari',     kelas: 'XII TKJ 1' },
-];
+        function openDispensasiModal() {
+            const modal = document.getElementById('dispensasiModal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
 
             ['dispenKegiatan', 'dispenNote', 'dispenSearch'].forEach(id => document.getElementById(id).value = '');
             const hariIni = todayISO();
@@ -2560,13 +2548,6 @@ Jumlah: ${dispenSiswa.length} siswa (${jumlahKelas} kelas)
 
 Daftar siswa:
 ${daftarSiswa}
-<<<<<<< HEAD
-
-Catatan: ${note || '-'}
-Foto surat dapat dilihat di aplikasi Jurnal Absensi.
-
-Diajukan oleh Guru Piket. Mohon persetujuan Bapak/Ibu Waka Kesiswaan.`;
-=======
 
 Catatan: ${note || '-'}
 Foto surat dapat dilihat di aplikasi Jurnal Absensi.
@@ -2577,12 +2558,6 @@ Diajukan oleh Guru Piket. Mohon persetujuan Bapak/Ibu Waka Kesiswaan.`;
             closeDispensasiModal();
             window.open(waUrl, '_blank');
         }
->>>>>>> feat/piket
-
-    const waUrl = `https://wa.me/${WAKA_WA_NUMBER}?text=${encodeURIComponent(pesan)}`;
-    closeDispensasiModal();
-    window.open(waUrl, '_blank');
-}
 
 function updateDispenCount() {
     const pending = document.querySelectorAll('.dispensasi-item[data-status="Menunggu Persetujuan"]').length;

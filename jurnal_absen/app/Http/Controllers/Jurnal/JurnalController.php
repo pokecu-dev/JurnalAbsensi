@@ -21,9 +21,12 @@ class JurnalController extends Controller
     {
 
         // Carbon::setTestNow('2026-09-18 13:00:00');
-        Carbon::setTestNow('2026-10-05 09:00:00');
+        Carbon::setTestNow('2026-10-06 13:10:00');
 
-        $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
+        // $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
+        $jadwal = Jadwal::GetJadwalBy(4,null,['teacher', 'classes.siswas', 'mapel']);
+        // $jadwal = Jadwal::all();
+
         // return response()->json($jadwal);
 
 
@@ -32,8 +35,9 @@ class JurnalController extends Controller
 
 
         // return response()->json([
-        //     $jurnal,
-        //     now()->format('Y-m-d')
+        //     // $jurnal,
+        //     now()->format('Y-m-d'),
+        //     $jadwal
         // ]);
         
         return view('guru.jurnal', compact('jadwal','jurnal'));

@@ -98,15 +98,14 @@
                 <span>Akun</span>
             </a>
              <!-- LOGOUT -->
-           <a href="{{ route('logout') }}"
-            class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
-                    hover:bg-white/10
-                    active:scale-[0.98]
-                    transition-all duration-200">
-                    <i class="fa-solid fa-right-from-bracket w-4"></i>
-                    <span>Logout</span>
-                </button>
-            </form>
+            <a href="{{ route('logout') }}"
+                class="w-full flex items-center gap-2 px-2 py-2 rounded-lg
+                       hover:bg-white/10
+                       active:scale-[0.98]
+                       transition-all duration-200">
+                <i class="fa-solid fa-right-from-bracket w-4"></i>
+                <span>Logout</span>
+            </a>
         </div>
     </aside>
 
@@ -260,11 +259,12 @@
         sidebar.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { if (window.innerWidth < 768) closeSidebar(); }));
         window.addEventListener('resize', () => { if (window.innerWidth >= 768) { sidebarOverlay.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); } });
 
-         /* ===== MOBILE SCROLL HELPER ===== */
+        /* ===== MOBILE SCROLL HELPER ===== */
         const scrollIndicator = document.getElementById('scrollIndicator');
 
         function updateScrollIndicator() {
             if (!scrollIndicator) return;
+
             const scrollTop = window.scrollY || window.pageYOffset;
             const documentHeight = document.documentElement.scrollHeight;
             const windowHeight = window.innerHeight;
@@ -274,14 +274,12 @@
                 scrollIndicator.style.top = '0px';
                 return;
             }
-        }
-        updateLiveTime();
-        setInterval(updateLiveTime, 1000);
 
-            const trackHeight = 112; // h-28
-            const indicatorHeight = 32; // h-8
+            const trackHeight = 112;      // h-28
+            const indicatorHeight = 32;   // h-8
             const maxTop = trackHeight - indicatorHeight;
             const progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+
             scrollIndicator.style.top = `${progress * maxTop}px`;
         }
 
@@ -291,9 +289,14 @@
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
         function scrollToBottom() {
-            window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
+            });
         }
+
         updateScrollIndicator();
 
         const ME = 'Arif Setyobudi, S.Pd'; // nama guru piket yang login (dummy)

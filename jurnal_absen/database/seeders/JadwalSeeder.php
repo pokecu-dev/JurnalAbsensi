@@ -18,12 +18,12 @@ class JadwalSeeder extends Seeder
 
 
         DB::table('jadwals')->insert([
-                    'teacher_id' => 3,
+                    'teacher_id' => 4,
                     'class_id' => 8,
                     'mapel_id' => 1,
-                    'day' => 'kamis',
+                    'day' => 'selasa',
                     'start_time' => 3,
-                    'end_time' => 13,
+                    'end_time' => 10,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

@@ -105,8 +105,7 @@
                     transition-all duration-200">
                     <i class="fa-solid fa-right-from-bracket w-4"></i>
                     <span>Logout</span>
-                </button>
-            </form>
+                </a>
         </div>
     </aside>
 
