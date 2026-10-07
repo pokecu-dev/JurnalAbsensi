@@ -133,10 +133,11 @@
                         Jadwal Berikutnya
                     </span>
                     <h2 class="text-lg sm:text-xl md:text-2xl font-black tracking-wide leading-tight text-white">
-                        XI RPL 2
+                        {{$jadwal?->classes?->name ?? '-'}}
                     </h2>
                     <p class="text-xs text-gray-300 font-semibold mt-0.5">
-                        MATEMATIKA                   
+                            {{ $jadwal?->mapel?->name ?? '-' }}
+             
                      </p>
                 </div>
 

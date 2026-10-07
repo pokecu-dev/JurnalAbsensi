@@ -22,21 +22,25 @@ class JurnalController extends Controller
 
         // Carbon::setTestNow('2026-09-18 13:00:00');
         Carbon::setTestNow('2026-10-06 13:10:00');
+        Carbon::setTestNow('2026-10-06 14:10:00');
 
-        // $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
-        $jadwal = Jadwal::GetJadwalBy(4,null,['teacher', 'classes.siswas', 'mapel']);
+
+        $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
+        // $jadwal = Jadwal::GetJadwalBy(4,null,['teacher', 'classes.siswas', 'mapel']);
         // $jadwal = Jadwal::all();
+        // Carbon::setTestNow('2026-10-05 09:00:00');
 
         // return response()->json($jadwal);
 
 
-        $jurnal = Jurnal::with('jadwal')->where('id_jadwal',$jadwal?->id)->where('tgl',now()->format('Y-m-d'))->first();
+        $jurnal = Jurnal::with('jadwal')->where('id_jadwal',$jadwal->id)->where('tgl',now()->format('Y-m-d'))->first();
         // $jurnal = Jurnal::with('jadwal')->where('id_jadwal',$jadwal?->id)->get();
 
 
         // return response()->json([
-        //     // $jurnal,
-        //     now()->format('Y-m-d'),
+        //     $jurnal,
+        //     // now()->format('Y-m-d'),
+        //     now(),
         //     $jadwal
         // ]);
         
@@ -45,11 +49,14 @@ class JurnalController extends Controller
 
     public function index()
     {
-        return response()->json([
-            'alo' => 'iyah',
-            'data' => Jurnal::with(['teacher', 'kelas.siswas', 'mapel'])->get()
-            // 'data' => Jadwal::with('teacher')->get()
-        ]);
+        // return response()->json([
+        //     // 'alo' => 'iyah',
+        //     'data' => Jurnal::with(['teacher', 'kelas.siswas', 'mapel'])->get()
+        //     // 'data' => Jadwal::with('teacher')->get()
+        // ]);
+        $jadwal = Jadwal::GetJadwalBy(auth()->id(),1, ['teacher', 'classes.siswas', 'mapel']);
+
+        // return view('guru.dashboard',compact('jadwal'))
     }
 
     public function create(Request $request)

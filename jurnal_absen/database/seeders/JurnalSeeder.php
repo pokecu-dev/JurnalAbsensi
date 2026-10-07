@@ -16,10 +16,10 @@ class JurnalSeeder extends Seeder
     public function run(): void
     {
 
-        $jadwal = DB::table('jadwals')->where('id',1)->first();
+        $jadwal = DB::table('jadwals')->where('id',5)->first();
 
         DB::table('jurnals')->insert([
-            ['id_jadwal' => 1,'teacher_id' => $jadwal->teacher_id,'class_id' => $jadwal->class_id,'mapel_id' => $jadwal->mapel_id,'start_time' => $jadwal->start_time,'end_time' => $jadwal->end_time, 'tgl' => now(), 'materi' => 'smth', 'catatan' => 'kondusif', 'guru' => 'hadir', 'status' => 'pending', 'foto' => '-'],
+            ['id_jadwal' => 5,'teacher_id' => $jadwal->teacher_id,'class_id' => $jadwal->class_id,'mapel_id' => $jadwal->mapel_id,'start_time' => $jadwal->start_time,'end_time' => $jadwal->end_time, 'tgl' => now(), 'materi' => 'smth', 'catatan' => 'kondusifd', 'guru' => 'hadir', 'status' => 'pending', 'foto' => '-'],
         ]);
 
         DB::table('detail_jurnals')->insert([
