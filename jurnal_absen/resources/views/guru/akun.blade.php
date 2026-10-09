@@ -35,14 +35,14 @@
     <!-- ============================================================= -->
     <!-- MOBILE HEADER -->
     <!-- ============================================================= -->
-    <div class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+    <div class="md:hidden bg-dark-green text-white p-4 flex items-center gap-3 sticky top-0 z-40 shadow-sm">
+        <button id="hamburgerBtn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none" aria-label="Buka menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
         <div class="flex items-center gap-2">
             <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
             <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
         </div>
-        <button id="hamburgerBtn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
-            <i class="fa-solid fa-bars"></i>
-        </button>
     </div>
 
     <!-- MOBILE OVERLAY -->
@@ -54,6 +54,11 @@
     <aside id="sidebar"
         class="fixed inset-y-0 left-0 w-60 bg-dark-green text-white p-6 flex flex-col justify-between z-50
                -translate-x-full md:translate-x-0 transition-transform duration-300">
+
+        <button id="sidebarCloseBtn" type="button" aria-label="Tutup menu"
+            class="md:hidden absolute top-4 right-4 w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
 
         <div>
             <!-- LOGO -->
@@ -87,7 +92,7 @@
             <a href="{{ url('/guru/akun') }}"
                 class="flex items-center gap-2 px-2 py-2 bg-white/10 text-mint-green rounded-lg active:scale-[0.98] transition-all duration-200">
                 <i class="fa-solid fa-user-circle w-4"></i>
-                <span>Akun Saya</span>
+                <span>Profil</span>
             </a>
             <a href="{{ route('logout') }}"
                 class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
@@ -103,9 +108,21 @@
     <main class="min-w-0 min-h-screen p-4 pb-12 md:p-8 md:ml-60 max-w-full md:max-w-[calc(100%-15rem)]">
 
         <!-- HEADER -->
-        <div class="max-w-4xl mx-auto mb-6">
-            <h1 class="text-2xl md:text-3xl font-black text-dark-green">Akun Guru Pengajar</h1>
-            <p class="text-xs md:text-sm text-gray-500 mt-1">Informasi akun dan identitas Guru Pengajar.</p>
+        <div class="max-w-4xl mx-auto mb-6 flex items-start justify-between gap-3">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-black text-dark-green">Akun Guru Pengajar</h1>
+                <p class="text-xs md:text-sm text-gray-500 mt-1">Informasi akun dan identitas Guru Pengajar.</p>
+            </div>
+
+            <!-- JAM LIVE (DESKTOP) -->
+            <div class="hidden md:block text-right leading-tight shrink-0">
+                <div id="live-date" class="text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">
+                    {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                </div>
+                <div id="live-clock" class="text-xs font-extrabold text-dark-green mt-0.5">
+                    {{ now()->format('H.i') }} WIB
+                </div>
+            </div>
         </div>
 
         <!-- ===================================================== -->
@@ -269,6 +286,8 @@
         }
         if (hamburgerBtn) hamburgerBtn.addEventListener('click', openSidebar);
         if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+        if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
         if (sidebar) {
             sidebar.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
@@ -282,6 +301,26 @@
                 document.body.classList.remove('overflow-hidden');
             }
         });
+
+        /* ===== JAM LIVE (HEADER) — otomatis update tiap detik ===== */
+        function updateLiveTime() {
+            const now = new Date();
+            const dateEl = document.getElementById('live-date');
+            const clockEl = document.getElementById('live-clock');
+
+            if (dateEl) {
+                dateEl.textContent = now.toLocaleDateString('id-ID', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+            }
+            if (clockEl) {
+                const jam = String(now.getHours()).padStart(2, '0');
+                const menit = String(now.getMinutes()).padStart(2, '0');
+                clockEl.textContent = `${jam}.${menit} WIB`;
+            }
+        }
+        updateLiveTime();
+        setInterval(updateLiveTime, 1000);
 
         /* ===== MOBILE SCROLL HELPER ===== */
         const scrollIndicator = document.getElementById('scrollIndicator');

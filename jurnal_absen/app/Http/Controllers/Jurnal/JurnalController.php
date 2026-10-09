@@ -20,11 +20,6 @@ class JurnalController extends Controller
     public function form()
     {
 
-        // Carbon::setTestNow('2026-09-18 13:00:00');
-        Carbon::setTestNow('2026-10-06 13:10:00');
-        Carbon::setTestNow('2026-10-06 14:10:00');
-
-
         $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
         // $jadwal = Jadwal::GetJadwalBy(4,null,['teacher', 'classes.siswas', 'mapel']);
         // $jadwal = Jadwal::all();
@@ -33,7 +28,9 @@ class JurnalController extends Controller
         // return response()->json($jadwal);
 
 
-        $jurnal = Jurnal::with('jadwal')->where('id_jadwal',$jadwal->id)->where('tgl',now()->format('Y-m-d'))->first();
+        $jurnal = $jadwal
+            ? Jurnal::with('jadwal')->where('id_jadwal', $jadwal->id)->where('tgl', now()->format('Y-m-d'))->first()
+            : null;
         // $jurnal = Jurnal::with('jadwal')->where('id_jadwal',$jadwal?->id)->get();
 
 

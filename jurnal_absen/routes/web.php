@@ -5,8 +5,8 @@ use App\Http\Controllers\JadwalPiketController;
 use App\Http\Controllers\Jurnal\DispenApprovalController;
 use App\Http\Controllers\Jurnal\DispenController;
 use App\Http\Controllers\Jurnal\JurnalController;
-use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
 use App\Http\Controllers\MapelController;
+use App\Http\Controllers\Sekretaris\JurnalController as SekreJurnal;
 use App\Models\Jadwal;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -135,6 +135,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         )->name('guru.jurnal.detail');
 
         Route::view(
+            '/guru/riwayat',
+            'guru/riwayat'
+        )->name('guru.riwayat');
+
+        Route::view(
             '/guru/akun',
             'guru/akun'
         )->name('guru.akun');
@@ -147,11 +152,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::view('/piket/dispensasi', 'piket/dispensasi')->name('piket.dispensasi');
         Route::view('/piket/jadwal', 'piket/jadwal')->name('piket.jadwal');
         Route::view('/piket/jurnal', 'piket/jurnal')->name('piket.jurnal');
-         Route::view('/piket/akun', 'piket/akun')->name('piket.akun');
-
-
-
-
+        Route::view('/piket/akun', 'piket/akun')->name('piket.akun');
 
     });
 
@@ -173,8 +174,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('sekre.status-validasi');
     });
 });
-
-
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

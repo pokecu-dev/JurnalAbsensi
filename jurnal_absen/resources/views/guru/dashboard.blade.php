@@ -25,14 +25,14 @@
 </head>
 <body class="bg-bg-cream text-dark-green font-sans min-h-screen overflow-x-hidden overscroll-none w-full">      
     <!-- MOBILE HEADER -->
-    <div class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+    <div class="md:hidden bg-dark-green text-white p-4 flex items-center gap-3 sticky top-0 z-40 shadow-sm">
+        <button id="hamburgerBtn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none" aria-label="Buka menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
         <div class="flex items-center gap-2">
             <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
             <span class="font-bold text-sm tracking-wide">Jurnal Absensi</span>
         </div>
-        <button id="hamburgerBtn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
-            <i class="fa-solid fa-bars"></i>
-        </button>
     </div>
 
     <!-- SIDEBAR OVERLAY (MOBILE) -->
@@ -42,6 +42,11 @@
     <aside id="sidebar"
         class="fixed inset-y-0 left-0 w-60 md:w-56 bg-dark-green text-white p-6 flex flex-col justify-between z-50 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
 
+        <button id="sidebarCloseBtn" type="button" aria-label="Tutup menu"
+            class="md:hidden absolute top-4 right-4 w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
         <div>
             <div class="flex flex-col items-center gap-2 mb-10 text-center">
                 <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-16 h-auto">
@@ -50,9 +55,7 @@
 
             <nav class="flex flex-col gap-5 font-semibold text-xs">
 
-                <!-- UTAMA -->
                 <div>
-                    <div class="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider mb-2 px-2">Utama</div>
                     <div class="space-y-1">
                 <a href="{{ url('/guru/dashboard') }}"
                     class="flex items-center gap-3 px-4 py-3 bg-white/10 text-mint-green rounded-xl transition active:scale-[0.98]">
@@ -81,7 +84,7 @@
             <a href="{{ url('/guru/akun') }}"
                 class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
                 <i class="fa-solid fa-user-circle w-4"></i>
-                <span>Akun Guru</span>
+                <span>Profil</span>
             </a>
 
             <a href="{{ route('logout') }}"
@@ -237,7 +240,7 @@
         <div class="flex items-center justify-between mb-4">
             <div>
                 <h3 class="text-sm md:text-base font-extrabold text-dark-green">
-                    Status Validasi Jurnal
+                    Status Persetujuan Jurnal                
                 </h3>
 
                 <p class="text-[10px] md:text-xs text-gray-400 mt-0.5">
@@ -279,8 +282,7 @@
                     </div>
 
                     <span class="shrink-0 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[9px] font-bold">
-                        Tervalidasi
-                    </span>
+Sudah Dikonfirmasi                    </span>
 
                 </div>
 
@@ -324,7 +326,7 @@
                     </div>
 
                     <span class="shrink-0 px-2 py-1 rounded-full bg-amber-100 text-amber-700 text-[9px] font-bold">
-                        Menunggu
+                        Menunggu Dikonfirmasi
                     </span>
 
                 </div>
@@ -369,7 +371,7 @@
                     </div>
 
                     <span class="shrink-0 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[9px] font-bold">
-                        Tervalidasi
+                        Sudah Dikonfirmasi
                     </span>
 
                 </div>
@@ -432,7 +434,7 @@
 
                         <td class="p-3">
                             <span class="text-emerald-600 font-bold">
-                                Tervalidasi
+                                Sudah Dikonfirmasi
                             </span>
                         </td>
 
@@ -463,7 +465,7 @@
 
                         <td class="p-3">
                             <span class="text-amber-500 font-bold">
-                                Menunggu Validasi
+                                Menunggu Dikonfirmasi
                             </span>
                         </td>
 
@@ -494,7 +496,7 @@
 
                         <td class="p-3">
                             <span class="text-emerald-600 font-bold">
-                                Tervalidasi
+                                Sudah Dikonfirmasi
                             </span>
                         </td>
 
@@ -634,6 +636,8 @@
 
         if (hamburgerBtn) hamburgerBtn.addEventListener('click', openSidebar);
         if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+        if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
 
         if (sidebar) {
             sidebar.querySelectorAll('a').forEach(link => {

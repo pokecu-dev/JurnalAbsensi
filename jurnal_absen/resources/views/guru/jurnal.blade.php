@@ -1,8 +1,3 @@
-@php
-use Illuminate\Support\Carbon;
-
-Carbon::setTestNow('2026-10-06 13:00:00');
-@endphp
 <!DOCTYPE html>
 <html lang="id" class="overscroll-none">
 
@@ -116,7 +111,17 @@ Carbon::setTestNow('2026-10-06 13:00:00');
     ========================================================== -->
 
     <div
-        class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        class="md:hidden bg-dark-green text-white p-4 flex items-center gap-3 sticky top-0 z-40 shadow-sm">
+
+        <button
+            id="hamburgerBtn"
+            type="button"
+            aria-label="Buka menu"
+            class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
 
         <div class="flex items-center gap-2">
 
@@ -131,15 +136,6 @@ Carbon::setTestNow('2026-10-06 13:00:00');
 
         </div>
 
-        <button
-            id="hamburgerBtn"
-            type="button"
-            class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
-
-            <i class="fa-solid fa-bars"></i>
-
-        </button>
-
     </div>
 
 
@@ -150,6 +146,16 @@ Carbon::setTestNow('2026-10-06 13:00:00');
     <aside
         id="sidebar"
         class="fixed inset-y-0 left-0 w-60 md:w-56 bg-dark-green text-white p-6 flex flex-col justify-between z-50 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+
+        <button
+            id="sidebarCloseBtn"
+            type="button"
+            aria-label="Tutup menu"
+            class="md:hidden absolute top-4 right-4 w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/10 transition focus:outline-none">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
 
         <div>
 
@@ -172,10 +178,6 @@ Carbon::setTestNow('2026-10-06 13:00:00');
             <nav class="flex flex-col gap-5 font-semibold text-xs">
 
                 <div>
-
-                    <div class="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider mb-2 px-2">
-                        Utama
-                    </div>
 
                     <div class="space-y-1">
 
@@ -235,7 +237,7 @@ Carbon::setTestNow('2026-10-06 13:00:00');
                 <i class="fa-solid fa-user-circle w-4"></i>
 
                 <span>
-                    Akun Guru
+                    Profil
                 </span>
             </a>
 
@@ -282,7 +284,7 @@ Carbon::setTestNow('2026-10-06 13:00:00');
                     <!-- TOMBOL KEMBALI -->
                     <a href="{{ url()->previous() }}"
                         aria-label="Kembali"
-                        class="shrink-0 w-9 h-9 mt-0.5 rounded-full bg-white border border-emerald-100
+                        class="md:hidden shrink-0 w-9 h-9 mt-0.5 rounded-full bg-white border border-emerald-100
                             flex items-center justify-center text-dark-green
                             hover:bg-emerald-50 hover:border-medium-green
                             active:scale-[0.95] transition">
@@ -303,6 +305,26 @@ Carbon::setTestNow('2026-10-06 13:00:00');
                     </div>
 
                 </div>
+
+                <!-- JAM LIVE -->
+                <div class="text-right leading-tight shrink-0">
+
+                    <div id="live-date"
+                        class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">
+
+                        {{ now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+
+                    </div>
+
+                    <div id="live-clock"
+                        class="text-[10px] sm:text-xs font-extrabold text-dark-green mt-0.5">
+
+                        {{ now()->format('H.i') }} WIB
+
+                    </div>
+
+                </div>
+
             </div>
         </header>
 
@@ -488,10 +510,6 @@ Carbon::setTestNow('2026-10-06 13:00:00');
                         Tidak Hadir — Memberikan Tugas
                     </option>
 
-                    <option value="tidak_hadir_tanpa_tugas">
-                        Tidak Hadir — Perlu Penanganan
-                    </option>
-
                 </select>
 
             </section>
@@ -614,62 +632,6 @@ Carbon::setTestNow('2026-10-06 13:00:00');
                         id="instruksiTugas"
                         placeholder="Tuliskan tugas, batas waktu, dan cara pengumpulan..."
                         class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-28 transition resize-none"></textarea>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                        TIDAK HADIR / PERLU PENANGANAN
-                    ================================================== -->
-
-            <section
-                id="sectionTanpaTugas"
-                class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-100 space-y-4 hidden">
-
-                <div>
-
-                    <h3 class="text-sm font-extrabold text-dark-green flex items-center gap-2">
-
-                        <i class="fa-solid fa-building-user text-medium-green"></i>
-
-                        Penanganan Kelas
-
-                    </h3>
-
-                    <p class="text-[10px] text-gray-400 mt-1">
-                        Digunakan ketika guru tidak hadir dan tidak memberikan tugas.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded-xl text-xs flex items-start gap-3">
-
-                    <i class="fa-solid fa-triangle-exclamation text-base text-amber-600 mt-0.5"></i>
-
-                    <div>
-                        Informasi ini dapat menjadi pemberitahuan bagi <b>Guru Piket</b> untuk menangani kelas.
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <label class="block text-xs font-bold text-dark-green mb-1.5">
-
-                        Alasan / Keterangan
-
-                    </label>
-
-                    <textarea
-                        name="alasan_kosong"
-                        id="alasanKosong"
-                        placeholder="Contoh: Mendampingi kegiatan sekolah / berhalangan hadir..."
-                        class="w-full bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-xs font-medium text-dark-green outline-none focus:border-medium-green focus:bg-white h-24 transition resize-none"></textarea>
 
                 </div>
 
@@ -1645,6 +1607,15 @@ Carbon::setTestNow('2026-10-06 13:00:00');
         }
 
 
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+
+        if (sidebarCloseBtn) {
+
+            sidebarCloseBtn.addEventListener('click', closeSidebar);
+
+        }
+
+
         if (sidebar) {
 
             sidebar.querySelectorAll('a').forEach(link => {
@@ -1783,6 +1754,55 @@ Carbon::setTestNow('2026-10-06 13:00:00');
 
 
         /* =====================================================
+           JAM LIVE (HEADER)
+        ====================================================== */
+
+        function updateLiveTime() {
+
+            const now = new Date();
+
+            const dateEl =
+                document.getElementById('live-date');
+
+            const clockEl =
+                document.getElementById('live-clock');
+
+            if (dateEl) {
+
+                dateEl.textContent =
+                    now.toLocaleDateString('id-ID', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+
+            }
+
+            if (clockEl) {
+
+                const jam =
+                    String(now.getHours()).padStart(2, '0');
+
+                const menit =
+                    String(now.getMinutes()).padStart(2, '0');
+
+                clockEl.textContent =
+                    `${jam}.${menit} WIB`;
+
+            }
+
+        }
+
+        updateLiveTime();
+
+        setInterval(
+            updateLiveTime,
+            1000
+        );
+
+
+        /* =====================================================
            STATUS KEHADIRAN GURU
         ====================================================== */
 
@@ -1798,9 +1818,6 @@ Carbon::setTestNow('2026-10-06 13:00:00');
             const sectionTugas =
                 document.getElementById('sectionTugas');
 
-            const sectionTanpaTugas =
-                document.getElementById('sectionTanpaTugas');
-
             const sectionAbsensiSiswa =
                 document.getElementById('sectionAbsensiSiswa');
 
@@ -1814,8 +1831,6 @@ Carbon::setTestNow('2026-10-06 13:00:00');
             sectionHadir.classList.add('hidden');
 
             sectionTugas.classList.add('hidden');
-
-            sectionTanpaTugas.classList.add('hidden');
 
             sectionAbsensiSiswa.classList.add('hidden');
 
@@ -1835,13 +1850,6 @@ Carbon::setTestNow('2026-10-06 13:00:00');
 
                 textBtnSimpan.innerText =
                     'Kirim Tugas';
-
-            } else if (status === 'tidak_hadir_tanpa_tugas') {
-
-                sectionTanpaTugas.classList.remove('hidden');
-
-                textBtnSimpan.innerText =
-                    'Kirim Laporan';
 
             }
 
