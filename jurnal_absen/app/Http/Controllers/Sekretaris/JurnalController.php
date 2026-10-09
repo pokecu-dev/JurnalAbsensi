@@ -12,14 +12,14 @@ class JurnalController extends Controller
     {
         $status = $request->query('status');
 
+        if (! in_array($status, ['pending', 'approved', 'rejected'], true)) {
+            $status = null;
+        }
+
         $jurnals = Jurnal::query()
-            ->with(['kelas', 'jadwal.mapel', 'jadwal.teacher','detailJurnal'])
-            ->when($request->has('status'), function ($query) use ($status) {
-                if (! in_array($status, ['pending', 'approved', 'rejected'])) {
-                    $status = null;
-                }
-                $query->where('status', $status);
-            })
+            ->with(['kelas', 'jadwal.mapel', 'jadwal.teacher', 'detailJurnal'])
+            ->when($status, fn ($query) => $query->where('status', $status))
+            ->orderByRaw("case when status = 'pending' then 0 when status = 'rejected' then 1 else 2 end")
             ->latest('tgl')
             ->latest('id')
             ->get();
@@ -29,41 +29,26 @@ class JurnalController extends Controller
 
     public function show(Jurnal $jurnal)
     {
-        $jurnal->load(['kelas', 'jadwal.mapel', 'jadwal.teacher', 'detailJurnal']);
-
-        // return response()->json([
-        //     $jurnal->detailJurnal
-        // ]);
+        $jurnal->load(['kelas', 'mapel', 'jadwal.mapel', 'jadwal.teacher', 'detailJurnal.siswa']);
 
         return view('sekre.jurnal.show', compact('jurnal'));
     }
 
-    public function approve(Jurnal $jurnal)
+    public function kirim(Request $request, Jurnal $jurnal)
     {
-        abort_unless($jurnal->status === 'pending', 400, 'Hanya jurnal berstatus menunggu yang dapat divalidasi.');
-
-        $jurnal->update(['status' => 'approved']);
-
-        return redirect()
-            ->route('sekre.status-validasi')
-            ->with('success', 'Jurnal berhasil tervalidasi.');
-    }
-
-    public function reject(Request $request, Jurnal $jurnal)
-    {
-        abort_unless($jurnal->status === 'pending', 400, 'Hanya jurnal berstatus menunggu yang dapat ditolak.');
+        abort_unless($jurnal->status === 'pending', 400, 'Jurnal ini sudah dikirim ke Kurikulum.');
 
         $validated = $request->validate([
-            'alasan_validasi' => ['nullable', 'string', 'max:255'],
+            'catatan_sekre' => ['nullable', 'string', 'max:1000'],
         ]);
 
         $jurnal->update([
-            'status' => 'rejected',
-            'alasan_validasi' => $validated['alasan_validasi'] ?? null,
+            'status' => 'approved',
+            'catatan_sekre' => $validated['catatan_sekre'] ?? $jurnal->catatan_sekre,
         ]);
 
         return redirect()
-            ->route('sekre.jurnal.show', $jurnal)
-            ->with('success', 'Jurnal dikembalikan ke guru untuk diperbaiki.');
+            ->route('sekre.jurnal.index')
+            ->with('success', 'Jurnal berhasil dikirim ke Kurikulum.');
     }
 }

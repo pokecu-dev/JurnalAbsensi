@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="850" viewBox="0 0 600 850" role="img" aria-label="Dummy foto surat keterangan izin">
+  <rect width="600" height="850" fill="#e6e4de"/>
+  <g transform="rotate(1.5 300 425)">
+    <rect x="46" y="34" width="508" height="782" fill="#ffffff" stroke="#d8d4ca"/>
+    <rect x="46" y="34" width="508" height="782" fill="#fcfbf7" opacity="0.7"/>
+
+    <text x="300" y="96" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" fill="#111827">SMA NEGERI 1 CONTOH</text>
+    <text x="300" y="122" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#4b5563">Jalan Pendidikan No. 123, Kabupaten Contoh</text>
+    <line x1="80" y1="140" x2="520" y2="140" stroke="#111827" stroke-width="2.5"/>
+
+    <text x="300" y="200" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="#111827">SURAT KETERANGAN IZIN ORANG TUA</text>
+
+    <g font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#1f2a37">
+      <text x="86" y="262">Dengan ini kami orang tua/wali dari siswa</text>
+      <text x="86" y="292">bernama:</text>
+
+      <text x="110" y="348" font-weight="bold">Nama</text>
+      <text x="250" y="348">: Siti Nurhaliza</text>
+      <text x="110" y="378" font-weight="bold">Kelas</text>
+      <text x="250" y="378">: XI RPL 2</text>
+      <text x="110" y="408" font-weight="bold">NIS</text>
+      <text x="250" y="408">: 2024100456</text>
+
+      <text x="86" y="464">mengajukan izin tidak mengikuti kegiatan</text>
+      <text x="86" y="494">belajar mengajar di sekolah pada tanggal</text>
+      <text x="86" y="524" font-weight="bold">9 Oktober 2026</text>
+      <text x="86" y="554">karena ada keperluan keluarga.</text>
+
+      <text x="86" y="610">Atas perhatian Bapak/Ibu kami ucapkan</text>
+      <text x="86" y="638">terima kasih.</text>
+    </g>
+
+    <g font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#1f2a37">
+      <text x="392" y="614" text-anchor="middle">Hormat kami,</text>
+      <path d="M332 690 c18 -34 34 -40 42 -18 c8 22 -6 44 -22 48 c-18 4 -30 -12 -20 -28 c10 -16 38 -32 62 -34"
+            fill="none" stroke="#111827" stroke-width="2.4" stroke-linecap="round"/>
+      <text x="392" y="734" text-anchor="middle" font-weight="bold">(Orang Tua/Wali)</text>
+      <text x="392" y="760" text-anchor="middle" font-size="12">Nadiyah Rahmawati</text>
+    </g>
+  </g>
+</svg>

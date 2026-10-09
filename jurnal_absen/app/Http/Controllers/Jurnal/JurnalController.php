@@ -9,21 +9,19 @@ use App\Models\Jadwal;
 use App\Models\Jurnal;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
 
 class JurnalController extends Controller
 {
-
     public function form()
     {
 
         // Carbon::setTestNow('2026-09-18 13:00:00');
         Carbon::setTestNow('2026-10-06 13:10:00');
         Carbon::setTestNow('2026-10-06 14:10:00');
-
 
         $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
         // $jadwal = Jadwal::GetJadwalBy(4,null,['teacher', 'classes.siswas', 'mapel']);
@@ -32,10 +30,8 @@ class JurnalController extends Controller
 
         // return response()->json($jadwal);
 
-
-        $jurnal = Jurnal::with('jadwal')->where('id_jadwal',$jadwal->id)->where('tgl',now()->format('Y-m-d'))->first();
+        $jurnal = Jurnal::with('jadwal')->where('id_jadwal', $jadwal->id)->where('tgl', now()->format('Y-m-d'))->first();
         // $jurnal = Jurnal::with('jadwal')->where('id_jadwal',$jadwal?->id)->get();
-
 
         // return response()->json([
         //     $jurnal,
@@ -43,8 +39,8 @@ class JurnalController extends Controller
         //     now(),
         //     $jadwal
         // ]);
-        
-        return view('guru.jurnal', compact('jadwal','jurnal'));
+
+        return view('guru.jurnal', compact('jadwal', 'jurnal'));
     }
 
     public function index()
@@ -54,7 +50,7 @@ class JurnalController extends Controller
         //     'data' => Jurnal::with(['teacher', 'kelas.siswas', 'mapel'])->get()
         //     // 'data' => Jadwal::with('teacher')->get()
         // ]);
-        $jadwal = Jadwal::GetJadwalBy(auth()->id(),1, ['teacher', 'classes.siswas', 'mapel']);
+        $jadwal = Jadwal::GetJadwalBy(auth()->id(), 1, ['teacher', 'classes.siswas', 'mapel']);
 
         // return view('guru.dashboard',compact('jadwal'))
     }
@@ -68,10 +64,8 @@ class JurnalController extends Controller
 
         // Carbon::setTestNow('2026-10-05 09:00:00');
 
-
         $validator = Validator::make($request->all(), [
             'jadwal_id' => ['required', 'integer', 'exists:jadwals,id'],
-
 
             'status_kehadiran' => [
                 'required',
@@ -139,14 +133,26 @@ class JurnalController extends Controller
             ->where('teacher_id', auth()->id())
             ->first();
 
-        if (!$jadwal) {
+        if (! $jadwal) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Jadwal tidak ditemukan atau bukan milik guru yang login.',
             ], 403);
         }
 
-        // siswa 
+        $sudahDiisi = Jurnal::query()
+            ->where('id_jadwal', $jadwal->id)
+            ->whereDate('tgl', now()->toDateString())
+            ->exists();
+
+        if ($sudahDiisi) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Jurnal untuk sesi ini sudah diisi.',
+            ], 422);
+        }
+
+        // siswa
 
         $absensi = $validated['absensi'];
 
@@ -158,7 +164,7 @@ class JurnalController extends Controller
         $classStudentIds = Siswa::query()
             ->where('class_id', $jadwal->class_id)
             ->pluck('id')
-            ->map(fn($id) => (int) $id)
+            ->map(fn ($id) => (int) $id)
             ->all();
 
         // chdeck
@@ -171,8 +177,7 @@ class JurnalController extends Controller
             array_diff($studentIds, $classStudentIds)
         );
 
-
-        if (!empty($invalidStudentIds)) {
+        if (! empty($invalidStudentIds)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Terdapat siswa yang bukan bagian dari kelas jadwal ini.',
@@ -180,7 +185,7 @@ class JurnalController extends Controller
             ], 422);
         }
 
-        if (!empty($missingStudentIds)) {
+        if (! empty($missingStudentIds)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Absensi harus mencakup seluruh siswa di kelas.',
@@ -194,7 +199,6 @@ class JurnalController extends Controller
             'tidak_hadir_tugas' => 'tidak-ada_tugas',
             'tidak_hadir_tanpa_tugas' => 'tidak-tanpa_tugas',
         };
-
 
         // siapin data jurnal
         $jurnalData = [
@@ -351,13 +355,13 @@ class JurnalController extends Controller
         $this->authorize('update', $detailJurnal);
 
         $validator = Validator::make($request->all(), [
-            'status' => ['required', Rule::in('hadir','dispen', 'izin', 'sakit', 'alpha')],
+            'status' => ['required', Rule::in('hadir', 'dispen', 'izin', 'sakit', 'alpha')],
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
-                'message' => $validator->errors()
+                'message' => $validator->errors(),
             ]);
         }
 
@@ -367,7 +371,7 @@ class JurnalController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'selese'
+            'message' => 'selese',
         ]);
     }
 
@@ -379,7 +383,7 @@ class JurnalController extends Controller
         $jurnal->delete();
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
         ]);
     }
 
@@ -389,7 +393,7 @@ class JurnalController extends Controller
         $detailJurnal->delete();
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
         ]);
     }
 }

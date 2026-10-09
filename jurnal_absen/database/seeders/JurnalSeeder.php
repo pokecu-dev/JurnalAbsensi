@@ -2,73 +2,82 @@
 
 namespace Database\Seeders;
 
-use App\Models\Absensi;
-use App\Models\Jurnal;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class JurnalSeeder extends Seeder
 {
+    use WithoutModelEvents;
+
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        $class = DB::table('classes')->where('name', 'XI RPL 2')->first();
 
-        $jadwal = DB::table('jadwals')->where('id',5)->first();
+        if (! $class) {
+            return;
+        }
 
-        DB::table('jurnals')->insert([
-            ['id_jadwal' => 5,'teacher_id' => $jadwal->teacher_id,'class_id' => $jadwal->class_id,'mapel_id' => $jadwal->mapel_id,'start_time' => $jadwal->start_time,'end_time' => $jadwal->end_time, 'tgl' => now(), 'materi' => 'smth', 'catatan' => 'kondusifd', 'guru' => 'hadir', 'status' => 'pending', 'foto' => '-'],
-        ]);
+        $jadwals = DB::table('jadwals')
+            ->where('class_id', $class->id)
+            ->orderBy('day')
+            ->get()
+            ->values();
 
-        DB::table('detail_jurnals')->insert([
-            ['jurnal_id' => 1,'siswa_id' => 1,'status'=>'izin']
-        ]);
-    
-        // $jadwals = DB::table('jadwals')->get();
+        if ($jadwals->isEmpty()) {
+            return;
+        }
 
-        // if ($jadwals->isEmpty()) {
-        //     return;
-        // }
+        $mapelIds = DB::table('mapels')->pluck('id', 'name');
 
-        // $statuses = ['pending', 'approved', 'rejected'];
-        // $kehadiran = ['hadir', 'tidak_hadir_tugas', 'tidak_hadir_tanpa_tugas'];
-        // $materis = ['Fungsi Linear', 'Persamaan Kuadrat', 'Logaritma', 'Trigonometri', 'Eksponen'];
-        // $siswas = [
-        //     'Roy Kiyoshi', 'Ahmad Fauzi', 'Budi Setiawan', 'Citra Kirana',
-        //     'Dewi Lestari', 'Fajar Nugraha', 'Rafi Arkhan', 'Siti Aminah',
-        // ];
+        $mapels = [
+            ['name' => 'Informatika', 'materi' => 'Algoritma dan Pseudocode'],
+            ['name' => 'Matematika', 'materi' => 'Fungsi Kuadrat dan Grafiknya'],
+            ['name' => 'Bahasa Indonesia', 'materi' => 'Teks Eksposisi'],
+            ['name' => 'Bahasa Inggris', 'materi' => 'Descriptive Text'],
+            ['name' => 'Pancasila', 'materi' => 'Norma dan Keadilan'],
+        ];
 
-        // foreach (array_slice($jadwals->all(), 0, 15) as $jadwal) {
-        //     $keterangan = $kehadiran[array_rand($kehadiran)];
-        //     $status = $statuses[array_rand($statuses)];
+        // 1 dari 3 jurnal sudah diteruskan sekre ke Kurikulum (approved),
+        // sisanya masih menunggu pemeriksaan sekre (pending).
+        $statuses = ['pending', 'pending', 'approved', 'pending', 'approved'];
 
-        //     $jurnal = Jurnal::create([
-        //         'id_jadwal' => $jadwal->id,
-        //         'keterangan' => $keterangan,
-        //         'tgl' => now()->subDays(rand(0, 5))->toDateString(),
-        //         'materi' => $keterangan === 'hadir' ? $materis[array_rand($materis)] : null,
-        //         'catatan' => rand(0, 1) ? 'Penjelasan, Latihan Soal' : null,
-        //         'tugas' => $keterangan === 'tidak_hadir_tugas'
-        //             ? 'Kerjakan latihan soal halaman 45 sampai 50, dikumpulkan minggu depan.'
-        //             : null,
-        //         'alasan' => $keterangan === 'tidak_hadir_tanpa_tugas'
-        //             ? 'Sedang mendampingi lomba.'
-        //             : null,
-        //         'status' => $status,
-        //     ]);
+        $siswaId = DB::table('siswas')->value('id');
 
-        //     if ($keterangan === 'hadir') {
-        //         shuffle($siswas);
-        //         foreach (array_slice($siswas, 0, rand(1, 3)) as $nama) {
-        //             Absensi::create([
-        //                 'id_jurnal' => $jurnal->id,
-        //                 'nama_siswa' => $nama,
-        //                 'keterangan' => Absensi::KETERANGAN[array_rand(Absensi::KETERANGAN)],
-        //             ]);
-        //         }
-        //     }
-        // }
+        foreach ($jadwals as $index => $jadwal) {
+            $mapel = $mapels[$index % count($mapels)];
+            $status = $statuses[$index % count($statuses)];
+
+            $jurnalId = DB::table('jurnals')->insertGetId([
+                'id_jadwal' => $jadwal->id,
+                'teacher_id' => $jadwal->teacher_id,
+                'class_id' => $class->id,
+                'mapel_id' => $mapelIds[$mapel['name']],
+                'start_time' => $jadwal->start_time,
+                'end_time' => $jadwal->end_time,
+                'tgl' => now()->toDateString(),
+                'materi' => $mapel['materi'],
+                'catatan' => 'Kondusif',
+                'catatan_sekre' => $status === 'approved' ? 'Materi sudah sesuai RPP.' : null,
+                'guru' => 'hadir',
+                'status' => $status,
+                'foto' => '-',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            if ($siswaId) {
+                DB::table('detail_jurnals')->insert([
+                    'jurnal_id' => $jurnalId,
+                    'siswa_id' => $siswaId,
+                    'status' => 'izin',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
     }
 }

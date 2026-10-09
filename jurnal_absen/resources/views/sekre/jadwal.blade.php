@@ -84,7 +84,7 @@
             <a href="{{ url('/sekre/akun') }}"
                 class="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
                 <i class="fa-solid fa-user-circle w-4"></i>
-                <span>Akun Sekre</span>
+                <span>Profile</span>
             </a>
 
             <a href="{{ route('logout') }}"
@@ -103,9 +103,16 @@
         <!-- HEADER -->
         <header class="flex items-center justify-between gap-3">
             <div class="min-w-0">
-                <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-dark-green truncate">Jadwal Mata Pelajaran</h1>
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <a href="{{ route('sekre.dashboard') }}"
+                        class="md:hidden w-8 h-8 shrink-0 rounded-lg bg-white border border-[#DFD5C7] flex items-center justify-center text-dark-green hover:bg-gray-50 active:scale-95 transition"
+                        aria-label="Kembali ke dashboard">
+                        <i class="fa-solid fa-arrow-left text-xs"></i>
+                    </a>
+                    <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-dark-green truncate">Jadwal Mata Pelajaran</h1>
+                </div>
                 <p class="text-[11px] sm:text-xs text-gray-400 font-semibold mt-1">
-                    XI DKV 2 &middot; Semester Ganjil 2026-2027
+                    XI RPL 2 &middot; Semester Ganjil 2026-2027
                 </p>
             </div>
 
@@ -127,31 +134,8 @@
                 <span id="daySummary" class="text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap">-</span>
             </div>
             <div id="jadwalList" class="divide-y divide-[#F0E8DA]"></div>
-            <div id="dayFooter"></div>
         </section>
     </main>
-
-    <!-- ============================================================= -->
-    <!-- MODAL RIWAYAT JURNAL (hanya lihat) -->
-    <!-- ============================================================= -->
-    <div id="riwayatModal" class="fixed inset-0 bg-dark-green/60 z-[60] hidden items-end md:items-center justify-center md:p-4 backdrop-blur-sm">
-        <div class="bg-white w-full md:max-w-lg max-h-[88vh] rounded-t-2xl md:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-            <div class="shrink-0 px-5 pt-5 pb-3 border-b border-gray-100">
-                <div class="flex items-start justify-between gap-3">
-                    <div class="min-w-0">
-                        <span class="text-[9px] uppercase tracking-wider font-black text-medium-green">Riwayat Jurnal</span>
-                        <h2 id="rTanggal" class="text-base md:text-lg font-black text-dark-green mt-0.5">-</h2>
-                    </div>
-                    <button type="button" onclick="tutupRiwayat()" aria-label="Tutup"
-                        class="w-8 h-8 rounded-full bg-emerald-50 text-dark-green flex items-center justify-center hover:bg-mint-green transition shrink-0">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <p id="rSummary" class="mt-2 text-[10px] md:text-xs font-semibold text-emerald-700 bg-emerald-50 rounded-lg px-3 py-1.5">-</p>
-            </div>
-            <div id="rList" class="overflow-y-auto p-4 md:p-5 space-y-3"></div>
-        </div>
-    </div>
 
     <!-- ============================================================= -->
     <!-- JAVASCRIPT -->
@@ -222,18 +206,18 @@
             1: [
                 { jam: '1-2', mulai: '07.00', selesai: '08.20', mapel: 'Bahasa Jawa',          guru: 'Yustin Febrini, S.Pd.',    ruang: 'R 18' },
                 { jam: '3-4', mulai: '08.20', selesai: '09.40', mapel: 'Matematika',           guru: 'Arvia Rienetasary, S.Pd.', ruang: 'R 18' },
-                { jam: '5-8', mulai: '10.00', selesai: '12.40', mapel: 'Desain Grafis',        guru: 'Dedi Kurniawan, S.Kom.',   ruang: 'Lab. DKV 1' },
+                { jam: '5-8', mulai: '10.00', selesai: '12.40', mapel: 'Pemrograman Web',      guru: 'Dedi Kurniawan, S.Kom.',   ruang: 'Lab. RPL 1' },
             ],
             2: [
                 { jam: '1-2', mulai: '07.00', selesai: '08.20', mapel: 'Bahasa Inggris',       guru: 'Rosa Amelia, S.Pd.',       ruang: 'R 18' },
                 { jam: '3-4', mulai: '08.20', selesai: '09.40', mapel: 'PJOK',                 guru: 'Hadi Saputra, S.Pd.',      ruang: 'Lapangan' },
-                { jam: '5-6', mulai: '10.00', selesai: '11.20', mapel: 'Fotografi',            guru: 'Dedi Kurniawan, S.Kom.',   ruang: 'Lab. DKV 2' },
-                { jam: '7-8', mulai: '11.20', selesai: '12.40', mapel: 'Fotografi',            guru: 'Dedi Kurniawan, S.Kom.',   ruang: 'Lab. DKV 2' },
+                { jam: '5-6', mulai: '10.00', selesai: '11.20', mapel: 'Basis Data',             guru: 'Dedi Kurniawan, S.Kom.',   ruang: 'Lab. RPL 2' },
+                { jam: '7-8', mulai: '11.20', selesai: '12.40', mapel: 'Basis Data',             guru: 'Dedi Kurniawan, S.Kom.',   ruang: 'Lab. RPL 2' },
             ],
             3: [
                 { jam: '1-2', mulai: '07.00', selesai: '08.20', mapel: 'Pendidikan Agama',     guru: 'Nur Hidayah, S.Ag.',       ruang: 'R 18' },
                 { jam: '3-4', mulai: '08.20', selesai: '09.40', mapel: 'IPA',                  guru: 'Sari Wulandari, S.Pd.',    ruang: 'Lab. IPA' },
-                { jam: '5-8', mulai: '10.00', selesai: '12.40', mapel: 'Animasi 2D',           guru: 'Bayu Anggoro, S.Sn.',      ruang: 'Lab. DKV 1' },
+                { jam: '5-8', mulai: '10.00', selesai: '12.40', mapel: 'Pemrograman Berorientasi Objek', guru: 'Bayu Anggoro, S.Kom.', ruang: 'Lab. RPL 1' },
             ],
             4: [
                 { jam: '1',   mulai: '07.00', selesai: '07.40', tipe: 'kegiatan', mapel: 'Pembiasaan Jumat', info: 'Tadarus, bersih kelas, senam, dll.', ruang: 'Kelas / Lapangan', icon: 'fa-person-praying' },
@@ -253,13 +237,10 @@
         function mulaiHari(d) {
             return new Date(d.getFullYear(), d.getMonth(), d.getDate());
         }
-        function isoTanggal(d) {
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        }
 
         /* Tanggal Senin-Jumat MINGGU INI.
            Sabtu/Minggu tetap menampilkan minggu yang baru selesai,
-           baru berganti ke minggu baru (riwayat baru) pada hari Senin. */
+           baru berganti ke minggu baru pada hari Senin. */
         function tanggalMingguIni() {
             const hariIni = mulaiHari(new Date());
             const dow = hariIni.getDay(); // 0 = Minggu ... 6 = Sabtu
@@ -272,46 +253,6 @@
                 return d;
             });
         }
-
-        /* ============================================================= */
-        /* RIWAYAT JURNAL YANG SUDAH DIKIRIM KE GURU PIKET (dummy)        */
-        /* Bentuk akhir yang dipakai halaman ini:                         */
-        /*   RIWAYAT['YYYY-MM-DD'] = {                                    */
-        /*       dikirim: '12.58',                                        */
-        /*       jurnal: { '2-4': { materi, keterangan, absen: {nama: status} } } */
-        /*   }                                                            */
-        /* Backend cukup mengisi RIWAYAT dengan data minggu berjalan      */
-        /* (kunci = tanggal, jurnal dikunci dengan nilai "jam" jadwal).   */
-        /* ============================================================= */
-        const RIWAYAT_DUMMY = {
-            0: { dikirim: '12.58', jurnal: {
-                '2-4': { materi: 'Fungsi Kuadrat', keterangan: 'Penjelasan materi dan latihan soal.', absen: { 'Ahmad Fauzan': 'Sakit' } },
-                '5-6': { materi: 'Perang Kemerdekaan', keterangan: 'Menonton video dan diskusi.', absen: {} },
-                '7-8': { materi: 'Norma dan Keadilan', keterangan: 'Ceramah dan tanya jawab.', absen: { 'Citra Ayu': 'Izin' } },
-            } },
-            1: { dikirim: '13.02', jurnal: {
-                '1-2': { materi: 'Aksara Jawa', keterangan: 'Latihan menulis aksara.', absen: {} },
-                '3-4': { materi: 'Fungsi Kuadrat (lanjutan)', keterangan: 'Latihan soal dan pembahasan.', absen: { 'Ahmad Fauzan': 'Sakit' } },
-                '5-8': { materi: 'Teori Warna dan Tipografi', keterangan: 'Praktik membuat poster sederhana.', absen: { 'Budi Santoso': 'Alpa' } },
-            } },
-            2: { dikirim: '13.10', jurnal: {
-                '1-2': { materi: 'Descriptive Text', keterangan: 'Membaca dan menulis teks deskriptif.', absen: {} },
-                '3-4': { materi: 'Bola Voli: Passing', keterangan: 'Praktik passing bawah dan atas.', absen: { 'Eko Prasetyo': 'Izin' } },
-                '5-6': { materi: 'Komposisi Foto', keterangan: 'Teori rule of thirds dan framing.', absen: {} },
-                '7-8': { materi: 'Praktik Pengambilan Foto', keterangan: 'Praktik di area sekolah.', absen: {} },
-            } },
-            3: { dikirim: '13.05', jurnal: {
-                '1-2': { materi: 'Toleransi Antarumat Beragama', keterangan: 'Diskusi kelompok.', absen: {} },
-                '3-4': { materi: 'Ekosistem', keterangan: 'Pengamatan di laboratorium.', absen: { 'Gita Permata': 'Sakit' } },
-                '5-8': { materi: 'Dasar Animasi Frame by Frame', keterangan: 'Praktik membuat animasi bola memantul.', absen: {} },
-            } },
-            4: { dikirim: '11.40', jurnal: {
-                '2-4': { materi: 'Barisan dan Deret', keterangan: 'Latihan soal.', absen: {} },
-                '5-6': { materi: 'Seni Rupa Nusantara', keterangan: 'Presentasi kelompok.', absen: { 'Hendra Wijaya': 'Izin' } },
-            } },
-        };
-        const RIWAYAT = {};
-        tanggalMingguIni().forEach((tgl, i) => { RIWAYAT[isoTanggal(tgl)] = RIWAYAT_DUMMY[i]; });
 
         /* ===== LABEL & STATUS ===== */
         function labelRelatif(tgl) {
@@ -340,7 +281,6 @@
         /* ===== RENDER ===== */
         const tabsEl = document.getElementById('dayTabs');
         const listEl = document.getElementById('jadwalList');
-        const footerEl = document.getElementById('dayFooter');
 
         const BADGE = {
             selesai:     { cls: 'bg-emerald-50 text-emerald-700', txt: 'SELESAI' },
@@ -416,33 +356,12 @@
             </div>`;
         }
 
-        /* Tombol riwayat di bawah jadwal (hanya untuk hari yang sudah lewat) */
-        function renderFooter(riwayatHari, isPast) {
-            if (!isPast) { footerEl.innerHTML = ''; return; }
-            if (!riwayatHari || !riwayatHari.jurnal || Object.keys(riwayatHari.jurnal).length === 0) {
-                footerEl.innerHTML = `
-                <p class="text-center text-[10px] md:text-xs text-gray-400 py-3 border-t border-[#F0E8DA]">
-                    Tidak ada riwayat jurnal di hari ini.
-                </p>`;
-                return;
-            }
-            footerEl.innerHTML = `
-            <div class="p-3 md:p-4 border-t border-[#F0E8DA]">
-                <button type="button" onclick="bukaRiwayat()"
-                    class="w-full py-2.5 md:py-3 bg-[#CBEAD9] hover:bg-[#b4e2ca] text-dark-green text-xs md:text-[13px] font-semibold rounded-full transition">
-                    <i class="fa-solid fa-clock-rotate-left mr-1.5"></i>Cek Detail Riwayat Jurnal
-                </button>
-            </div>`;
-        }
-
         function renderJadwal() {
             const tanggal = tanggalMingguIni();
             const tgl = tanggal[selectedDay];
             const sesi = JADWAL[selectedDay] || [];
             const hariIni = mulaiHari(new Date());
-            const isPast = tgl < hariIni;
             const isToday = tgl.getTime() === hariIni.getTime();
-            const riwayatHari = RIWAYAT[isoTanggal(tgl)] || null;
 
             renderTabs(tanggal);
 
@@ -454,7 +373,6 @@
             if (sesi.length === 0) {
                 document.getElementById('daySummary').textContent = 'Tidak ada pelajaran';
                 listEl.innerHTML = '<p class="text-center text-xs text-gray-400 py-8">Tidak ada jadwal di hari ini.</p>';
-                footerEl.innerHTML = '';
                 return;
             }
 
@@ -463,72 +381,7 @@
                 `${jumlahMapel} mapel \u00B7 ${sesi[0].mulai} - ${sesi[sesi.length - 1].selesai}`;
 
             listEl.innerHTML = sesi.map(s => rowHtml(s, tgl, isToday)).join('');
-            renderFooter(riwayatHari, isPast);
         }
-
-        /* ===== MODAL RIWAYAT: semua jurnal hari itu, hanya lihat ===== */
-        function chipAbsen(nama, status) {
-            const cls = status === 'Alpa' ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-700';
-            return `<span class="text-[10px] md:text-[11px] font-semibold ${cls} px-2 py-0.5 rounded-full whitespace-nowrap">${esc(nama)} &middot; ${esc(status)}</span>`;
-        }
-
-        function bukaRiwayat() {
-            const tgl = tanggalMingguIni()[selectedDay];
-            const riwayatHari = RIWAYAT[isoTanggal(tgl)];
-            if (!riwayatHari || !riwayatHari.jurnal) return;
-
-            const sesi = (JADWAL[selectedDay] || []).filter(s => s.tipe !== 'kegiatan' && riwayatHari.jurnal[s.jam]);
-            const unik = new Set();
-            sesi.forEach(s => Object.keys(riwayatHari.jurnal[s.jam].absen || {}).forEach(n => unik.add(n)));
-
-            document.getElementById('rTanggal').textContent =
-                `${HARI[selectedDay]}, ${tgl.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
-            document.getElementById('rSummary').innerHTML =
-                `${sesi.length} jurnal &middot; ${unik.size} siswa tidak hadir &middot; dikirim ke piket ${esc(riwayatHari.dikirim)}`;
-
-            document.getElementById('rList').innerHTML = sesi.map(s => {
-                const rec = riwayatHari.jurnal[s.jam];
-                const nama = Object.keys(rec.absen || {});
-                const kehadiran = nama.length > 0
-                    ? `<div class="flex flex-wrap gap-1.5">${nama.map(n => chipAbsen(n, rec.absen[n])).join('')}</div>`
-                    : '<span class="text-emerald-600 font-semibold">Semua hadir</span>';
-                return `
-                <div class="rounded-xl border border-[#E5DCCE] p-3.5">
-                    <div class="flex items-start justify-between gap-2">
-                        <p class="text-xs md:text-sm font-bold text-dark-green">${esc(s.mapel)}</p>
-                        <span class="text-[10px] font-bold text-medium-green whitespace-nowrap">Jam ${s.jam}</span>
-                    </div>
-                    <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">${esc(s.guru)} &middot; ${s.mulai} - ${s.selesai}</p>
-                    <div class="grid grid-cols-[62px_1fr] gap-x-2 gap-y-1.5 mt-3 text-[11px] md:text-xs text-gray-600 leading-relaxed">
-                        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-400 pt-0.5">Materi</span>
-                        <span>${esc(rec.materi || '-')}</span>
-                        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-400 pt-0.5">Aktivitas</span>
-                        <span>${esc(rec.keterangan || '-')}</span>
-                        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-400 pt-0.5">Kehadiran</span>
-                        <div>${kehadiran}</div>
-                    </div>
-                </div>`;
-            }).join('');
-
-            const m = document.getElementById('riwayatModal');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
-            document.body.classList.add('overflow-hidden');
-            document.getElementById('rList').scrollTop = 0;
-        }
-
-        function tutupRiwayat() {
-            const m = document.getElementById('riwayatModal');
-            m.classList.add('hidden');
-            m.classList.remove('flex');
-            document.body.classList.remove('overflow-hidden');
-        }
-        document.getElementById('riwayatModal').addEventListener('click', e => {
-            if (e.target === e.currentTarget) tutupRiwayat();
-        });
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') tutupRiwayat();
-        });
 
         renderJadwal();
         setInterval(renderJadwal, 30000); // perbarui status Selesai/Berlangsung/Mendatang

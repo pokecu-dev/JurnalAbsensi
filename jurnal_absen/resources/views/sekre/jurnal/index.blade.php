@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jurnal Mengajar - Jurnal Absensi</title>
+    <title>Jurnal Mengajar</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -184,6 +184,56 @@
         }
 
         /* =========================
+           SENT (SUDAH DIKIRIM KE KURIKULUM)
+        ========================= */
+
+        .journal-card.sent {
+            border-color: #7FCBA6;
+            background: #F7FCF9;
+        }
+
+        .journal-card.sent .journal-card-top {
+            border-bottom-color: #D7EEE3;
+        }
+
+        .journal-sent-strip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 10px 12px;
+            border-radius: 11px;
+            background: #E4F5EC;
+            border: 1px solid #C6E9D7;
+            color: #15803D;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .journal-note {
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: #FFF8EB;
+            border: 1px dashed #E8D9B8;
+            border-radius: 11px;
+        }
+
+        .journal-note-label {
+            font-size: 10px;
+            color: #9AAEA7;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .journal-note-text {
+            margin-top: 3px;
+            color: #4B5A56;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        /* =========================
            STATUS
         ========================= */
 
@@ -283,7 +333,17 @@
     ========================== -->
 
     <div
-        class="md:hidden bg-dark-green text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        class="md:hidden bg-dark-green text-white p-4 flex items-center gap-3 sticky top-0 z-40 shadow-sm">
+
+        <button
+            id="hamburgerBtn"
+            type="button"
+            class="w-9 h-9 rounded-lg flex items-center justify-center
+                   hover:bg-white/10 transition focus:outline-none shrink-0"
+            aria-label="Buka menu">
+
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
         <div class="flex items-center gap-2">
             <img
@@ -295,16 +355,6 @@
                 Jurnal Absensi
             </span>
         </div>
-
-        <button
-            id="hamburgerBtn"
-            type="button"
-            class="w-9 h-9 rounded-lg flex items-center justify-center
-                   hover:bg-white/10 transition focus:outline-none"
-            aria-label="Buka menu">
-
-            <i class="fa-solid fa-bars"></i>
-        </button>
     </div>
 
 
@@ -356,24 +406,10 @@
                            rounded-xl transition active:scale-[0.98]">
 
                     <i class="fa-solid fa-house w-4 text-center"></i>
-                    <span>Home</span>
+                    <span>Dashboard</span>
 
                 </a>
 
-
-                <a
-                    href="{{ url('/sekre/jadwal') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-gray-300
-                           hover:bg-white/10 hover:text-mint-green
-                           rounded-xl transition active:scale-[0.98]">
-
-                    <i class="fa-regular fa-calendar-days w-4 text-center"></i>
-                    <span>Jadwal</span>
-
-                </a>
-
-
-                <!-- JURNAL AKTIF -->
                 <a
                     href="{{ url('/sekre/jurnal') }}"
                     class="flex items-center gap-3 px-4 py-3 bg-white/10
@@ -384,15 +420,14 @@
 
                 </a>
 
-
                 <a
-                    href="{{ url('/sekre/status-validasi') }}"
+                    href="{{ url('/sekre/jadwal') }}"
                     class="flex items-center gap-3 px-4 py-3 text-gray-300
                            hover:bg-white/10 hover:text-mint-green
                            rounded-xl transition active:scale-[0.98]">
 
-                    <i class="fa-regular fa-file-lines w-4 text-center"></i>
-                    <span>Status Validasi</span>
+                    <i class="fa-regular fa-calendar-days w-4 text-center"></i>
+                    <span>Jadwal Mata Pelajaran</span>
 
                 </a>
 
@@ -413,7 +448,7 @@
                        transition-all duration-200">
 
                 <i class="fa-regular fa-user w-4"></i>
-                <span>Akun Sekre</span>
+                <span>Profile</span>
 
             </a>
 
@@ -446,25 +481,33 @@
 
         <!-- HEADER -->
 
-        <header
-            class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between
-                   pb-5 md:pb-6 border-b border-[#E5DCCE]">
+        <header class="flex items-center justify-between gap-3">
 
-            <div>
+            <div class="min-w-0">
 
-                <h2
-                    class="page-title text-[21px] md:text-[26px]
-                           font-bold text-dark-green">
+                <div class="flex items-center gap-2.5 min-w-0">
 
-                    Jurnal Mengajar
+                    <a href="{{ route('sekre.dashboard') }}"
+                        class="md:hidden w-8 h-8 shrink-0 rounded-lg bg-white border border-[#DFD5C7] flex items-center justify-center text-dark-green hover:bg-gray-50 active:scale-95 transition"
+                        aria-label="Kembali ke dashboard">
 
-                </h2>
+                        <i class="fa-solid fa-arrow-left text-xs"></i>
+
+                    </a>
+
+                    <h2
+                        class="text-lg sm:text-xl md:text-2xl font-bold text-dark-green truncate">
+
+                        Jurnal Mengajar
+
+                    </h2>
+
+                </div>
 
                 <p
-                    class="page-subtitle text-xs md:text-[13px]
-                           text-[#7A8985] mt-1">
+                    class="text-[11px] sm:text-xs text-gray-400 font-semibold mt-1">
 
-                    Pilih sesi mengajar yang ingin diperiksa atau diperbaiki.
+                    Periksa jurnal dari guru, beri catatan bila perlu, lalu kirim ke Kurikulum.
 
                 </p>
 
@@ -472,39 +515,26 @@
 
 
             <div
-                class="flex items-center justify-between md:justify-end gap-4">
-
-                <button
-                    class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-white
-                           border border-[#DFD5C7]
-                           flex items-center justify-center
-                           text-dark-green hover:bg-gray-50 transition"
-                    type="button"
-                    title="Notifikasi">
-
-                    <i class="fa-regular fa-bell"></i>
-
-                </button>
+                class="flex items-center gap-2 sm:gap-3 shrink-0">
 
 
-                <div class="flex flex-col text-right gap-0.5">
+                <div class="text-right leading-tight">
 
-                    <span
-                        class="text-xs md:text-[13px] font-semibold text-dark-green"
+                    <div
+                        class="text-[9px] sm:text-[10px] md:text-xs font-semibold text-medium-green whitespace-nowrap"
                         id="live-date">
 
-                        memuat tanggal…
+                        memuat tanggal....
 
-                    </span>
+                    </div>
 
-                    <span
-                        class="text-[11px] md:text-xs
-                               text-[#7A8985] font-semibold"
+                    <div
+                        class="text-[10px] sm:text-xs font-extrabold text-dark-green mt-0.5"
                         id="live-clock">
 
-                        00:00 WIB
+                        00.00 WIB
 
-                    </span>
+                    </div>
 
                 </div>
 
@@ -549,71 +579,66 @@
         @endif
 
 
-        <!-- INFO -->
-
-        <div
-            class="flex items-start gap-3 bg-white border border-[#E5DCCE]
-                   rounded-2xl p-4 md:p-5">
-
-            <div
-                class="w-9 h-9 shrink-0 rounded-xl bg-[#E2F2EB]
-                       text-medium-green flex items-center justify-center">
-
-                <i class="fa-regular fa-calendar-days text-sm"></i>
-
-            </div>
-
-            <div>
-
-                <h3
-                    class="text-[13px] font-bold text-dark-green">
-
-                    Sesi Jurnal
-
-                </h3>
-
-                <p
-                    class="text-[11px] md:text-xs text-[#7A8985]
-                           leading-relaxed mt-1">
-
-                    Setiap kartu mewakili satu sesi mata pelajaran
-                    dan guru yang mengajar pada sesi tersebut.
-
-                </p>
-
-            </div>
-
-        </div>
-
-
         <!-- JOURNAL LIST -->
 
-        @if ($jurnals->isNotEmpty())
+        @php
+            $tanggalHariIni = now()->locale('id')->translatedFormat('d M Y');
+
+            // Dummy jurnal masuk dari guru (kelas XI RPL 2).
+            // Sebagian sudah diteruskan sekre ke Kurikulum (approved),
+            // sebagian masih menunggu pemeriksaan sekre (pending).
+            $dummyJurnals = [
+                [
+                    'jam' => '07.00 – 08.20', 'mapel' => 'Informatika',
+                    'guru' => 'Dedi Kurniawan, S.Kom.', 'kelas' => 'XI RPL 2',
+                    'materi' => 'Algoritma dan Pseudocode',
+                    'status' => 'approved',
+                    'catatan_sekre' => 'Cek ulang absen Budi, statusnya sudah sesuai surat.',
+                ],
+                [
+                    'jam' => '08.20 – 09.40', 'mapel' => 'Matematika',
+                    'guru' => 'Arvia Rienetasary, S.Pd.', 'kelas' => 'XI RPL 2',
+                    'materi' => 'Fungsi Kuadrat dan Grafiknya',
+                    'status' => 'pending',
+                    'catatan_sekre' => null,
+                ],
+                [
+                    'jam' => '10.00 – 11.20', 'mapel' => 'Basis Data',
+                    'guru' => 'Dedi Kurniawan, S.Kom.', 'kelas' => 'XI RPL 2',
+                    'materi' => 'Konsep Basis Data dan Tabel Relasional',
+                    'status' => 'approved',
+                    'catatan_sekre' => null,
+                ],
+                [
+                    'jam' => '11.20 – 12.40', 'mapel' => 'Pendidikan Pancasila',
+                    'guru' => 'Wiwik Yuniarsih, S.Pd.', 'kelas' => 'XI RPL 2',
+                    'materi' => 'Norma dan Keadilan',
+                    'status' => 'pending',
+                    'catatan_sekre' => null,
+                ],
+                [
+                    'jam' => '13.15 – 14.25', 'mapel' => 'Pemrograman Berorientasi Objek',
+                    'guru' => 'Bayu Anggoro, S.Kom.', 'kelas' => 'XI RPL 2',
+                    'materi' => 'Class dan Object dalam Java',
+                    'status' => 'approved',
+                    'catatan_sekre' => 'Materi sudah sesuai RPP.',
+                ],
+                [
+                    'jam' => '14.25 – 15.00', 'mapel' => 'Bahasa Indonesia',
+                    'guru' => 'Sari Wulandari, S.Pd.', 'kelas' => 'XI RPL 2',
+                    'materi' => 'Teks Eksposisi',
+                    'status' => 'pending',
+                    'catatan_sekre' => null,
+                ],
+            ];
+
+            $jumlahMenunggu = collect($dummyJurnals)->where('status', 'pending')->count();
+            $jumlahTerkirim = collect($dummyJurnals)->where('status', 'approved')->count();
+        @endphp
+
+        @if (count($dummyJurnals) > 0)
 
             <section>
-
-                <div
-                    class="flex items-center justify-between mb-3">
-
-                    <div>
-
-                        <h3
-                            class="text-sm md:text-base font-bold text-dark-green">
-
-                            Daftar Sesi Mengajar
-
-                        </h3>
-
-                        <p
-                            class="text-[11px] md:text-xs text-[#7A8985] mt-0.5">
-
-                            {{ $jurnals->count() }} jurnal tersedia
-
-                        </p>
-
-                    </div>
-
-                </div>
 
 
                 <!-- RESPONSIVE GRID -->
@@ -623,9 +648,11 @@
                            gap-4">
 
 
-                    @foreach ($jurnals as $jurnal)
+                    @foreach ($dummyJurnals as $jurnal)
 
-                        <article class="journal-card">
+                        @php $terkirim = $jurnal['status'] === 'approved'; @endphp
+
+                        <article class="journal-card {{ $terkirim ? 'sent' : '' }}">
 
 
                             <!-- CARD TOP -->
@@ -641,35 +668,41 @@
 
                                             <i class="fa-regular fa-clock"></i>
 
-                                            {{ $jurnal->jadwal?->start_time ?? '--:--' }}
-                                            –
-                                            {{ $jurnal->jadwal?->end_time ?? '--:--' }}
+                                            {{ $jurnal['jam'] }}
 
                                         </span>
 
 
                                         <h3 class="journal-mapel">
 
-                                            {{ $jurnal->jadwal?->mapel?->name ?? 'Tanpa Mapel' }}
+                                            {{ $jurnal['mapel'] }}
 
                                         </h3>
 
                                     </div>
 
 
-                                    <span class="badge {{ $jurnal->status }}">
+                                    @if ($terkirim)
 
-                                        @if ($jurnal->status === 'pending')
-                                            <i class="fa-regular fa-clock"></i>
-                                        @elseif ($jurnal->status === 'approved')
+                                        <span class="badge approved">
+
                                             <i class="fa-solid fa-check"></i>
-                                        @elseif ($jurnal->status === 'rejected')
-                                            <i class="fa-solid fa-rotate-left"></i>
-                                        @endif
 
-                                        {{ $jurnal->status_label }}
+                                            Terkirim ke Kurikulum
 
-                                    </span>
+                                        </span>
+
+                                    @else
+
+                                        <span class="badge pending">
+
+                                            <i class="fa-regular fa-clock"></i>
+
+                                            Menunggu Pemeriksaan
+
+                                        </span>
+
+                                    @endif
 
                                 </div>
 
@@ -699,7 +732,7 @@
 
                                         <span class="journal-info-value">
 
-                                            {{ $jurnal->jadwal?->teacher?->name ?? '-' }}
+                                            {{ $jurnal['guru'] }}
 
                                         </span>
 
@@ -726,7 +759,7 @@
 
                                         <span class="journal-info-value">
 
-                                            {{ $jurnal->jadwal?->kelas?->name ?? '-' }}
+                                            {{ $jurnal['kelas'] }}
 
                                         </span>
 
@@ -753,7 +786,7 @@
 
                                         <span class="journal-info-value">
 
-                                            {{ $jurnal->tgl?->translatedFormat('d M Y') ?? '-' }}
+                                            {{ $tanggalHariIni }}
 
                                         </span>
 
@@ -772,19 +805,40 @@
 
                                     <div class="journal-material-text">
 
-                                        {{ $jurnal->materi ?: 'Materi belum diisi.' }}
+                                        {{ $jurnal['materi'] ?: 'Materi belum diisi.' }}
 
                                     </div>
 
                                 </div>
 
 
-                                <!-- DETAIL -->
+                                <!-- CATATAN SEKRE (jika sudah dikirim) -->
 
-                                <div class="journal-card-action">
+                                @if ($terkirim && $jurnal['catatan_sekre'])
+
+                                    <div class="journal-note">
+
+                                        <div class="journal-note-label">
+                                            Catatan Sekretaris
+                                        </div>
+
+                                        <div class="journal-note-text">
+
+                                            {{ $jurnal['catatan_sekre'] }}
+
+                                        </div>
+
+                                    </div>
+
+                                @endif
+
+
+                                <!-- ACTION -->
+
+                                <div class="journal-card-action space-y-2">
 
                                     <a
-                                        href="{{ route('sekre.jurnal.show', $jurnal) }}"
+                                        href="#"
                                         class="btn-detail">
 
                                         <span>
@@ -794,6 +848,30 @@
                                         <i class="fa-solid fa-arrow-right"></i>
 
                                     </a>
+
+                                    @if ($terkirim)
+
+                                        <div class="journal-sent-strip">
+
+                                            <i class="fa-solid fa-circle-check"></i>
+
+                                            Sudah diteruskan ke Kurikulum
+
+                                        </div>
+
+                                    @else
+
+                                        <button
+                                            type="button"
+                                            onclick="kirimKeKurikulum(this)"
+                                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-[11px] bg-medium-green hover:bg-dark-green text-white text-xs font-bold transition active:scale-[0.98]">
+
+                                            <i class="fa-solid fa-paper-plane"></i>
+                                            Kirim ke Kurikulum
+
+                                        </button>
+
+                                    @endif
 
                                 </div>
 
@@ -822,14 +900,14 @@
                 <h3
                     class="text-sm font-bold text-dark-green">
 
-                    Belum Ada Jurnal
+                    Tidak Ada Jurnal
 
                 </h3>
 
                 <p
                     class="text-xs text-[#7A8985] mt-1">
 
-                    Belum ada jurnal mengajar yang tersedia untuk diperiksa.
+                    Belum ada guru yang mengirim jurnal untuk kelas ini.
 
                 </p>
 
@@ -1152,6 +1230,34 @@
                 behavior: 'smooth'
             });
 
+        }
+
+
+        /* =========================
+           SIMULASI KIRIM KE KURIKULUM
+           (dummy — data tidak benar-benar dikirim)
+        ========================= */
+
+        function kirimKeKurikulum(btn) {
+            if (!confirm('Kirim jurnal ini ke Kurikulum?')) return;
+
+            const card = btn.closest('.journal-card');
+            if (card) card.classList.add('sent');
+
+            const badge = card.querySelector('.badge');
+            if (badge) {
+                badge.className = 'badge approved';
+                badge.innerHTML = '<i class="fa-solid fa-check"></i> Terkirim ke Kurikulum';
+            }
+
+            const wrap = btn.closest('.journal-card-action');
+            if (wrap) {
+                btn.remove();
+                const strip = document.createElement('div');
+                strip.className = 'journal-sent-strip';
+                strip.innerHTML = '<i class="fa-solid fa-circle-check"></i> Sudah diteruskan ke Kurikulum';
+                wrap.appendChild(strip);
+            }
         }
 
 

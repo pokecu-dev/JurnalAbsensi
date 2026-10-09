@@ -86,47 +86,49 @@ it('sekre dapat membuka detail jurnal beserta absensi siswa', function () {
         ->assertSee('Fungsi Linear');
 });
 
-it('sekre dapat menyetujui jurnal pending', function () {
-    [$sekre,,, $jurnal] = makeSekreJurnal();
+it('sekre dapat melihat daftar jurnal pada halaman jurnal', function () {
+    [$sekre] = makeSekreJurnal();
 
     $this->actingAs($sekre)
-        ->post(route('sekre.jurnal.approve', $jurnal))
-        ->assertRedirect(route('sekre.status-validasi'));
-
-    expect($jurnal->fresh()->status)->toBe('approved');
+        ->get(route('sekre.jurnal.index'))
+        ->assertOk()
+        ->assertSee('Matematika')
+        ->assertSee('X RPL 1');
 });
 
-it('sekre dapat menolak jurnal beserta alasan validasi', function () {
+it('sekre dapat mengirim jurnal pending beserta catatan', function () {
     [$sekre,,, $jurnal] = makeSekreJurnal();
 
     $this->actingAs($sekre)
-        ->post(route('sekre.jurnal.reject', $jurnal), [
-            'alasan_validasi' => 'Materi belum lengkap',
+        ->post(route('sekre.jurnal.kirim', $jurnal), [
+            'catatan_sekre' => 'Kehadiran siswa perlu dicek ulang.',
         ])
-        ->assertRedirect(route('sekre.jurnal.show', $jurnal));
+        ->assertRedirect(route('sekre.jurnal.index'));
 
     $jurnal = $jurnal->fresh();
 
-    expect($jurnal->status)->toBe('rejected');
-    expect($jurnal->alasan_validasi)->toBe('Materi belum lengkap');
+    expect($jurnal->status)->toBe('approved');
+    expect($jurnal->catatan_sekre)->toBe('Kehadiran siswa perlu dicek ulang.');
 });
 
-it('jurnal yang sudah disetujui tidak dapat ditolak', function () {
+it('detail menampilkan catatan sekre pada jurnal yang sudah dikirim', function () {
+    [$sekre,,, $jurnal] = makeSekreJurnal([
+        'status' => 'approved',
+        'catatan_sekre' => 'Catatan dari sekre.',
+    ]);
+
+    $this->actingAs($sekre)
+        ->get(route('sekre.jurnal.show', $jurnal))
+        ->assertOk()
+        ->assertSee('Catatan dari sekre.');
+});
+
+it('jurnal yang sudah dikirim tidak dapat dikirim ulang', function () {
     [$sekre,,, $jurnal] = makeSekreJurnal(['status' => 'approved']);
 
     $this->actingAs($sekre)
-        ->post(route('sekre.jurnal.reject', $jurnal))
+        ->post(route('sekre.jurnal.kirim', $jurnal))
         ->assertStatus(400);
 
     expect($jurnal->fresh()->status)->toBe('approved');
-});
-
-it('jurnal yang sudah ditolak tidak dapat disetujui', function () {
-    [$sekre,,, $jurnal] = makeSekreJurnal(['status' => 'rejected']);
-
-    $this->actingAs($sekre)
-        ->post(route('sekre.jurnal.approve', $jurnal))
-        ->assertStatus(400);
-
-    expect($jurnal->fresh()->status)->toBe('rejected');
 });

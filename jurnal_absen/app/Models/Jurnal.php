@@ -22,6 +22,7 @@ class Jurnal extends Model
         'instruksi_tugas',
         'alasan_kosong',
         'alasan_validasi',
+        'catatan_sekre',
         'guru',
         'status',
         'foto',
@@ -104,7 +105,7 @@ class Jurnal extends Model
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
-            'approved' => 'Tervalidasi',
+            'approved' => 'Terkirim ke Kurikulum',
             'rejected' => 'Ditolak',
             default => 'Menunggu Validasi',
         };
